@@ -51,14 +51,61 @@
 .hc__l--base { animation: hc-in 0.7s ease-out backwards; }
 @keyframes hc-in { from { opacity: 0; } }
 
-/* the figure is traced outward from the head: white silhouette + outline */
+@property --r-head { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --r-shR { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --r-elR { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --r-hdR { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --r-tor { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --r-elL { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --r-fsL { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --r-hip { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --r-knR { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --r-pnt { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --r-ftR { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --r-ftL { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+
+/* the figure is traced outward from the head, following the arm, torso and legs */
 .hc__l--white, .hc__l--line {
-  --r: 150%;
-  -webkit-mask-image: radial-gradient(ellipse at 39% 13%, #000 var(--r), transparent calc(var(--r) + 7%));
-          mask-image: radial-gradient(ellipse at 39% 13%, #000 var(--r), transparent calc(var(--r) + 7%));
-  animation: hc-trace 3s cubic-bezier(.35,.1,.4,1) 0.4s backwards;
+  -webkit-mask-image:
+    radial-gradient(ellipse 34% 40% at 39.4% 13.5%, #000 var(--r-head), transparent calc(var(--r-head) + 12%)),
+    radial-gradient(ellipse 34% 40% at 57.5% 31.3%, #000 var(--r-shR), transparent calc(var(--r-shR) + 12%)),
+    radial-gradient(ellipse 34% 40% at 73% 26.5%, #000 var(--r-elR), transparent calc(var(--r-elR) + 12%)),
+    radial-gradient(ellipse 34% 40% at 88.6% 16.8%, #000 var(--r-hdR), transparent calc(var(--r-hdR) + 12%)),
+    radial-gradient(ellipse 34% 40% at 43.3% 49%, #000 var(--r-tor), transparent calc(var(--r-tor) + 12%)),
+    radial-gradient(ellipse 34% 40% at 17.4% 47.4%, #000 var(--r-elL), transparent calc(var(--r-elL) + 12%)),
+    radial-gradient(ellipse 34% 40% at 3% 68.4%, #000 var(--r-fsL), transparent calc(var(--r-fsL) + 12%)),
+    radial-gradient(ellipse 34% 40% at 55% 68.4%, #000 var(--r-hip), transparent calc(var(--r-hip) + 12%)),
+    radial-gradient(ellipse 34% 40% at 78.3% 42.6%, #000 var(--r-knR), transparent calc(var(--r-knR) + 12%)),
+    radial-gradient(ellipse 34% 40% at 43.3% 79.9%, #000 var(--r-pnt), transparent calc(var(--r-pnt) + 12%)),
+    radial-gradient(ellipse 34% 40% at 80.9% 79.9%, #000 var(--r-ftR), transparent calc(var(--r-ftR) + 12%)),
+    radial-gradient(ellipse 34% 40% at 71.8% 92.9%, #000 var(--r-ftL), transparent calc(var(--r-ftL) + 12%));
+          mask-image:
+    radial-gradient(ellipse 34% 40% at 39.4% 13.5%, #000 var(--r-head), transparent calc(var(--r-head) + 12%)),
+    radial-gradient(ellipse 34% 40% at 57.5% 31.3%, #000 var(--r-shR), transparent calc(var(--r-shR) + 12%)),
+    radial-gradient(ellipse 34% 40% at 73% 26.5%, #000 var(--r-elR), transparent calc(var(--r-elR) + 12%)),
+    radial-gradient(ellipse 34% 40% at 88.6% 16.8%, #000 var(--r-hdR), transparent calc(var(--r-hdR) + 12%)),
+    radial-gradient(ellipse 34% 40% at 43.3% 49%, #000 var(--r-tor), transparent calc(var(--r-tor) + 12%)),
+    radial-gradient(ellipse 34% 40% at 17.4% 47.4%, #000 var(--r-elL), transparent calc(var(--r-elL) + 12%)),
+    radial-gradient(ellipse 34% 40% at 3% 68.4%, #000 var(--r-fsL), transparent calc(var(--r-fsL) + 12%)),
+    radial-gradient(ellipse 34% 40% at 55% 68.4%, #000 var(--r-hip), transparent calc(var(--r-hip) + 12%)),
+    radial-gradient(ellipse 34% 40% at 78.3% 42.6%, #000 var(--r-knR), transparent calc(var(--r-knR) + 12%)),
+    radial-gradient(ellipse 34% 40% at 43.3% 79.9%, #000 var(--r-pnt), transparent calc(var(--r-pnt) + 12%)),
+    radial-gradient(ellipse 34% 40% at 80.9% 79.9%, #000 var(--r-ftR), transparent calc(var(--r-ftR) + 12%)),
+    radial-gradient(ellipse 34% 40% at 71.8% 92.9%, #000 var(--r-ftL), transparent calc(var(--r-ftL) + 12%));
+  animation: hc-t-head 1.3s ease-out 0.4s backwards, hc-t-shR 1.3s ease-out 0.75s backwards, hc-t-elR 1.3s ease-out 1.1s backwards, hc-t-hdR 1.3s ease-out 1.5s backwards, hc-t-tor 1.3s ease-out 0.95s backwards, hc-t-elL 1.3s ease-out 1.4s backwards, hc-t-fsL 1.3s ease-out 1.8s backwards, hc-t-hip 1.3s ease-out 1.5s backwards, hc-t-knR 1.3s ease-out 1.9s backwards, hc-t-pnt 1.3s ease-out 2.1s backwards, hc-t-ftR 1.3s ease-out 2.5s backwards, hc-t-ftL 1.3s ease-out 2.7s backwards;
 }
-@keyframes hc-trace { from { --r: -8%; } }
+@keyframes hc-t-head { from { --r-head: -14%; } }
+@keyframes hc-t-shR { from { --r-shR: -14%; } }
+@keyframes hc-t-elR { from { --r-elR: -14%; } }
+@keyframes hc-t-hdR { from { --r-hdR: -14%; } }
+@keyframes hc-t-tor { from { --r-tor: -14%; } }
+@keyframes hc-t-elL { from { --r-elL: -14%; } }
+@keyframes hc-t-fsL { from { --r-fsL: -14%; } }
+@keyframes hc-t-hip { from { --r-hip: -14%; } }
+@keyframes hc-t-knR { from { --r-knR: -14%; } }
+@keyframes hc-t-pnt { from { --r-pnt: -14%; } }
+@keyframes hc-t-ftR { from { --r-ftR: -14%; } }
+@keyframes hc-t-ftL { from { --r-ftL: -14%; } }
 
 /* pencil scribble over hair, shirt and trousers (swept top to bottom) */
 .hc__l--hatch {
@@ -213,6 +260,32 @@
 .hc__char:hover .hc__tip,
 .hc__char:focus-visible .hc__tip,
 .hc__egg:hover .hc__tip { opacity: 1; }
+
+/* ── Card captions (live text printed on the paper cards) ── */
+.hc__lab {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 7%;
+  text-align: center;
+  font: 700 calc(1.5cqw * min(1, 8 / var(--n, 8))) / 1.12 'Space Grotesk', 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: #2c2a3a;
+  pointer-events: none;
+  overflow: hidden;
+  animation: hc-fill 0.8s ease-out 0.4s backwards;
+}
+.hc__lab--pill {
+  color: #c4474c;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 0 #1e1e24, 1px 1px 0 #1e1e24, -1px -1px 0 #1e1e24, 1px -1px 0 #1e1e24, -1px 1px 0 #1e1e24;
+}
 
 /* ── Phone chips ────────────────────────────────────────── */
 .hc-chips { display: none; }

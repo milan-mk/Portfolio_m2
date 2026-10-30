@@ -41,6 +41,12 @@ interface Skill {
 }
 
 /**
+ * EDIT YOUR SKILLS HERE.
+ * - `label`: the text printed on the paper card (use short names, 1-3 words; it is drawn as live text)
+ * - `description`: shown in the popup when the card is clicked
+ * - `work`: your projects for that skill (title, tag, optional link)
+ * You can rename the cards freely; to add or remove a card you also need to move/copy a hotspot box (l, t, w, h, rot).
+ *
  * Add your real work here. Categories with no items show a "get in touch" state
  * instead of made-up numbers.
  */
@@ -210,6 +216,9 @@ export const HeroSection: React.FC = () => {
             onClick={() => setOpen(s)}
             aria-label={`View ${s.label} work`}
           >
+            <span className={`hc__lab${s.pill ? ' hc__lab--pill' : ''}`} style={css({ '--n': Math.max(...s.label.split(' ').map((w) => w.length)) })}>
+              {s.label}
+            </span>
             <span className="hc__tip">Click to explore {s.label.toLowerCase()}</span>
           </button>
         ))}
