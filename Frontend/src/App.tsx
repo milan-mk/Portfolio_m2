@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { BarracksSection } from './components/BarracksSection';
 import { Footer } from './components/Footer';
 import { HeroSection } from './components/HeroSection';
-import { IntroModal } from './components/IntroModal';
+// import { IntroModal } from './components/IntroModal';
 //import { LaboratorySection } from './components/LaboratorySection';
-import { Navbar } from './components/Navbar';
+// import { Navbar } from './components/Navbar';
 import { RecruitmentSection } from './components/RecruitmentSection';
 import { ScrollReveal } from './components/ScrollReveal';
 import { TroopBackgroundLayer } from './components/TroopBackgroundLayer';
@@ -77,10 +77,10 @@ export const App: React.FC = () => {
       <TroopBackgroundLayer />
 
       {/* Clash of Clans Intro Briefing Modal */}
-      <IntroModal isOpen={introOpen} onClose={handleCloseIntro} />
+      {/* <IntroModal isOpen={introOpen} onClose={handleCloseIntro} /> */}
 
       {/* Citadel Top HUD Navigation */}
-      <Navbar activeSection={activeSection} />
+      {/* <Navbar activeSection={activeSection} /> */}
 
       {/* Main Village Grounds */}
       <main className="relative z-10 w-full pt-16 sm:pt-20 pb-12 sm:pb-16 flex-grow flex flex-col gap-8 sm:gap-14 lg:gap-16">

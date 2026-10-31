@@ -195,7 +195,7 @@
 }
 
 .hc__spot {
-  z-index: 3;
+  z-index: 10;
   padding: 0;
   border: 0;
   border-radius: 3px;
@@ -252,7 +252,7 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-  z-index: 5;
+  z-index: 15;
 }
 .hc__char .hc__tip { top: 6%; bottom: auto; }
 .hc__spot:hover .hc__tip,

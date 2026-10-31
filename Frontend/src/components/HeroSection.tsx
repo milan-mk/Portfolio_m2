@@ -53,7 +53,7 @@ interface Skill {
 const SKILLS: Skill[] = [
   {
     id: 'video-editing',
-    label: 'VIDEO EDITING',
+    label: 'Projects',
     description: 'High-retention short-form reels, commercial cuts, motion graphics and colour grading.',
     l: 13.7, t: 54.4, w: 9.3, h: 9.7, rot: -4,
     work: [],
@@ -67,14 +67,14 @@ const SKILLS: Skill[] = [
   },
   {
     id: 'graphic-design',
-    label: 'GRAPHIC DESIGN',
+    label: 'summon cv',
     description: 'Bold poster typography, key visuals and social media design systems.',
     l: 68.75, t: 57.3, w: 9.6, h: 9.4, rot: 2,
     work: [],
   },
   {
     id: 'design',
-    label: 'DESIGN',
+    label: 'SKILLS',
     description: 'Interactive web experiences, landing pages and visual storytelling.',
     l: 82.1, t: 54.7, w: 8.4, h: 7.6, rot: 12,
     pill: true,
