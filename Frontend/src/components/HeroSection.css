@@ -22,8 +22,6 @@
 .hc {
   position: relative;
   width: 100%;
-  max-width: 1600px;
-  margin: 0 auto;
   aspect-ratio: 2400 / 1340;
   overflow: hidden;
   background: #ffffff;
@@ -257,7 +255,6 @@
 /* ── Phone chips ────────────────────────────────────────── */
 .hc-chips { display: none; }
 @media (max-width: 767px) {
-  .hc { border-radius: 8px; }
   .hc__tip { display: none; }
   .hc-chips {
     display: flex;
@@ -284,9 +281,10 @@
 
 /* ── Intro strip ────────────────────────────────────────── */
 .hc-strip {
-  max-width: 1600px;
-  margin: 18px auto 0;
-  padding: 0 6px;
+  width: 100%;
+  max-width: 100%;
+  margin: 18px 0 0;
+  padding: 0 clamp(16px, 4vw, 48px);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -301,10 +299,10 @@
   font-size: clamp(1.5rem, 3.2vw, 2.4rem);
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: #fff1f2;
+  color: var(--ink-black, #1e1e24);
   line-height: 1.1;
 }
-.hc-strip__bio { margin: 0; font-size: 0.95rem; line-height: 1.6; color: #d69ea5; }
+.hc-strip__bio { margin: 0; font-size: 0.95rem; line-height: 1.6; color: #4a4d68; }
 .hc-strip__cta { display: flex; flex-wrap: wrap; gap: 12px; }
 
 .hc-btn {
@@ -323,8 +321,16 @@
 }
 .hc-btn--red { background: var(--thread-highlight); color: #fff; box-shadow: 0 4px 0 var(--thread-red), 0 10px 22px rgba(214, 64, 69, 0.35); }
 .hc-btn--red:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--thread-red), 0 14px 26px rgba(214, 64, 69, 0.45); }
-.hc-btn--ghost { color: #fff1f2; border: 1.5px solid rgba(255, 241, 242, 0.45); background: transparent; }
-.hc-btn--ghost:hover { border-color: var(--thread-highlight); background: rgba(214, 64, 69, 0.12); }
+.hc-btn--ghost {
+  color: var(--ink-black, #1e1e24);
+  border: 1.5px solid var(--ink-black, #1e1e24);
+  background: transparent;
+}
+.hc-btn--ghost:hover {
+  border-color: var(--thread-highlight);
+  background: rgba(214, 64, 69, 0.08);
+  color: var(--thread-highlight);
+}
 .hc-btn--dark { background: var(--denim-primary); color: #fff; box-shadow: 0 4px 0 #141728; }
 
 /* ── Modal + drawer ─────────────────────────────────────── */

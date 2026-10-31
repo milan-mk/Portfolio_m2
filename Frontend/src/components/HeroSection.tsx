@@ -163,7 +163,7 @@ export const HeroSection: React.FC = () => {
   }, [overlay]);
 
   return (
-    <section id="citadel-base" className="hero relative w-full px-2 sm:px-6 pt-2 sm:pt-4">
+    <section id="citadel-base" className="hero relative w-full p-0">
       <div className="hc" role="group" aria-label={`${CHIEF_INFO.name} interactive portfolio hero`}>
         {/* The illustration, built from layers so it can be "drawn in" like the intro video */}
         <div

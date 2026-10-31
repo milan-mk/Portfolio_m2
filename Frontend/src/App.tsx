@@ -75,7 +75,7 @@ export const App: React.FC = () => {
 
 
       {/* Main Village Grounds */}
-      <main className="relative z-10 w-full pt-2 sm:pt-4 pb-12 sm:pb-16 flex-grow flex flex-col gap-8 sm:gap-14 lg:gap-16">
+      <main className="relative z-10 w-full pt-0 pb-12 sm:pb-16 flex-grow flex flex-col gap-8 sm:gap-14 lg:gap-16">
         {/* Village Base Town Hall & Chief Narrative (Above fold, instant load) */}
         <HeroSection />
 
