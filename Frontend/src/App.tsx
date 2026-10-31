@@ -4,10 +4,8 @@ import { Footer } from './components/Footer';
 import { HeroSection } from './components/HeroSection';
 // import { IntroModal } from './components/IntroModal';
 //import { LaboratorySection } from './components/LaboratorySection';
-// import { Navbar } from './components/Navbar';
 import { RecruitmentSection } from './components/RecruitmentSection';
 import { ScrollReveal } from './components/ScrollReveal';
-import { TroopBackgroundLayer } from './components/TroopBackgroundLayer';
 import { WarLogSection } from './components/WarLogSection';
 import { villageAudio } from './utils/soundEffects';
 
@@ -70,20 +68,14 @@ export const App: React.FC = () => {
 
   return (
     <div className="relative w-full min-h-screen text-on-surface antialiased flex flex-col selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
-      {/* GPU-composited Fixed Game Atmosphere Background */}
-      <div className="bg-game-atmosphere" />
 
-      {/* Clash of Clans Ambient Troop Watermark Layer */}
-      <TroopBackgroundLayer />
 
       {/* Clash of Clans Intro Briefing Modal */}
       {/* <IntroModal isOpen={introOpen} onClose={handleCloseIntro} /> */}
 
-      {/* Citadel Top HUD Navigation */}
-      {/* <Navbar activeSection={activeSection} /> */}
 
       {/* Main Village Grounds */}
-      <main className="relative z-10 w-full pt-16 sm:pt-20 pb-12 sm:pb-16 flex-grow flex flex-col gap-8 sm:gap-14 lg:gap-16">
+      <main className="relative z-10 w-full pt-2 sm:pt-4 pb-12 sm:pb-16 flex-grow flex flex-col gap-8 sm:gap-14 lg:gap-16">
         {/* Village Base Town Hall & Chief Narrative (Above fold, instant load) */}
         <HeroSection />
 

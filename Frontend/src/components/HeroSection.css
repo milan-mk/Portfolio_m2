@@ -26,11 +26,10 @@
   margin: 0 auto;
   aspect-ratio: 2400 / 1340;
   overflow: hidden;
-  background: #fbfaf8;
-  border-radius: 10px;
+  background: #ffffff;
+  border-radius: 0;
   isolation: isolate;
   container-type: inline-size;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(158, 42, 43, 0.4);
   user-select: none;
 }
 /* ── Layered artwork + intro animation ─────────────────────
@@ -38,133 +37,101 @@
    no-animation browsers simply see the final art. Each layer animates
    *from* a hidden state (animation-fill-mode: backwards). */
 @property --p  { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --th { syntax: '<length>';     inherits: false; initial-value: 10px; }
-@property --r  { syntax: '<percentage>'; inherits: false; initial-value: 150%; }
+@property --th { syntax: '<length>'; inherits: false; initial-value: 10px; }
 
 .hc__layers { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-.hc__l {
-  position: absolute;
-  display: block;
-  max-width: none;
-  -webkit-user-drag: none;
-}
-.hc__l--base { animation: hc-in 0.7s ease-out backwards; }
+.hc__l { position: absolute; display: block; max-width: none; -webkit-user-drag: none; }
+.hc__l--base { animation: hc-in 0.5s ease-out backwards; }
 @keyframes hc-in { from { opacity: 0; } }
 
-@property --r-head { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --r-shR { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --r-elR { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --r-hdR { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --r-tor { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --r-elL { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --r-fsL { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --r-hip { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --r-knR { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --r-pnt { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --r-ftR { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
-@property --r-ftL { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+/* ── Unified diagonal pencil-sweep reveal ───────────────────
+   Every layer uses the same 170° linear-gradient mask so the whole
+   illustration sweeps in like a single pencil stroke left → right.
+   --d sets the stagger delay per layer.                         */
 
-/* the figure is traced outward from the head, following the arm, torso and legs */
-.hc__l--white, .hc__l--line {
-  -webkit-mask-image:
-    radial-gradient(ellipse 34% 40% at 39.4% 13.5%, #000 var(--r-head), transparent calc(var(--r-head) + 12%)),
-    radial-gradient(ellipse 34% 40% at 57.5% 31.3%, #000 var(--r-shR), transparent calc(var(--r-shR) + 12%)),
-    radial-gradient(ellipse 34% 40% at 73% 26.5%, #000 var(--r-elR), transparent calc(var(--r-elR) + 12%)),
-    radial-gradient(ellipse 34% 40% at 88.6% 16.8%, #000 var(--r-hdR), transparent calc(var(--r-hdR) + 12%)),
-    radial-gradient(ellipse 34% 40% at 43.3% 49%, #000 var(--r-tor), transparent calc(var(--r-tor) + 12%)),
-    radial-gradient(ellipse 34% 40% at 17.4% 47.4%, #000 var(--r-elL), transparent calc(var(--r-elL) + 12%)),
-    radial-gradient(ellipse 34% 40% at 3% 68.4%, #000 var(--r-fsL), transparent calc(var(--r-fsL) + 12%)),
-    radial-gradient(ellipse 34% 40% at 55% 68.4%, #000 var(--r-hip), transparent calc(var(--r-hip) + 12%)),
-    radial-gradient(ellipse 34% 40% at 78.3% 42.6%, #000 var(--r-knR), transparent calc(var(--r-knR) + 12%)),
-    radial-gradient(ellipse 34% 40% at 43.3% 79.9%, #000 var(--r-pnt), transparent calc(var(--r-pnt) + 12%)),
-    radial-gradient(ellipse 34% 40% at 80.9% 79.9%, #000 var(--r-ftR), transparent calc(var(--r-ftR) + 12%)),
-    radial-gradient(ellipse 34% 40% at 71.8% 92.9%, #000 var(--r-ftL), transparent calc(var(--r-ftL) + 12%));
-          mask-image:
-    radial-gradient(ellipse 34% 40% at 39.4% 13.5%, #000 var(--r-head), transparent calc(var(--r-head) + 12%)),
-    radial-gradient(ellipse 34% 40% at 57.5% 31.3%, #000 var(--r-shR), transparent calc(var(--r-shR) + 12%)),
-    radial-gradient(ellipse 34% 40% at 73% 26.5%, #000 var(--r-elR), transparent calc(var(--r-elR) + 12%)),
-    radial-gradient(ellipse 34% 40% at 88.6% 16.8%, #000 var(--r-hdR), transparent calc(var(--r-hdR) + 12%)),
-    radial-gradient(ellipse 34% 40% at 43.3% 49%, #000 var(--r-tor), transparent calc(var(--r-tor) + 12%)),
-    radial-gradient(ellipse 34% 40% at 17.4% 47.4%, #000 var(--r-elL), transparent calc(var(--r-elL) + 12%)),
-    radial-gradient(ellipse 34% 40% at 3% 68.4%, #000 var(--r-fsL), transparent calc(var(--r-fsL) + 12%)),
-    radial-gradient(ellipse 34% 40% at 55% 68.4%, #000 var(--r-hip), transparent calc(var(--r-hip) + 12%)),
-    radial-gradient(ellipse 34% 40% at 78.3% 42.6%, #000 var(--r-knR), transparent calc(var(--r-knR) + 12%)),
-    radial-gradient(ellipse 34% 40% at 43.3% 79.9%, #000 var(--r-pnt), transparent calc(var(--r-pnt) + 12%)),
-    radial-gradient(ellipse 34% 40% at 80.9% 79.9%, #000 var(--r-ftR), transparent calc(var(--r-ftR) + 12%)),
-    radial-gradient(ellipse 34% 40% at 71.8% 92.9%, #000 var(--r-ftL), transparent calc(var(--r-ftL) + 12%));
-  animation: hc-t-head 1.3s ease-out 0.4s backwards, hc-t-shR 1.3s ease-out 0.75s backwards, hc-t-elR 1.3s ease-out 1.1s backwards, hc-t-hdR 1.3s ease-out 1.5s backwards, hc-t-tor 1.3s ease-out 0.95s backwards, hc-t-elL 1.3s ease-out 1.4s backwards, hc-t-fsL 1.3s ease-out 1.8s backwards, hc-t-hip 1.3s ease-out 1.5s backwards, hc-t-knR 1.3s ease-out 1.9s backwards, hc-t-pnt 1.3s ease-out 2.1s backwards, hc-t-ftR 1.3s ease-out 2.5s backwards, hc-t-ftL 1.3s ease-out 2.7s backwards;
+/* Shared sweep keyframe */
+@keyframes hc-sweep { from { --p: -20%; } to { --p: 130%; } }
+@keyframes hc-fill   { from { opacity: 0; } }
+@keyframes hc-draw   { from { stroke-dashoffset: 1; } }
+
+/* ── 1. PORTFOLIO denim letters — first stroke ── */
+.hc__l--woven {
+  --p: 130%;
+  -webkit-mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 22%));
+          mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 22%));
+  animation: hc-sweep 2.6s cubic-bezier(.4,0,.2,1) 0.2s backwards;
 }
-@keyframes hc-t-head { from { --r-head: -14%; } }
-@keyframes hc-t-shR { from { --r-shR: -14%; } }
-@keyframes hc-t-elR { from { --r-elR: -14%; } }
-@keyframes hc-t-hdR { from { --r-hdR: -14%; } }
-@keyframes hc-t-tor { from { --r-tor: -14%; } }
-@keyframes hc-t-elL { from { --r-elL: -14%; } }
-@keyframes hc-t-fsL { from { --r-fsL: -14%; } }
-@keyframes hc-t-hip { from { --r-hip: -14%; } }
-@keyframes hc-t-knR { from { --r-knR: -14%; } }
-@keyframes hc-t-pnt { from { --r-pnt: -14%; } }
-@keyframes hc-t-ftR { from { --r-ftR: -14%; } }
-@keyframes hc-t-ftL { from { --r-ftL: -14%; } }
 
-/* pencil scribble over hair, shirt and trousers (swept top to bottom) */
+/* ── 2. Figure silhouette & outline ── */
+.hc__l--white {
+  --p: 130%;
+  -webkit-mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 18%));
+          mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 18%));
+  animation: hc-sweep 2.4s cubic-bezier(.4,0,.2,1) 0.5s backwards;
+}
+.hc__l--line {
+  --p: 130%;
+  -webkit-mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 14%));
+          mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 14%));
+  animation: hc-sweep 2.6s cubic-bezier(.4,0,.2,1) 0.8s backwards;
+}
+
+/* ── 3. Pencil-hatch scribble layers ── */
 .hc__l--hatch {
   --p: 130%;
-  -webkit-mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 12%));
-          mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 12%));
-  animation: hc-sweep 1.1s ease-in-out var(--d) backwards;
+  -webkit-mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 14%));
+          mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 14%));
+  animation: hc-sweep 1.9s cubic-bezier(.4,0,.2,1) var(--d) backwards;
 }
-@keyframes hc-sweep { from { --p: -14%; } to { --p: 130%; } }
-.hc__l--hh { --d: 0.6s; }
-.hc__l--hs { --d: 1.7s; }
-.hc__l--hp { --d: 2.4s; }
+.hc__l--hh { --d: 1.1s; }
+.hc__l--hs { --d: 1.6s; }
+.hc__l--hp { --d: 2.0s; }
 
-/* colour fades in over the scribble */
-.hc__l--fill { animation: hc-fill 0.9s ease-out var(--d) backwards; }
-@keyframes hc-fill { from { opacity: 0; } }
-.hc__l--hair  { --d: 1.5s; }
-.hc__l--skin  { --d: 1.3s; }
-.hc__l--shirt { --d: 2.7s; }
-.hc__l--pants { --d: 3.4s; }
-.hc__l--shoes { --d: 3.8s; }
+/* ── 4. Colour fills sweep in right after hatch ── */
+.hc__l--fill {
+  --p: 130%;
+  -webkit-mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 16%));
+          mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 16%));
+  animation: hc-sweep 2.0s cubic-bezier(.4,0,.2,1) var(--d) backwards;
+}
+.hc__l--skin  { --d: 0.9s; }
+.hc__l--hair  { --d: 1.2s; }
+.hc__l--shirt { --d: 1.7s; }
+.hc__l--pants { --d: 2.1s; }
+.hc__l--shoes { --d: 2.4s; }
 
-/* spider drops onto the pencil, doodles pop in */
-.hc__l--spider { animation: hc-drop 0.6s cubic-bezier(.3,1.5,.5,1) 1.5s backwards; }
-@keyframes hc-drop { from { opacity: 0; transform: translateY(-70px) scale(0.6); } }
-.hc__l--pop { animation: hc-pop 0.5s cubic-bezier(.3,1.6,.5,1) backwards; }
-.hc__l--pop1 { animation-delay: 4.0s; }
-.hc__l--pop2 { animation-delay: 4.3s; }
-.hc__l--pop3 { animation-delay: 4.6s; }
+/* ── 5. Spider drops in, doodles pop ── */
+.hc__l--spider { animation: hc-drop 0.8s cubic-bezier(.3,1.5,.5,1) 3.0s backwards; }
+@keyframes hc-drop { from { opacity: 0; transform: translateY(-50px) scale(0.7); } }
+.hc__l--pop { animation: hc-pop 0.6s cubic-bezier(.3,1.6,.5,1) backwards; }
+.hc__l--pop1 { animation-delay: 3.3s; }
+.hc__l--pop2 { animation-delay: 3.7s; }
+.hc__l--pop3 { animation-delay: 4.1s; }
 @keyframes hc-pop { from { opacity: 0; transform: scale(0.4) rotate(-12deg); } }
 
-/* cobwebs spread from their hub */
+/* ── 6. Cobwebs sweep in diagonally ── */
 .hc__l--web {
-  --r: 150%;
-  -webkit-mask-image: radial-gradient(circle at var(--cx) var(--cy), #000 var(--r), transparent calc(var(--r) + 8%));
-          mask-image: radial-gradient(circle at var(--cx) var(--cy), #000 var(--r), transparent calc(var(--r) + 8%));
-  animation: hc-spread 1.4s ease-out backwards;
+  --p: 130%;
+  -webkit-mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 16%));
+          mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 16%));
+  animation: hc-sweep 1.7s cubic-bezier(.4,0,.2,1) var(--d) backwards;
 }
-.hc__l--web1 { --cx: 0%;  --cy: 0%;  animation-delay: 5.0s; }
-.hc__l--web2 { --cx: 48%; --cy: 50%; animation-delay: 5.6s; }
-@keyframes hc-spread { from { --r: -10%; } }
+.hc__l--web1 { --d: 2.7s; }
+.hc__l--web2 { --d: 3.0s; }
 
-/* red threads shoot out of the hand */
-.hc__l--strands { animation: hc-fill 0.8s ease-out 6s backwards; }
+/* ── 7. Strands fade, SVG threads draw on ── */
+.hc__l--strands { animation: hc-fill 1.0s ease-out 3.3s backwards; }
 .hc__threads { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hc__threads path {
   fill: none;
-  stroke: #9e2a2b;
-  stroke-width: 2;
+  stroke: #8f2527;
+  stroke-width: 2.4;
   stroke-linecap: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 0;
   opacity: 0.9;
   animation: hc-draw 1.6s ease-out var(--d) backwards;
 }
-@keyframes hc-draw { from { stroke-dashoffset: 1; } }
-
-/* letters weave from flat to denim */
-.hc__l--woven { animation: hc-fill 2s ease-in-out 3s backwards; }
 
 .hc__replay {
   position: absolute;

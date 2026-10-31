@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #0c0709;
+  --color-background: #ffffff;
   --color-surface: #140d10;
   --color-surface-dim: #090506;
   --color-surface-bright: #351a20;
@@ -75,12 +75,12 @@
   html {
     scroll-behavior: smooth;
     font-family: var(--font-body);
-    background-color: #0c0709;
+    background-color: #ffffff;
     color: var(--color-on-surface);
   }
 
   body {
-    background-color: #0c0709;
+    background-color: #ffffff;
     overflow-x: hidden;
   }
 
