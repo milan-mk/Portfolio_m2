@@ -85,7 +85,7 @@ export const App: React.FC = () => {
         </ScrollReveal>
 
         {/* Clan War Log & Battle Replays (Featured Projects) */}
-        <ScrollReveal yOffset={28}>
+        <ScrollReveal yOffset={28} once={false}>
           <WarLogSection />
         </ScrollReveal>
 

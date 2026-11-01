@@ -74,6 +74,7 @@ export const WarLogSection: React.FC = () => {
   const [page, setPage] = useState(0);
   const [width, setWidth] = useState(0);
   const [inView, setInView] = useState(false);
+  const [animKey, setAnimKey] = useState(0);
   const stageRef = useRef<HTMLDivElement>(null);
 
   // keep the art scaled to the stage width
@@ -91,7 +92,7 @@ export const WarLogSection: React.FC = () => {
     return () => ro.disconnect();
   }, []);
 
-  // play the "lower in" intro once, when the section scrolls into view
+  // play the "lower in" intro whenever the section scrolls into view
   useEffect(() => {
     const el = stageRef.current;
     if (!el || typeof IntersectionObserver === 'undefined') {
@@ -100,12 +101,22 @@ export const WarLogSection: React.FC = () => {
     }
     const io = new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setInView(true);
-          io.disconnect();
+        const entry = entries[0];
+        if (!entry) return;
+
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.15) {
+          setInView((prev) => {
+            if (!prev) {
+              setAnimKey((k) => k + 1);
+              return true;
+            }
+            return prev;
+          });
+        } else if (!entry.isIntersecting || entry.intersectionRatio === 0) {
+          setInView(false);
         }
       },
-      { threshold: 0.25 },
+      { threshold: [0, 0.15] },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -139,7 +150,7 @@ export const WarLogSection: React.FC = () => {
           aria-label="Projects hanging from the character's hand"
         >
           <div className="pj__scale" style={style({ width: ART_W, height: ART_H, transform: `scale(${scale})` })}>
-            <div className="pj__swing" style={style({ transformOrigin: PIVOT })}>
+            <div key={animKey} className="pj__swing" style={style({ transformOrigin: PIVOT })}>
               <img className="pj__art" src="/images/projects-hang.webp" width={ART_W} height={ART_H} alt="" aria-hidden="true" draggable={false} />
 
               {wide &&
