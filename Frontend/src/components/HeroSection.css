@@ -13,6 +13,7 @@
   position: relative;
   width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 .hero *,
 .hero *::before,
@@ -21,6 +22,8 @@
 /* ── Stage ──────────────────────────────────────────────── */
 .hc {
   position: relative;
+  /* crop the empty paper above the artwork so the hero opens exactly on the PORTFOLIO letters */
+  margin-top: -4.68vw;
   width: 100%;
   aspect-ratio: 2400 / 1340;
   overflow: hidden;
@@ -98,6 +101,16 @@
 .hc__l--pants { --d: 2.1s; }
 .hc__l--shoes { --d: 2.4s; }
 
+/* ── 4b. The held thread is drawn out of the left fist ── */
+@property --rt { syntax: '<percentage>'; inherits: false; initial-value: 150%; }
+.hc__l--lowthread {
+  --rt: 150%;
+  -webkit-mask-image: radial-gradient(circle at 28.9% 78.7%, #000 var(--rt), transparent calc(var(--rt) + 5%));
+          mask-image: radial-gradient(circle at 28.9% 78.7%, #000 var(--rt), transparent calc(var(--rt) + 5%));
+  animation: hc-reach 3.4s cubic-bezier(.45,.1,.3,1) 2.2s backwards;
+}
+@keyframes hc-reach { from { --rt: -6%; } }
+
 /* ── 5. Spider drops in, doodles pop ── */
 .hc__l--spider { animation: hc-drop 0.8s cubic-bezier(.3,1.5,.5,1) 3.0s backwards; }
 @keyframes hc-drop { from { opacity: 0; transform: translateY(-50px) scale(0.7); } }
@@ -131,22 +144,6 @@
   animation: hc-draw 1.6s ease-out var(--d) backwards;
 }
 
-.hc__replay {
-  position: absolute;
-  z-index: 4;
-  top: 10px;
-  right: 10px;
-  padding: 5px 11px;
-  border: 1.5px solid var(--ink-black);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
-  color: var(--ink-black);
-  font: 600 0.72rem 'Space Grotesk', system-ui, sans-serif;
-  cursor: pointer;
-  opacity: 0.55;
-  transition: opacity 0.2s ease;
-}
-.hc__replay:hover, .hc__replay:focus-visible { opacity: 1; }
 
 /* ── Hotspots ───────────────────────────────────────────── */
 .hc__spot,

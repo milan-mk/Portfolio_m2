@@ -1,0 +1,121 @@
+/* ── Projects: the character hangs from a red thread, projects hang from his hand ── */
+.pj {
+  --ink: #1e1e24;
+  --red: #9e2a2b;
+  --red-hi: #d64045;
+  --paper: #f6f3ec;
+
+  position: relative;
+  width: 100%;
+  padding: clamp(40px, 7vw, 90px) 16px clamp(32px, 5vw, 64px);
+  background: #fff;
+  color: var(--ink);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.pj *, .pj *::before, .pj *::after { box-sizing: border-box; }
+.pj__inner { max-width: 940px; margin: 0 auto; }
+
+.pj__head { text-align: center; margin-bottom: clamp(8px, 2vw, 24px); }
+.pj__eyebrow {
+  display: inline-block;
+  font: 700 0.72rem 'Space Grotesk', system-ui, sans-serif;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.pj__title {
+  margin: 4px 0 6px;
+  font-family: var(--font-display, 'Anybody', sans-serif);
+  font-weight: 900;
+  font-size: clamp(2.6rem, 8vw, 5.2rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #232742;
+}
+.pj__sub { margin: 0 auto; max-width: 520px; font-size: 0.95rem; line-height: 1.55; color: #5b5b66; }
+
+/* ── Stage ─────────────────────────────────────────────── */
+.pj__stage { position: relative; width: 100%; max-width: 900px; margin: 0 auto; overflow: hidden; }
+.pj__scale { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.pj__swing { position: absolute; inset: 0; opacity: 0; will-change: transform; }
+.pj__art { position: absolute; left: 0; top: 0; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none; }
+
+/* intro: he is lowered in on the thread, then settles into a slow sway */
+.pj__stage.is-in .pj__swing {
+  opacity: 1;
+  animation:
+    pj-lower 1.5s cubic-bezier(.22, 1.25, .36, 1) both,
+    pj-sway 6.5s ease-in-out 1.5s infinite alternate;
+}
+@keyframes pj-lower { from { transform: translateY(-120%); opacity: 1; } to { transform: none; opacity: 1; } }
+@keyframes pj-sway { from { transform: rotate(-1.3deg); } to { transform: rotate(1.3deg); } }
+.pj__stage:hover .pj__swing { animation-play-state: running, paused; }
+
+/* ── Canvas faces (perspective-mapped onto the artwork) ─── */
+.pj-face {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  font-size: 11px; /* design px; everything inside is in em */
+  animation: pj-face-in 0.55s ease-out calc(1.4s + var(--i, 0) * 0.15s) both;
+}
+@keyframes pj-face-in { from { opacity: 0; filter: blur(4px); } }
+.pj-face .pj-card { width: 100%; height: 100%; padding: 0.9em 1em 0.8em; }
+
+.pj-card { position: relative; display: flex; flex-direction: column; gap: 0.45em; color: var(--ink); font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+.pj-card--face { overflow: hidden; border-radius: 2px; transition: background-color 0.25s ease, box-shadow 0.25s ease; }
+.pj-face:hover .pj-card--face, .pj-face:focus-within .pj-card--face {
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 0 0 1.5px rgba(158, 42, 43, 0.55), 0 0 18px rgba(158, 42, 43, 0.25);
+}
+
+.pj-card__shot { flex: none; height: 6.1em; border-radius: 2px; overflow: hidden; border: 1px solid rgba(30, 30, 36, 0.35); background: #e8e4da; }
+.pj-card__shot img { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(0.9); }
+.pj-card__meta { display: flex; align-items: center; justify-content: space-between; gap: 0.6em; font: 700 0.72em 'Space Grotesk', system-ui, sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+.pj-card__no { color: var(--red); }
+.pj-card__cat { color: #6a6a74; text-align: right; }
+.pj-card__title { margin: 0; font-family: var(--font-display, 'Anybody', sans-serif); font-weight: 900; font-size: 1.28em; line-height: 1.05; text-transform: uppercase; letter-spacing: 0.01em; color: #232742; }
+.pj-card__desc { margin: 0; font-size: 0.82em; line-height: 1.4; color: #3b3b45; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.pj-card__tags { display: flex; flex-wrap: wrap; gap: 0.3em; margin: 0; padding: 0; list-style: none; }
+.pj-card__tags li { padding: 0.18em 0.6em; border: 1px solid rgba(35, 39, 66, 0.6); border-radius: 999px; font: 700 0.66em 'Space Grotesk', system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: #232742; background: rgba(255, 255, 255, 0.6); }
+.pj-card__cta { display: flex; gap: 0.5em; margin-top: auto; }
+
+.pj-btn { flex: 1; text-align: center; padding: 0.5em 0.4em; border-radius: 3px; font: 700 0.74em 'Space Grotesk', system-ui, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform 0.15s ease, background 0.15s ease; }
+.pj-btn--red { background: var(--red); color: #fff; }
+.pj-btn--red:hover { background: var(--red-hi); transform: translateY(-1px); }
+.pj-btn--ink { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.pj-btn--ink:hover { background: var(--ink); color: #fff; }
+.pj-btn.is-soon { background: transparent; color: #8a8a94; border: 1.5px dashed #b9b9c2; cursor: default; pointer-events: none; }
+.pj-btn:focus-visible, .pj__arrow:focus-visible, .pj__dot:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+
+/* ── Pager ─────────────────────────────────────────────── */
+.pj__pager { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 8px; }
+.pj__arrow { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--ink); background: #fff; color: var(--ink); font-size: 1.1rem; cursor: pointer; transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease; }
+.pj__arrow:hover { background: var(--red); border-color: var(--red); color: #fff; transform: scale(1.06); }
+.pj__dots { display: flex; gap: 10px; }
+.pj__dot { width: 11px; height: 11px; padding: 0; border-radius: 50%; border: 1.5px solid var(--ink); background: transparent; cursor: pointer; transition: background 0.2s ease, transform 0.2s ease; }
+.pj__dot.is-on { background: var(--red); border-color: var(--red); transform: scale(1.2); }
+
+/* ── Phones: normal paper cards under the art ───────────── */
+.pj__list { display: flex; flex-direction: column; gap: 22px; max-width: 460px; margin: 4px auto 0; }
+.pj-card--list {
+  font-size: 15px;
+  padding: 16px 16px 14px;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  box-shadow: 0 8px 18px rgba(30, 30, 36, 0.18);
+}
+.pj-card--list:nth-child(odd)  { transform: rotate(-0.8deg); }
+.pj-card--list:nth-child(even) { transform: rotate(0.8deg); }
+.pj-card--list::before { content: ''; position: absolute; top: -9px; left: 50%; width: 64px; height: 18px; transform: translateX(-50%) rotate(-3deg); background: rgba(236, 205, 110, 0.75); }
+.pj-card--list .pj-card__shot { height: 9em; }
+.pj-card--list .pj-card__desc { -webkit-line-clamp: unset; display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pj__stage .pj__swing { opacity: 1; animation: none !important; }
+  .pj-face { animation: none; }
+}
