@@ -1,4 +1,4 @@
-/* ── Projects: the character hangs from a red thread, simple project boxes hang from his wrist ── */
+/* ── Projects: the character hangs from a thread; one web holds a big board with the project boxes ── */
 .pj {
   --ink: #1e1e24;
   --red: #9e2a2b;
@@ -22,9 +22,10 @@
 
 /* ── Stage ─────────────────────────────────────────────── */
 .pj__stage { position: relative; width: 100%; max-width: 800px; margin: 0 auto; overflow: hidden; }
+.pj__stage.is-narrow { overflow: visible; }
 .pj__scale { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
 .pj__swing { position: absolute; inset: 0; opacity: 0; will-change: transform; }
-.pj__art { position: absolute; left: 0; top: 0; user-select: none; -webkit-user-drag: none; }
+.pj__art { position: absolute; left: 0; top: 0; width: 765px; height: 565px; user-select: none; -webkit-user-drag: none; z-index: 3; }
 
 /* intro: he is lowered in on the thread, then settles into a slow sway */
 .pj__stage.is-in .pj__swing {
@@ -32,21 +33,35 @@
   animation: pj-lower 1.5s cubic-bezier(.22, 1.25, .36, 1) both, pj-sway 6.5s ease-in-out 1.5s infinite alternate;
 }
 @keyframes pj-lower { from { transform: translateY(-120%); opacity: 1; } to { transform: none; opacity: 1; } }
-@keyframes pj-sway { from { transform: rotate(-0.8deg); } to { transform: rotate(0.8deg); } }
-.pj__stage:hover .pj__swing { animation-play-state: running, paused; }
+@keyframes pj-sway { from { transform: rotate(-0.6deg); } to { transform: rotate(0.6deg); } }
 
-/* threads that hang the lower boxes from the upper ones */
-.pj__chain { position: absolute; left: 0; top: 0; pointer-events: none; overflow: visible; }
-.pj__art { width: 100%; height: 100%; }
-.pj__rope { fill: none; stroke: #6a2324; stroke-width: 11; stroke-linecap: round; }
-.pj__rope--wrap { stroke-width: 7; }
-.pj__twist { fill: none; stroke: #a8393b; stroke-width: 3.2; stroke-dasharray: 5 9; stroke-linecap: round; }
-.pj__stage.is-in .pj__rope:not(.pj__rope--wrap) { stroke-dasharray: 1; animation: pj-rope 1.2s ease-out 1.7s both; }
-@keyframes pj-rope { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+/* ── The web + the board swing together from the wrist ──── */
+.pj__hang { position: absolute; inset: 0; }
+.pj__stage.is-in .pj__hang { animation: pj-hang 5.2s ease-in-out 3.2s infinite alternate; }
+@keyframes pj-hang { from { transform: rotate(-1.3deg); } to { transform: rotate(1.3deg); } }
+.pj__web { position: absolute; max-width: none; pointer-events: none; user-select: none; z-index: 2; }
+/* the web artwork is revealed from the hand downwards */
+.pj__web { clip-path: inset(0 0 100% 0); }
+.pj__stage.is-in .pj__web { animation: pj-reveal 2.1s cubic-bezier(.45, .1, .35, 1) 1.2s forwards; }
+@keyframes pj-reveal { to { clip-path: inset(0 0 0 0); } }
+@keyframes pj-draw { to { stroke-dashoffset: 0; } }
+@keyframes pj-fade-in { to { opacity: 1; } }
 
-/* ── Project cards (simple, big) ────────────────────────── */
-.pj-hang {
+/* ── The big board holding the project boxes ────────────── */
+.pj-board {
   position: absolute;
+  padding: 24px;
+  background: #fff;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  box-shadow: 7px 7px 0 var(--ink);
+  opacity: 0;
+}
+.pj__stage.is-in .pj-board { animation: pj-board-in 0.7s cubic-bezier(.2, .9, .3, 1.1) 3.3s both; }
+@keyframes pj-board-in { from { opacity: 0; transform: translateY(-26px) scale(0.97); } to { opacity: 1; transform: none; } }
+.pj-board__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: 100%; }
+
+.pj-card {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -54,29 +69,19 @@
   text-align: left;
   font: inherit;
   color: var(--ink);
-  background: #fff;
+  background: #faf8f4;
   border: 1.5px solid var(--ink);
   border-radius: 12px;
-  box-shadow: 5px 5px 0 var(--ink);
   cursor: pointer;
-  transform-origin: 50% 0;
-  transition: box-shadow 0.2s ease, translate 0.2s ease;
+  transition: box-shadow 0.2s ease, translate 0.2s ease, background 0.2s ease;
 }
-.pj__stage.is-in .pj-hang {
-  animation: pj-card-sway 5.5s ease-in-out 1.5s infinite alternate;
-}
-.pj-hang--b { --sw: -1; }
-@keyframes pj-card-in { from { opacity: 0; scale: 0.94; } to { opacity: 1; scale: 1; } }
-@keyframes pj-card-sway { from { rotate: -0.7deg; } to { rotate: 0.7deg; } }
-.pj-hang--b { animation-direction: alternate-reverse !important; }
-.pj-hang:hover, .pj-hang:focus-visible { translate: -2px -3px; box-shadow: 7px 8px 0 var(--red); outline: none; }
-.pj-hang:focus-visible { box-shadow: 7px 8px 0 var(--red), 0 0 0 3px #fff, 0 0 0 5px var(--red); }
-
+.pj-card:hover, .pj-card:focus-visible { translate: -2px -3px; box-shadow: 5px 6px 0 var(--red); background: #fff; outline: none; }
+.pj-card:focus-visible { box-shadow: 5px 6px 0 var(--red), 0 0 0 3px #fff, 0 0 0 5px var(--red); }
 .pj-card__cat { font: 700 14px 'Space Grotesk', system-ui, sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); }
 .pj-card__title { margin: 0; font-family: var(--font-display, 'Anybody', sans-serif); font-weight: 900; font-size: 22px; line-height: 1.08; letter-spacing: 0.01em; text-transform: uppercase; color: #232742; }
-.pj-card__desc { margin: 0; font: 400 17px/1.45 'Plus Jakarta Sans', system-ui, sans-serif; color: #44444e; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.pj-card__desc { margin: 0; font: 400 16px/1.45 'Plus Jakarta Sans', system-ui, sans-serif; color: #44444e; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 .pj-card__more { margin-top: auto; font: 700 14px 'Space Grotesk', system-ui, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); }
-.pj-hang:hover .pj-card__more { color: var(--red); }
+.pj-card:hover .pj-card__more { color: var(--red); }
 
 /* ── Details pop-up ─────────────────────────────────────── */
 .pj-modal { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; padding: 20px; background: rgba(20, 20, 30, 0.6); backdrop-filter: blur(3px); animation: pj-fade 0.2s ease-out both; }
@@ -107,14 +112,16 @@
 @keyframes pj-fade { from { opacity: 0; } }
 @keyframes pj-pop { from { opacity: 0; transform: translateY(18px) scale(0.94); } }
 
-/* ── Phones: plain stacked cards under the character ───── */
-.pj__list { display: flex; flex-direction: column; gap: 18px; max-width: 460px; margin: 4px auto 0; }
-.pj-hang--list { position: static; opacity: 1; width: 100%; animation: none !important; padding: 18px 18px 16px; }
-.pj-hang--list .pj-card__title { font-size: 22px; }
+/* ── Phones: the board sits in normal flow under the web ── */
+.pj-board--flow { position: static; opacity: 1; margin: 0 auto; max-width: 800px; width: 94.8%; padding: 14px; }
+.pj-board--flow .pj-board__grid { grid-template-columns: 1fr; gap: 14px; }
+.pj-board--flow .pj-card { padding: 16px 16px 14px; }
+.pj-board--flow .pj-card__title { font-size: 20px; }
 
 @media (prefers-reduced-motion: reduce) {
   .pj__stage .pj__swing { opacity: 1; animation: none !important; }
-  .pj-hang { animation: none !important; }
-  .pj__rope { animation: none !important; }
+  .pj__stage .pj__hang { animation: none !important; }
+  .pj__web { animation: none !important; clip-path: none; }
+  .pj-board { animation: none !important; opacity: 1; }
   .pj-modal, .pj-modal__panel { animation: none; }
 }

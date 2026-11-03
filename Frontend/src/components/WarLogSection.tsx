@@ -5,43 +5,27 @@ import type { ProjectCampaign } from '../types/portfolio';
 import './WarLogSection.css';
 
 /**
- * Projects section: the character hangs upside-down from a red thread and has tied
- * two project boxes to his hand; two more boxes hang from those on their own threads.
- * Click a box to open the full details in a pop-up.
+ * Projects section: the character hangs upside-down from a red thread. A twisted web rope
+ * shoots from his palm and flares out into a cobweb (a drawn image), and holds one big board with the project boxes
+ * inside. The board sways gently. Click a box to open its details in a pop-up.
  *
- * - Artwork:  /public/images/projects-hang.webp (765 x 1424)
- * - Content:  CAMPAIGN_PROJECTS in data/portfolioData.ts (the first four are shown on the hanging board)
- * - The boxes are laid over the painted canvases in the artwork (positions in CARDS, art pixels).
+ * - Artwork:  /public/images/projects-hang-top.webp (765 x 565, the character only)
+ * - Web:      /public/images/projects-web.webp (rope + cobweb, drawn artwork)
+ * - Content:  CAMPAIGN_PROJECTS in data/portfolioData.ts (the first four are shown on the board)
+ * - Everything is laid out in "art" pixels (765 wide) and scaled to the stage width.
  */
 
 const ART_W = 765;
-const ART_H = 1424;
-/** On phones only the part of the art above the threads' ends is drawn; projects become a normal list. */
-const ART_CROP_H = 662;
-/** The point the whole piece swings from (the end of the thread at the top). */
+/** Where the web shoots out of his palm (the sway pivots here). */
+const WRIST = { x: 431, y: 516 };
+/** The web artwork: wrist strands, twisted rope, cobweb and eyelets (314 x 625 art px; it only holds the middle of the board). */
+const WEB_IMG = { x: 240.4, y: 536, w: 314, h: 625.2 };
+/** Board (the big container). Its top border lines up with the board edge drawn in the web image. */
+const BOARD = { x: 45, y: 1104, w: 700, h: 592 };
+const ART_H = BOARD.y + BOARD.h + 36;
+const ART_TOP_H = 565;
 const PIVOT = '368px 0px';
 const WIDE_MIN = 560;
-/** Box positions (art pixels); each covers a painted canvas of the artwork. */
-const CARD_W = 308;
-const CARD_H = 296;
-const CARDS = [
-  { x: 119, y: 668 },
-  { x: 454, y: 646 },
-  { x: 119, y: 1064 },
-  { x: 454, y: 1036 },
-] as const;
-
-/** Threads that hang the lower boxes from the upper ones (art coordinates). */
-const CHAIN = [
-  { id: 'a', d: 'M303 958 C322 1000 396 1015 372 1066' },
-  { id: 'b', d: 'M596 936 C628 985 548 1000 560 1038' },
-];
-const CHAIN_WRAP = [
-  { dy: 5, d: 'M280 920 C292 962 332 958 322 918' },
-  { dy: 5, d: 'M290 926 C312 958 338 940 330 912' },
-  { dy: 36, d: 'M574 893 C588 930 626 926 618 884' },
-  { dy: 36, d: 'M584 896 C604 928 632 910 626 876' },
-];
 
 const ProjectDetails: React.FC<{ p: ProjectCampaign; onClose: () => void }> = ({ p, onClose }) => {
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -169,10 +153,21 @@ export const WarLogSection: React.FC = () => {
 
   const wide = width >= WIDE_MIN;
   const scale = width > 0 ? width / ART_W : 1;
-  const stageH = (wide ? ART_H : ART_CROP_H) * scale;
+  // on phones the stage ends where the web reaches the board, and the board follows in normal flow
+  const stageH = (wide ? ART_H : BOARD.y) * scale;
 
   const style = (v: Record<string, string | number>) => v as unknown as React.CSSProperties;
   const close = React.useCallback(() => setActive(null), []);
+
+  const board = (list: ProjectCampaign[]) => (
+    <div className="pj-board__grid">
+      {list.map((p, i) => (
+        <button key={p.id} type="button" className="pj-card" style={style({ '--i': i })} onClick={() => setActive(p)} aria-label={`${p.title}, open details`}>
+          <CardBody p={p} />
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <section id="war-log" className="pj">
@@ -180,61 +175,35 @@ export const WarLogSection: React.FC = () => {
         <header className="pj__head">
           <span className="pj__eyebrow">Selected work</span>
           <h2 className="pj__title">Projects</h2>
-          <p className="pj__sub">Hanging around with a few things I&rsquo;ve built. Tap a card to see the details.</p>
+          <p className="pj__sub">Hanging around with a few things I&rsquo;ve built. Tap a box to see the details.</p>
         </header>
 
         <div
           ref={stageRef}
-          className={`pj__stage${inView ? ' is-in' : ''}`}
+          className={`pj__stage${inView ? ' is-in' : ''}${wide ? '' : ' is-narrow'}`}
           style={{ height: stageH || undefined }}
           role="group"
           aria-label="Projects hanging from the character's hand"
         >
-          <div className="pj__scale" style={style({ width: ART_W, height: ART_H, transform: `scale(${scale})` })}>
+          <div className="pj__scale" style={style({ width: ART_W, height: wide ? ART_H : BOARD.y, transform: `scale(${scale})` })}>
             <div className="pj__swing" style={style({ transformOrigin: PIVOT })}>
-              <img className="pj__art" src="/images/projects-hang.webp" width={ART_W} height={ART_H} alt="" aria-hidden="true" draggable={false} />
+              <img className="pj__art" src="/images/projects-hang-top.webp" width={ART_W} height={ART_TOP_H} alt="" aria-hidden="true" draggable={false} />
 
-              {wide && (
-                <svg className="pj__chain" viewBox={`0 0 ${ART_W} ${ART_H}`} width={ART_W} height={ART_H} aria-hidden="true">
-                  {CHAIN.map((c) => (
-                    <g key={c.id}>
-                      <path className="pj__rope" d={c.d} pathLength={1} />
-                      <path className="pj__twist" d={c.d} />
-                    </g>
-                  ))}
-                  {CHAIN_WRAP.map((w) => (
-                    <path key={w.d} className="pj__rope pj__rope--wrap" d={w.d} transform={`translate(0 ${w.dy})`} />
-                  ))}
-                </svg>
-              )}
-
-              {wide &&
-                shown.map((p, i) => (
-                  <button
-                    key={p.id}
-                    type="button"
-                    className={`pj-hang pj-hang--${i % 2 === 0 ? 'a' : 'b'}`}
-                    style={style({ left: CARDS[i].x, top: CARDS[i].y, width: CARD_W, height: CARD_H, '--i': i })}
-                    onClick={() => setActive(p)}
-                    aria-label={`${p.title}, open details`}
-                  >
-                    <CardBody p={p} />
-                  </button>
-                ))}
+              {/* the web + board pivot from the wrist */}
+              <div className="pj__hang" style={style({ transformOrigin: `${WRIST.x}px ${WRIST.y}px` })}>
+                <img className="pj__web" src="/images/projects-web.webp" width={WEB_IMG.w} height={WEB_IMG.h} alt="" aria-hidden="true" draggable={false} style={style({ left: WEB_IMG.x, top: WEB_IMG.y })} />
+                {wide && (
+                  <div className="pj-board" style={style({ left: BOARD.x, top: BOARD.y, width: BOARD.w, height: BOARD.h })}>
+                    {board(shown)}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* phones: the same projects as plain stacked cards */}
-        {!wide && (
-          <div className="pj__list">
-            {projects.map((p) => (
-              <button key={p.id} type="button" className="pj-hang pj-hang--list" onClick={() => setActive(p)} aria-label={`${p.title}, open details`}>
-                <CardBody p={p} />
-              </button>
-            ))}
-          </div>
-        )}
+        {/* phones: the same board, in normal flow below the web */}
+        {!wide && <div className="pj-board pj-board--flow">{board(projects)}</div>}
       </div>
 
       {active && createPortal(<ProjectDetails p={active} onClose={close} />, document.body)}
