@@ -51,12 +51,23 @@ export const RecruitmentSection: React.FC = () => {
   return (
     <section id="clan-recruitment" className="w-full px-4 sm:px-6 py-8 sm:py-12 lg:py-14">
       <div className="max-w-[1040px] mx-auto">
+        {/* wrapper so the character can sit on the card's top-right corner without being clipped */}
+        <div className="relative">
+        <img
+          src="/images/recruit-sit.webp"
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          width={300}
+          height={537}
+          className="absolute z-20 pointer-events-none select-none bottom-full w-[max(96px,17.8%)] h-auto right-[-6.7%] max-sm:right-0 translate-y-[54%]"
+        />
         <div className="relative bg-surface-container rounded-xl p-4 sm:p-6 flex flex-col gap-4 shadow-[0_12px_24px_rgba(0,0,0,0.7)] border border-surface-container-highest/70 overflow-hidden">
           {/* Runic Border Trim Highlight */}
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-container/20 via-primary-container to-primary-container/20"></div>
 
           {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1 max-sm:pr-[96px] sm:pr-[13%]">
             <div>
               <div className="flex items-center gap-1.5 text-primary-container font-label text-[11px] uppercase tracking-widest font-bold">
                 <span className="material-symbols-outlined text-[16px]">mark_email_read</span>
@@ -261,6 +272,7 @@ export const RecruitmentSection: React.FC = () => {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>
