@@ -10,13 +10,14 @@ import { WarLogSection } from './components/WarLogSection';
 import { villageAudio } from './utils/soundEffects';
 
 export const App: React.FC = () => {
-  const [activeSection, setActiveSection] = useState('citadel-base');
+  const [_activeSection, setActiveSection] = useState('citadel-base');
+  /*
   const [introOpen, setIntroOpen] = useState(true);
-
   const handleCloseIntro = () => {
     setIntroOpen(false);
     villageAudio.playHorn();
   };
+  */
 
   useEffect(() => {
     // Tactile Click scale feedback and sound effects for pushable game elements
@@ -80,12 +81,12 @@ export const App: React.FC = () => {
         <HeroSection />
 
         {/* Barracks & Arcane Forge (Skill Matrix) */}
-        <ScrollReveal yOffset={28}>
+        <ScrollReveal yOffset={28} once={false}>
           <BarracksSection />
         </ScrollReveal>
 
         {/* Clan War Log & Battle Replays (Featured Projects) */}
-        <ScrollReveal yOffset={28}>
+        <ScrollReveal yOffset={28} once={false}>
           <WarLogSection />
         </ScrollReveal>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CHIEF_INFO } from '../data/portfolioData';
 import './HeroSection.css';
 
@@ -147,6 +147,33 @@ const go = (href: string) => document.querySelector(href)?.scrollIntoView({ beha
 export const HeroSection: React.FC = () => {
   const [open, setOpen] = useState<Skill | null>(null);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [animKey, setAnimKey] = useState(0);
+
+  const heroRef = useRef<HTMLElement>(null);
+  const hasLeftRef = useRef(false);
+
+  // Re-trigger the drawing intro animation whenever the user rescrolls to the hero section
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (hasLeftRef.current) {
+            setAnimKey((k) => k + 1);
+            hasLeftRef.current = false;
+          }
+        } else {
+          hasLeftRef.current = true;
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // On every fresh load show the hero from its very top (no restored scroll position).
   useEffect(() => {
@@ -174,8 +201,8 @@ export const HeroSection: React.FC = () => {
   }, [overlay]);
 
   return (
-    <section id="citadel-base" className="hero relative w-full p-0">
-      <div className="hc" role="group" aria-label={`${CHIEF_INFO.name} interactive portfolio hero`}>
+    <section id="citadel-base" ref={heroRef} className="hero relative w-full p-0">
+      <div key={animKey} className="hc" role="group" aria-label={`${CHIEF_INFO.name} interactive portfolio hero`}>
         {/* The illustration, built from layers so it can be "drawn in" like the intro video */}
         <div
           className="hc__layers"

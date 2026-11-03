@@ -1,227 +1,115 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SKILL_CATEGORIES } from '../data/portfolioData';
-import { TechIcon } from './TechIcon';
+import './BarracksSection.css';
 
-export const BarracksSection: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string>('all');
-  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+/**
+ * Skills: a simple, clean grid of categories with cobwebs in the corners.
+ * On scroll the webs draw themselves in, then the cards rise in one by one.
+ */
 
-  const totalUnits = SKILL_CATEGORIES.reduce((acc, cat) => acc + cat.skills.length, 0);
-
-  const displayedCategories =
-    activeCategory === 'all'
-      ? SKILL_CATEGORIES
-      : SKILL_CATEGORIES.filter((cat) => cat.id === activeCategory);
-
-  // Elemental color map for card borders, badges and glows
-  const getElementStyles = (badge?: string) => {
-    switch (badge) {
-      case 'FIRE':
-        return {
-          badgeBg: 'bg-orange-500/20 text-orange-400 border-orange-500/40',
-          borderGlow: 'hover:border-orange-500/60 hover:shadow-[0_0_24px_rgba(249,115,22,0.18)]',
-          pillHover: 'hover:border-orange-500/60 hover:text-orange-300',
-          dotColor: 'bg-orange-400',
-        };
-      case 'ELECTRIC':
-        return {
-          badgeBg: 'bg-amber-400/20 text-amber-300 border-amber-400/40',
-          borderGlow: 'hover:border-amber-400/60 hover:shadow-[0_0_24px_rgba(251,191,36,0.18)]',
-          pillHover: 'hover:border-amber-400/60 hover:text-amber-200',
-          dotColor: 'bg-amber-400',
-        };
-      case 'MAGMA':
-        return {
-          badgeBg: 'bg-red-500/20 text-red-400 border-red-500/40',
-          borderGlow: 'hover:border-red-500/60 hover:shadow-[0_0_24px_rgba(239,68,68,0.18)]',
-          pillHover: 'hover:border-red-500/60 hover:text-red-300',
-          dotColor: 'bg-red-400',
-        };
-      case 'PSYCHIC':
-        return {
-          badgeBg: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
-          borderGlow: 'hover:border-purple-500/60 hover:shadow-[0_0_24px_rgba(168,85,247,0.18)]',
-          pillHover: 'hover:border-purple-500/60 hover:text-purple-300',
-          dotColor: 'bg-purple-400',
-        };
-      case 'FROST':
-        return {
-          badgeBg: 'bg-cyan-500/20 text-cyan-300 border-cyan-400/40',
-          borderGlow: 'hover:border-cyan-400/60 hover:shadow-[0_0_24px_rgba(6,182,212,0.18)]',
-          pillHover: 'hover:border-cyan-400/60 hover:text-cyan-200',
-          dotColor: 'bg-cyan-400',
-        };
-      case 'GROUND':
-      default:
-        return {
-          badgeBg: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
-          borderGlow: 'hover:border-emerald-500/60 hover:shadow-[0_0_24px_rgba(16,185,129,0.18)]',
-          pillHover: 'hover:border-emerald-500/60 hover:text-emerald-300',
-          dotColor: 'bg-emerald-400',
-        };
+/** One corner web (quarter fan) in a 220 x 220 box, hanging from the top-left corner. */
+function cornerWeb(): string[] {
+  const SPOKES = 6;
+  const RINGS = 6;
+  const R = 214;
+  const pt = (r: number, a: number) => [r * Math.cos(a), r * Math.sin(a)] as const;
+  const paths: string[] = [];
+  // spokes
+  for (let s = 0; s < SPOKES; s++) {
+    const a = (s / (SPOKES - 1)) * (Math.PI / 2);
+    const [x, y] = pt(R, a);
+    paths.push(`M0 0 L${x.toFixed(1)} ${y.toFixed(1)}`);
+  }
+  // sagging rings between neighbouring spokes
+  for (let k = 1; k <= RINGS; k++) {
+    const r = (k / RINGS) * R * (k === RINGS ? 1 : 0.96);
+    let d = '';
+    for (let s = 0; s < SPOKES - 1; s++) {
+      const a0 = (s / (SPOKES - 1)) * (Math.PI / 2);
+      const a1 = ((s + 1) / (SPOKES - 1)) * (Math.PI / 2);
+      const [x0, y0] = pt(r, a0);
+      const [x1, y1] = pt(r, a1);
+      const [cx, cy] = pt(r * 0.82, (a0 + a1) / 2); // pulled towards the corner = sag
+      if (s === 0) d += `M${x0.toFixed(1)} ${y0.toFixed(1)}`;
+      d += ` Q${cx.toFixed(1)} ${cy.toFixed(1)} ${x1.toFixed(1)} ${y1.toFixed(1)}`;
     }
-  };
+    paths.push(d);
+  }
+  return paths;
+}
+const WEB = cornerWeb();
+
+function Web({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
+  return (
+    <div className={`sk__w sk__w--${pos}`} aria-hidden="true">
+      <svg className="sk__web" viewBox="-2 -2 224 224">
+        {WEB.map((d, i) => (
+          <path key={i} d={d} pathLength={1} style={{ '--i': i } as React.CSSProperties} />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+export function BarracksSection() {
+  const ref = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <section id="army-camps" className="w-full px-4 sm:px-6 py-8 sm:py-12 lg:py-14">
-      <div className="max-w-[1100px] mx-auto flex flex-col gap-5">
-        {/* Section Header Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-2 border-b border-surface-container-highest">
-          <div>
-            <div className="flex items-center gap-1.5 text-primary-container font-label text-[11px] uppercase tracking-widest font-bold">
-              <span className="material-symbols-outlined text-[16px]">bolt</span>
-              Elemental Matchup Deck &bull; Barracks &amp; Arcane Forge
-            </div>
-            <h2 className="font-display text-xl sm:text-2xl lg:text-[28px] font-extrabold uppercase text-on-surface tracking-tight mt-0.5">
-              Type Matchup Chart &amp; Skill Matrix
-            </h2>
-          </div>
-          <div className="flex items-center gap-2 self-start sm:self-auto">
-            <span className="font-label text-[10px] uppercase tracking-widest text-secondary bg-surface-container px-2.5 py-1 rounded border border-surface-container-high font-bold flex items-center gap-1.5 shadow-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
-              Housing Space: {totalUnits} / {totalUnits} Units
-            </span>
-          </div>
-        </div>
+    <section id="army-camps" ref={ref} className={`sk${inView ? ' is-in' : ''}`}>
+      <Web pos="tl" />
+      <Web pos="tr" />
+      <Web pos="bl" />
+      <Web pos="br" />
 
-        {/* Category Tactical Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-1.5">
-          <button
-            type="button"
-            onClick={() => setActiveCategory('all')}
-            className={`font-label text-xs uppercase tracking-wider px-3 py-1 rounded font-bold cursor-pointer transition-all border ${
-              activeCategory === 'all'
-                ? 'bg-primary-container text-on-primary-container border-primary-container shadow-[0_2px_0_#78350f]'
-                : 'bg-surface-container text-on-surface-variant hover:text-on-surface border-surface-container-highest shadow-[0_2px_0_#050811]'
-            }`}
-          >
-            All Decks ({totalUnits})
-          </button>
-          {SKILL_CATEGORIES.map((cat) => {
-            const isActive = activeCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => setActiveCategory(cat.id)}
-                className={`flex items-center gap-1.5 font-label text-xs uppercase tracking-wider px-2.5 py-1 rounded font-bold cursor-pointer transition-all border ${
-                  isActive
-                    ? 'bg-primary-container text-on-primary-container border-primary-container shadow-[0_2px_0_#78350f]'
-                    : 'bg-surface-container text-on-surface-variant hover:text-on-surface border-surface-container-highest shadow-[0_2px_0_#050811]'
-                }`}
-              >
-                {cat.troopImage && (
-                  <img
-                    src={cat.troopImage}
-                    alt={cat.troopName || cat.name}
-                    className="w-5 h-5 object-contain"
-                  />
-                )}
-                <span>{cat.elementBadge || cat.name}</span>
-                <span className="text-[10px] opacity-70">({cat.skills.length})</span>
-              </button>
-            );
-          })}
-        </div>
+      <div className="sk__inner">
+        <header className="sk__head">
+          <span className="sk__eyebrow">Toolkit</span>
+          <h2 className="sk__title">Skills</h2>
+          <p className="sk__sub">Everything I work with, pulled together in one place.</p>
+        </header>
 
-        {/* Cards Grid — Responsive 1 col (mobile), 2 cols (tablet), 3 cols (desktop) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
-          {displayedCategories.map((category) => {
-            const styles = getElementStyles(category.elementBadge);
-
-            return (
-              <div
-                key={category.id}
-                className={`relative bg-surface-container/90 backdrop-blur-xs rounded-xl p-4 flex flex-col justify-between border border-surface-container-highest/70 shadow-[0_4px_12px_rgba(0,0,0,0.4)] transition-all duration-300 group hover:-translate-y-1 ${styles.borderGlow}`}
-              >
-                {/* Top Card Header */}
-                <div className="flex items-center gap-3 pb-3 border-b border-surface-container-highest/50">
-                  {/* Troop Character Avatar */}
-                  <div className="relative w-14 h-14 shrink-0 rounded-lg bg-surface-container-highest/50 p-1 flex items-center justify-center border border-surface-container-highest group-hover:scale-105 transition-transform duration-300">
-                    {category.troopImage ? (
-                      <img
-                        src={category.troopImage}
-                        alt={category.troopName || category.name}
-                        className="w-full h-full object-contain filter drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <span className="material-symbols-outlined text-[24px] text-secondary">
-                        {category.icon}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Element Badge & Category Title */}
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      {category.elementBadge && (
-                        <span
-                          className={`font-label text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full border tracking-widest ${styles.badgeBg}`}
-                        >
-                          {category.elementBadge}
-                        </span>
-                      )}
-                      <span className="text-outline/80 font-label text-[9px] uppercase tracking-wider font-semibold">
-                        {category.skills.length} Units
-                      </span>
-                    </div>
-
-                    <h3 className="font-display text-sm sm:text-base font-extrabold uppercase text-on-surface tracking-wide truncate">
-                      {category.name}
-                    </h3>
-
-                    {category.troopName && (
-                      <span className="text-[10px] font-label text-outline uppercase tracking-wider block">
-                        Guardian: {category.troopName}
-                      </span>
-                    )}
-                  </div>
+        <div className="sk__grid">
+          {SKILL_CATEGORIES.map((cat, i) => (
+            <article key={cat.id} className="sk-card" style={{ '--i': i } as React.CSSProperties}>
+              <header className="sk-card__head">
+                <span className="sk-card__icon">
+                  <span className="material-symbols-outlined" aria-hidden="true">{cat.icon}</span>
+                </span>
+                <div>
+                  <h3 className="sk-card__name">{cat.name}</h3>
+                  <p className="sk-card__sub">{cat.subtitle}</p>
                 </div>
-
-                {/* Card Body: Interactive Skill Pills */}
-                <div className="pt-3 flex flex-wrap gap-1.5 flex-1 items-start content-start">
-                  {category.skills.map((skill) => {
-                    const isHovered = hoveredSkill === skill.id;
-
-                    return (
-                      <div
-                        key={skill.id}
-                        onMouseEnter={() => setHoveredSkill(skill.id)}
-                        onMouseLeave={() => setHoveredSkill(null)}
-                        className={`relative group/pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high/80 border border-surface-container-highest/70 text-on-surface text-xs font-medium cursor-default transition-all duration-200 hover:scale-105 hover:bg-surface-container-highest ${styles.pillHover}`}
-                      >
-                        <TechIcon name={skill.name} className="w-3.5 h-3.5 shrink-0" />
-                        <span className="text-[11px] font-semibold text-on-surface tracking-tight">
-                          {skill.name}
-                        </span>
-
-                        {/* Tooltip on Hover */}
-                        {isHovered && (
-                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 z-30 pointer-events-none whitespace-nowrap bg-surface-container-lowest text-on-surface px-2 py-0.5 rounded border border-surface-container-highest shadow-lg text-[9px] font-label font-bold flex items-center gap-1">
-                            <span className={`w-1.5 h-1.5 rounded-full ${styles.dotColor}`} />
-                            <span>Lv.{skill.level}</span>
-                            <span className="text-outline">&bull;</span>
-                            <span className="text-secondary">{skill.metricValue}%</span>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Subtitle / Tactical Deck Status Footnote */}
-                <div className="mt-3 pt-2 border-t border-surface-container-highest/30 flex items-center justify-between text-[10px] font-label text-outline/80">
-                  <span className="truncate">{category.subtitle}</span>
-                  <span className="shrink-0 text-primary-container font-semibold ml-2">
-                    {category.tierBadge}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+              </header>
+              <ul className="sk-card__chips">
+                {cat.skills.map((s) => (
+                  <li key={s.id}>{s.name}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </div>
       </div>
     </section>
   );
-};
+}
