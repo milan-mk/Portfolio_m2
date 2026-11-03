@@ -1,0 +1,70 @@
+/* ── Skills: simple grid, drawn-in corner webs, staggered rise on scroll ── */
+.sk {
+  --ink: #1e1e24;
+  --red: #9e2a2b;
+  position: relative;
+  width: 100%;
+  padding: clamp(56px, 9vw, 120px) 16px;
+  background: #fff;
+  color: var(--ink);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.sk *, .sk *::before, .sk *::after { box-sizing: border-box; }
+.sk__inner { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; }
+
+.sk__head { text-align: center; margin-bottom: clamp(28px, 5vw, 56px); }
+.sk__eyebrow { display: inline-block; font: 700 0.72rem 'Space Grotesk', system-ui, sans-serif; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); }
+.sk__title { margin: 4px 0 8px; font-family: var(--font-display, 'Anybody', sans-serif); font-weight: 900; font-size: clamp(2.6rem, 8vw, 5.2rem); line-height: 0.95; letter-spacing: 0.01em; text-transform: uppercase; color: #232742; }
+.sk__sub { margin: 0 auto; max-width: 520px; font-size: 0.95rem; line-height: 1.55; color: #5b5b66; }
+
+/* corner webs: wrapper pivots from its corner (sway), svg is flipped about its own centre */
+.sk__w { position: absolute; width: clamp(100px, 14vw, 210px); aspect-ratio: 1; pointer-events: none; z-index: 0; }
+.sk__w--tl { left: 0; top: 0; transform-origin: 0 0; }
+.sk__w--tr { right: 0; top: 0; transform-origin: 100% 0; }
+.sk__w--bl { left: 0; bottom: 0; transform-origin: 0 100%; }
+.sk__w--br { right: 0; bottom: 0; transform-origin: 100% 100%; }
+.sk__web { display: block; width: 100%; height: 100%; overflow: visible; }
+.sk__w--tr .sk__web { transform: scaleX(-1); }
+.sk__w--bl .sk__web { transform: scaleY(-1); }
+.sk__w--br .sk__web { transform: scale(-1, -1); }
+.sk__web path { fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.sk.is-in .sk__web path { animation: sk-draw 1.4s cubic-bezier(.45, 0, .2, 1) calc(var(--i) * 0.07s) forwards; }
+.sk.is-in .sk__w--tl, .sk.is-in .sk__w--bl { animation: sk-sway-a 7s ease-in-out 2.4s infinite; }
+.sk.is-in .sk__w--tr, .sk.is-in .sk__w--br { animation: sk-sway-b 8s ease-in-out 2.6s infinite; }
+@keyframes sk-draw { to { stroke-dashoffset: 0; } }
+@keyframes sk-sway-a { 50% { rotate: 1.8deg; } }
+@keyframes sk-sway-b { 50% { rotate: -1.8deg; } }
+
+/* cards */
+.sk__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.sk-card {
+  display: flex; flex-direction: column; gap: 16px;
+  padding: 22px 22px 20px;
+  background: #fff;
+  border: 1.5px solid var(--ink);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 var(--ink);
+  opacity: 0; transform: translateY(34px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.sk.is-in .sk-card { animation: sk-rise 0.7s cubic-bezier(.2, .8, .2, 1) calc(0.5s + var(--i) * 0.11s) forwards; }
+@keyframes sk-rise { to { opacity: 1; transform: none; } }
+.sk.is-in .sk-card:hover { transform: translate(-2px, -3px); box-shadow: 6px 7px 0 var(--red); }
+.sk-card__head { display: flex; align-items: center; gap: 14px; }
+.sk-card__icon { display: grid; place-items: center; flex: none; width: 44px; height: 44px; overflow: hidden; line-height: 1; border-radius: 11px; background: var(--ink); color: #fff; }
+.sk-card__icon .material-symbols-outlined { font-size: 24px; }
+.sk-card__name { margin: 0; font-family: var(--font-display, 'Anybody', sans-serif); font-weight: 900; font-size: 1.05rem; line-height: 1.1; letter-spacing: 0.02em; text-transform: uppercase; color: #232742; }
+.sk-card__sub { margin: 3px 0 0; font-size: 0.78rem; line-height: 1.35; color: #6a6a75; }
+.sk-card__chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 0; padding: 0; list-style: none; }
+.sk-card__chips li { padding: 5px 11px; border: 1.5px solid var(--ink); border-radius: 999px; font-size: 0.8rem; font-weight: 600; line-height: 1.2; background: #fff; transition: background 0.2s ease, color 0.2s ease; }
+.sk-card:hover .sk-card__chips li { background: #f6eeee; }
+
+@media (max-width: 900px) { .sk__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .sk__grid { grid-template-columns: 1fr; } .sk__w { width: 90px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .sk__web path { stroke-dashoffset: 0; animation: none !important; }
+  .sk .sk__w { animation: none !important; }
+  .sk .sk-card { opacity: 1; transform: none; animation: none !important; }
+}
