@@ -92,24 +92,17 @@
   user-select: none;
   -webkit-user-drag: none;
   z-index: 3;
+  clip-path: inset(0 0 100% 0);
 }
 
-/* intro: he is lowered in on the thread, then settles into a slow sway */
+/* intro: the character is revealed from the thread downwards like the web, then sways */
+.pj__stage.is-in .pj__art {
+  animation: pj-reveal 1.3s cubic-bezier(.4, .1, .3, 1) 0.1s forwards;
+}
+
 .pj__stage.is-in .pj__swing {
   opacity: 1;
-  animation: pj-lower 1.5s cubic-bezier(.22, 1.25, .36, 1) both, pj-sway 6.5s ease-in-out 1.5s infinite alternate;
-}
-
-@keyframes pj-lower {
-  from {
-    transform: translateY(-120%);
-    opacity: 1;
-  }
-
-  to {
-    transform: none;
-    opacity: 1;
-  }
+  animation: pj-sway 6.5s ease-in-out 1.4s infinite alternate;
 }
 
 @keyframes pj-sway {
@@ -205,10 +198,14 @@
 .pj-board {
   position: absolute;
   padding: 24px;
-  background: #fff;
-  border: 2px solid var(--ink);
+  background-color: #07070a;
+  background-image: url('/images/marvel-spiderweb-bg.webp');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2.5px solid #ffffff;
   border-radius: 16px;
-  box-shadow: 7px 7px 0 var(--ink);
+  box-shadow: 0 0 0 2px #07070a, 8px 8px 0 var(--ink);
   opacity: 0;
 }
 
@@ -247,6 +244,7 @@
   border: 1.5px solid var(--ink);
   border-radius: 12px;
   cursor: pointer;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
   transition: box-shadow 0.2s ease, translate 0.2s ease, background 0.2s ease;
 }
 
@@ -573,7 +571,8 @@
   margin: 0 auto;
   max-width: 800px;
   width: 94.8%;
-  padding: 14px;
+  padding: 16px;
+  background-size: cover;
 }
 
 .pj-board--flow .pj-board__grid {
@@ -597,6 +596,11 @@
 
   .pj__stage .pj__hang {
     animation: none !important;
+  }
+
+  .pj__art {
+    animation: none !important;
+    clip-path: none !important;
   }
 
   .pj__web {
