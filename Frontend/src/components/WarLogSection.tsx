@@ -16,8 +16,8 @@ import './WarLogSection.css';
  */
 
 const ART_W = 765;
-/** Where the web shoots out of his palm (the sway pivots here). */
-const WRIST = { x: 437, y: 485 };
+/** Where the web image fades in over the strands on his hand (the swing pivots here, so the join barely moves). */
+const WRIST = { x: 431.4, y: 546 };
 /** The web artwork: wrist strands, twisted rope, cobweb and eyelets (drawn at the same scale as the strands on his hand, so the lines are just as thin). */
 const WEB_IMG = { x: 262, y: 542, w: 292, h: 285.0 };
 /** Board (the big container). Its top border lines up with the board edge drawn in the web image. */
@@ -99,14 +99,39 @@ const ProjectDetails: React.FC<{ p: ProjectCampaign; onClose: () => void }> = ({
   );
 };
 
-const CardBody: React.FC<{ p: ProjectCampaign }> = ({ p }) => (
-  <>
-    <span className="pj-card__cat">{p.category}</span>
-    <h3 className="pj-card__title">{p.title}</h3>
-    <p className="pj-card__desc">{p.description}</p>
-    <span className="pj-card__more">View details →</span>
-  </>
-);
+const CardBody: React.FC<{ p: ProjectCampaign }> = ({ p }) => {
+  const hasDemo = !!p.demoUrl && p.demoUrl !== '#';
+  return (
+    <>
+      <span className="pj-card__cat">{p.category}</span>
+      <h3 className="pj-card__title">{p.title}</h3>
+      <p className="pj-card__desc">{p.description}</p>
+      <div className="pj-card__cta">
+        <a
+          className={`pj-card__btn pj-card__btn--demo${hasDemo ? '' : ' is-soon'}`}
+          href={hasDemo ? p.demoUrl : undefined}
+          target={hasDemo ? '_blank' : undefined}
+          rel="noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          aria-disabled={!hasDemo}
+        >
+          {hasDemo ? 'Live demo' : 'Demo soon'}
+        </a>
+        {p.sourceUrl && (
+          <a
+            className="pj-card__btn pj-card__btn--code"
+            href={p.sourceUrl}
+            target="_blank"
+            rel="noreferrer"
+            onClick={(e) => e.stopPropagation()}
+          >
+            Source code
+          </a>
+        )}
+      </div>
+    </>
+  );
+};
 
 export const WarLogSection: React.FC = () => {
   const projects = CAMPAIGN_PROJECTS;
@@ -162,9 +187,23 @@ export const WarLogSection: React.FC = () => {
   const board = (list: ProjectCampaign[]) => (
     <div className="pj-board__grid">
       {list.map((p, i) => (
-        <button key={p.id} type="button" className="pj-card" style={style({ '--i': i })} onClick={() => setActive(p)} aria-label={`${p.title}, open details`}>
+        <article
+          key={p.id}
+          className="pj-card"
+          style={style({ '--i': i })}
+          onClick={() => setActive(p)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setActive(p);
+            }
+          }}
+          tabIndex={0}
+          role="button"
+          aria-label={`${p.title}, open details`}
+        >
           <CardBody p={p} />
-        </button>
+        </article>
       ))}
     </div>
   );
