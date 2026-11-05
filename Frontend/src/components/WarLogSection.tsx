@@ -9,21 +9,21 @@ import './WarLogSection.css';
  * shoots from his palm and flares out into a cobweb (a drawn image), and holds one big board with the project boxes
  * inside. The board sways gently. Click a box to open its details in a pop-up.
  *
- * - Artwork:  /public/images/projects-hang-top.webp (765 x 565, the character only)
- * - Web:      /public/images/projects-web.webp (rope + cobweb, drawn artwork)
+ * - Artwork:  /public/images/projects-hang-top.webp (1024 x 765 source, shown 765 wide, the character only)
+ * - Web:      /public/images/projects-web.webp (rope + cobweb; continues the strands drawn on his hand)
  * - Content:  CAMPAIGN_PROJECTS in data/portfolioData.ts (the first four are shown on the board)
  * - Everything is laid out in "art" pixels (765 wide) and scaled to the stage width.
  */
 
 const ART_W = 765;
 /** Where the web shoots out of his palm (the sway pivots here). */
-const WRIST = { x: 431, y: 516 };
-/** The web artwork: wrist strands, twisted rope, cobweb and eyelets (314 x 625 art px; it only holds the middle of the board). */
-const WEB_IMG = { x: 240.4, y: 536, w: 314, h: 625.2 };
+const WRIST = { x: 437, y: 485 };
+/** The web artwork: wrist strands, twisted rope, cobweb and eyelets (drawn at the same scale as the strands on his hand, so the lines are just as thin). */
+const WEB_IMG = { x: 262, y: 542, w: 292, h: 285.0 };
 /** Board (the big container). Its top border lines up with the board edge drawn in the web image. */
-const BOARD = { x: 45, y: 1104, w: 700, h: 592 };
+const BOARD = { x: 57, y: 817, w: 700, h: 592 };
 const ART_H = BOARD.y + BOARD.h + 36;
-const ART_TOP_H = 565;
+const ART_TOP_H = 571.5;
 const PIVOT = '368px 0px';
 const WIDE_MIN = 560;
 

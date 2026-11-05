@@ -25,7 +25,7 @@
 .pj__stage.is-narrow { overflow: visible; }
 .pj__scale { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
 .pj__swing { position: absolute; inset: 0; opacity: 0; will-change: transform; }
-.pj__art { position: absolute; left: 0; top: 0; width: 765px; height: 565px; user-select: none; -webkit-user-drag: none; z-index: 3; }
+.pj__art { position: absolute; left: 0; top: 0; width: 765px; height: 571.5px; user-select: none; -webkit-user-drag: none; z-index: 3; }
 
 /* intro: he is lowered in on the thread, then settles into a slow sway */
 .pj__stage.is-in .pj__swing {
@@ -37,12 +37,23 @@
 
 /* ── The web + the board swing together from the wrist ──── */
 .pj__hang { position: absolute; inset: 0; }
-.pj__stage.is-in .pj__hang { animation: pj-hang 5.2s ease-in-out 3.2s infinite alternate; }
-@keyframes pj-hang { from { transform: rotate(-1.3deg); } to { transform: rotate(1.3deg); } }
+.pj__stage.is-in .pj__hang {
+  animation: pj-hang-in 3.4s ease-in-out 2.3s both, pj-hang-loop 5.2s ease-in-out 5.7s infinite alternate;
+}
+/* the whole hanging board is knocked into a swing when it lands, then settles into a slow sway */
+@keyframes pj-hang-in {
+  0% { transform: rotate(0deg); }
+  15% { transform: rotate(3.4deg); }
+  35% { transform: rotate(-2.6deg); }
+  55% { transform: rotate(1.9deg); }
+  75% { transform: rotate(-1.5deg); }
+  100% { transform: rotate(1.3deg); }
+}
+@keyframes pj-hang-loop { from { transform: rotate(1.3deg); } to { transform: rotate(-1.3deg); } }
 .pj__web { position: absolute; max-width: none; pointer-events: none; user-select: none; z-index: 2; }
 /* the web artwork is revealed from the hand downwards */
 .pj__web { clip-path: inset(0 0 100% 0); }
-.pj__stage.is-in .pj__web { animation: pj-reveal 2.1s cubic-bezier(.45, .1, .35, 1) 1.2s forwards; }
+.pj__stage.is-in .pj__web { animation: pj-reveal 1.4s cubic-bezier(.4, .1, .3, 1) 1.0s forwards; }
 @keyframes pj-reveal { to { clip-path: inset(0 0 0 0); } }
 @keyframes pj-draw { to { stroke-dashoffset: 0; } }
 @keyframes pj-fade-in { to { opacity: 1; } }
@@ -57,7 +68,7 @@
   box-shadow: 7px 7px 0 var(--ink);
   opacity: 0;
 }
-.pj__stage.is-in .pj-board { animation: pj-board-in 0.7s cubic-bezier(.2, .9, .3, 1.1) 3.3s both; }
+.pj__stage.is-in .pj-board { animation: pj-board-in 0.8s cubic-bezier(.2, .9, .3, 1.15) 2.2s both; }
 @keyframes pj-board-in { from { opacity: 0; transform: translateY(-26px) scale(0.97); } to { opacity: 1; transform: none; } }
 .pj-board__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: 100%; }
 
