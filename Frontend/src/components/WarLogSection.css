@@ -92,13 +92,40 @@
   user-select: none;
   -webkit-user-drag: none;
   z-index: 3;
-  clip-path: inset(0 0 100% 0);
+  max-width: none;
 }
 
-/* intro: the character is revealed from the thread downwards like the web, then sways */
-.pj__stage.is-in .pj__art {
-  animation: pj-reveal 1.3s cubic-bezier(.4, .1, .3, 1) 0.1s forwards;
+/* ── Intro: the same diagonal pencil sweep as the hero character ──
+   white shape first, then the colours, with the outline sweeping on top.
+   The natural (un-animated) state is the finished picture.            */
+@property --p { syntax: '<percentage>'; inherits: false; initial-value: 130%; }
+@property --rt { syntax: '<percentage>'; inherits: false; initial-value: 150%; }
+@keyframes pj-sweep { from { --p: -20%; } to { --p: 130%; } }
+
+.pj__art--white {
+  filter: brightness(0) invert(1);
+  --p: 130%;
+  -webkit-mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 18%));
+          mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 18%));
 }
+.pj__art--col {
+  --p: 130%;
+  -webkit-mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 16%));
+          mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 16%));
+}
+.pj__art--line {
+  z-index: 3;
+  --p: 130%;
+  -webkit-mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 14%));
+          mask-image: linear-gradient(170deg, #000 var(--p), transparent calc(var(--p) + 14%));
+}
+.pj__stage.is-in .pj__art--white {
+  animation: pj-sweep 2.0s cubic-bezier(.4, 0, .2, 1) 0.1s backwards, pj-white-out 0.3s ease-out 2.1s forwards;
+}
+/* the white shape only exists for the draw-in; it is gone once the colours are in, so nothing is tinted */
+@keyframes pj-white-out { to { opacity: 0; } }
+.pj__stage.is-in .pj__art--line  { animation: pj-sweep 2.2s cubic-bezier(.4, 0, .2, 1) 0.4s backwards; }
+.pj__stage.is-in .pj__art--col   { animation: pj-sweep 2.0s cubic-bezier(.4, 0, .2, 1) 0.8s backwards; }
 
 .pj__stage.is-in .pj__swing {
   opacity: 1;
@@ -167,19 +194,19 @@
   z-index: 2;
 }
 
-/* the web artwork is revealed from the hand downwards */
+/* the web is drawn out of his palm (radial reveal from the wrist, like the hero's held thread) */
 .pj__web {
-  clip-path: inset(0 0 100% 0);
+  --rt: 150%;
+  -webkit-mask-image: radial-gradient(circle at 58% 1.5%, #000 var(--rt), transparent calc(var(--rt) + 5%));
+          mask-image: radial-gradient(circle at 58% 1.5%, #000 var(--rt), transparent calc(var(--rt) + 5%));
 }
 
 .pj__stage.is-in .pj__web {
-  animation: pj-reveal 1.4s cubic-bezier(.4, .1, .3, 1) 1.0s forwards;
+  animation: pj-reach 2.4s cubic-bezier(.45, .1, .3, 1) 1.6s backwards;
 }
 
-@keyframes pj-reveal {
-  to {
-    clip-path: inset(0 0 0 0);
-  }
+@keyframes pj-reach {
+  from { --rt: -6%; }
 }
 
 @keyframes pj-draw {
