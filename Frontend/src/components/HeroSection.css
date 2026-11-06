@@ -197,7 +197,20 @@
 }
 .hc__char:focus-visible { outline: 2px dashed var(--thread-red); outline-offset: -4px; }
 
-.hc__egg { z-index: 1; cursor: help; }
+.hc__egg {
+  z-index: 10;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 3px;
+  transition: transform 0.2s ease, outline-color 0.2s ease;
+}
+.hc__egg:hover { transform: scale(1.05) rotate(-2deg); }
+.hc__egg:focus-visible { outline-color: var(--thread-red); }
+.hc__egg:active { transform: scale(0.97); }
 
 /* tooltips (counter-rotated so text stays level) */
 .hc__tip {
@@ -221,7 +234,8 @@
 .hc__spot:focus-visible .hc__tip,
 .hc__char:hover .hc__tip,
 .hc__char:focus-visible .hc__tip,
-.hc__egg:hover .hc__tip { opacity: 1; }
+.hc__egg:hover .hc__tip,
+.hc__egg:focus-visible .hc__tip { opacity: 1; }
 
 /* ── Card captions (live text printed on the paper cards) ── */
 .hc__lab {
