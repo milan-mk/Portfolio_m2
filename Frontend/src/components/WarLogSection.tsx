@@ -226,7 +226,10 @@ export const WarLogSection: React.FC = () => {
         >
           <div className="pj__scale" style={style({ width: ART_W, height: wide ? ART_H : BOARD.y, transform: `scale(${scale})` })}>
             <div className="pj__swing" style={style({ transformOrigin: PIVOT })}>
-              <img className="pj__art" src="/images/projects-hang-top.webp" width={ART_W} height={ART_TOP_H} alt="" aria-hidden="true" draggable={false} />
+              {/* drawn in like the hero character: white shape, then colour, with the outline on top */}
+              <img className="pj__art pj__art--white" src="/images/projects-hang-top.webp" width={ART_W} height={ART_TOP_H} alt="" aria-hidden="true" draggable={false} />
+              <img className="pj__art pj__art--col" src="/images/projects-hang-top.webp" width={ART_W} height={ART_TOP_H} alt="" aria-hidden="true" draggable={false} />
+              <img className="pj__art pj__art--line" src="/images/projects-hang-line.webp" width={ART_W} height={ART_TOP_H} alt="" aria-hidden="true" draggable={false} />
 
               {/* the web + board pivot from the wrist */}
               <div className="pj__hang" style={style({ transformOrigin: `${WRIST.x}px ${WRIST.y}px` })}>
