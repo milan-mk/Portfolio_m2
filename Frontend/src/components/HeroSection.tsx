@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CHIEF_INFO } from '../data/portfolioData';
+import { toggleTheme, useTheme } from '../utils/theme';
 import './HeroSection.css';
 
 /**
@@ -145,6 +146,7 @@ const place = (s: Pick<Skill, 'l' | 't' | 'w' | 'h' | 'rot'>) =>
 const go = (href: string) => document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
 
 export const HeroSection: React.FC = () => {
+  const theme = useTheme();
   const [open, setOpen] = useState<Skill | null>(null);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [animKey, setAnimKey] = useState(0);
@@ -230,10 +232,17 @@ export const HeroSection: React.FC = () => {
         </div>
 
 
-        {/* Smiley note easter egg */}
-        <div className="hc__egg" style={place({ l: 18.8, t: 3.5, w: 9.6, h: 18.5, rot: 0 })} aria-hidden="true">
-          <span className="hc__tip">Hi, I’m {CHIEF_INFO.name.split(' ')[0]} 👋</span>
-        </div>
+        {/* Paper note on the wall = dark / light mode switch */}
+        <button
+          type="button"
+          className="hc__egg"
+          style={place({ l: 18.8, t: 3.5, w: 9.6, h: 18.5, rot: 0 })}
+          onClick={toggleTheme}
+          aria-pressed={theme === 'dark'}
+          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          <span className="hc__tip">{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span>
+        </button>
 
         {/* Character -> About */}
         <button
