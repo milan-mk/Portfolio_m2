@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { AboutSection } from './components/AboutSection';
 import { BarracksSection } from './components/BarracksSection';
 import { Footer } from './components/Footer';
 import { HeroSection } from './components/HeroSection';
@@ -44,7 +45,7 @@ export const App: React.FC = () => {
     document.addEventListener('click', handleGlobalClick);
 
     // High-performance IntersectionObserver for Citadel HUD scroll spy (zero layout thrashing)
-    const sectionIds = ['citadel-base', 'army-camps', 'war-log', 'clan-recruitment'];
+    const sectionIds = ['citadel-base', 'about', 'army-camps', 'war-log', 'clan-recruitment'];
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -79,6 +80,11 @@ export const App: React.FC = () => {
       <main className="relative z-10 w-full pt-0 pb-12 sm:pb-16 flex-grow flex flex-col gap-8 sm:gap-14 lg:gap-16">
         {/* Village Base Town Hall & Chief Narrative (Above fold, instant load) */}
         <HeroSection />
+
+        {/* About: character on one side, short intro on the other */}
+        <ScrollReveal yOffset={28} once={false}>
+          <AboutSection />
+        </ScrollReveal>
 
         {/* Barracks & Arcane Forge (Skill Matrix) */}
         <ScrollReveal yOffset={28} once={false}>
