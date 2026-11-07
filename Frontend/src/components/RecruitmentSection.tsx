@@ -3,6 +3,18 @@ import { CHIEF_INFO, DIRECT_OUTPOSTS } from '../data/portfolioData';
 import { SocialIcon } from './SocialIcon';
 import { sendRecruitmentMessage } from '../utils/api';
 import { villageAudio } from '../utils/soundEffects';
+import './RecruitmentSection.css';
+
+const MISSIONS: { value: string; label: string }[] = [
+  { value: 'Full-time SDE', label: 'Full-time SDE' },
+  { value: 'Frontend Engineer', label: 'Frontend' },
+  { value: 'Backend Engineer', label: 'Backend' },
+  { value: 'Full-Stack Developer', label: 'Full-Stack' },
+  { value: 'Internship / Trainee', label: 'Internship' },
+  { value: 'Freelance / Contract', label: 'Freelance' },
+  { value: 'General Missive', label: 'Just saying hi' },
+];
+
 
 export const RecruitmentSection: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -49,10 +61,9 @@ export const RecruitmentSection: React.FC = () => {
   };
 
   return (
-    <section id="clan-recruitment" className="w-full px-4 sm:px-6 py-8 sm:py-12 lg:py-14">
-      <div className="max-w-[1040px] mx-auto">
-        {/* wrapper so the character can sit on the card's top-right corner without being clipped */}
-        <div className="relative">
+    <section id="clan-recruitment" className="rc">
+      <div className="rc__wrap">
+        {/* the character sits on the frame's top-right corner */}
         <img
           src="/images/recruit-sit.webp"
           alt=""
@@ -60,219 +71,161 @@ export const RecruitmentSection: React.FC = () => {
           draggable={false}
           width={300}
           height={537}
-          className="absolute z-20 pointer-events-none select-none bottom-full w-[max(96px,17.8%)] h-auto right-[-6.7%] max-sm:right-0 translate-y-[54%]"
+          className="rc__sit"
         />
-        <div className="relative bg-surface-container rounded-xl p-4 sm:p-6 flex flex-col gap-4 shadow-[0_12px_24px_rgba(0,0,0,0.7)] border border-surface-container-highest/70 overflow-hidden">
-          {/* Runic Border Trim Highlight */}
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-container/20 via-primary-container to-primary-container/20"></div>
 
-          {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-1 max-sm:pr-[96px] sm:pr-[13%]">
-            <div>
-              <div className="flex items-center gap-1.5 text-primary-container font-label text-[11px] uppercase tracking-widest font-bold">
-                <span className="material-symbols-outlined text-[16px]">mark_email_read</span>
-                Guild Recruitment Outpost
-              </div>
-              <h2 className="font-display text-xl sm:text-2xl lg:text-[28px] font-extrabold uppercase text-on-surface tracking-tight mt-0.5">
-                Send a Guild Missive to {CHIEF_INFO.name}
-              </h2>
-            </div>
-            <div className="flex items-center gap-1.5 bg-surface-container-lowest px-2.5 py-1 rounded shadow-[0_2px_0_#050811] border border-surface-container-high/40 self-start sm:self-auto">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span className="font-label text-[10px] uppercase text-emerald-400 font-bold tracking-wider">
-                0 Days Deployment Time • Ready to Build
-              </span>
-            </div>
-          </div>
+        <div className="rc-rig">
+          <div className="rc-rig__tab"><i aria-hidden="true" /> Signal Status</div>
+          <img className="rc-rig__web rc-rig__web--tl" src="/images/skill-web-tl.webp" alt="" aria-hidden="true" draggable={false} />
+          <img className="rc-rig__web rc-rig__web--bl" src="/images/skill-web-bl.webp" alt="" aria-hidden="true" draggable={false} />
+          <img className="rc-rig__web rc-rig__web--br" src="/images/skill-web-br.webp" alt="" aria-hidden="true" draggable={false} />
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
-            {/* Left Column: Parchment Form */}
-            <div className="lg:col-span-7 bg-surface-container-lowest p-3.5 sm:p-5 rounded-xl shadow-[inset_0_4px_12px_rgba(0,0,0,0.8),0_4px_0_#050811] border border-surface-container-high/60 flex flex-col gap-3">
-              <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {/* Name */}
-                  <div className="flex flex-col gap-1">
-                    <label className="font-label text-[10px] uppercase tracking-wider text-outline font-bold">
-                      Chief Name / Recruiter
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="e.g. Chief Sarah (Tech Lead)"
-                      disabled={loading}
-                      className="w-full bg-surface-container p-2 rounded text-on-surface placeholder:text-outline font-body text-xs sm:text-sm border border-surface-container-highest focus:outline-none focus:ring-1.5 focus:ring-primary-container transition-all disabled:opacity-60"
-                    />
-                  </div>
-
-                  {/* Email */}
-                  <div className="flex flex-col gap-1">
-                    <label className="font-label text-[10px] uppercase tracking-wider text-outline font-bold">
-                      Carrier Pigeon / Email
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="recruiter@clanengineering.io"
-                      disabled={loading}
-                      className="w-full bg-surface-container p-2 rounded text-on-surface placeholder:text-outline font-body text-xs sm:text-sm border border-surface-container-highest focus:outline-none focus:ring-1.5 focus:ring-primary-container transition-all disabled:opacity-60"
-                    />
-                  </div>
-                </div>
-
-                {/* Role / Clan Mission Type */}
-                <div className="flex flex-col gap-1">
-                  <label className="font-label text-[10px] uppercase tracking-wider text-outline font-bold">
-                    Clan Mission / Role Offering
-                  </label>
-                  <select
-                    value={formData.role}
-                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                    disabled={loading}
-                    className="w-full bg-surface-container p-2 rounded text-on-surface font-body text-xs sm:text-sm border border-surface-container-highest focus:outline-none focus:ring-1.5 focus:ring-primary-container transition-all cursor-pointer disabled:opacity-60"
-                  >
-                    <option value="Full-time SDE">Full-time Software Development Engineer</option>
-                    <option value="Frontend Engineer">Frontend Engineer (React / Next.js)</option>
-                    <option value="Backend Engineer">Backend Engineer (Node / Python / APIs)</option>
-                    <option value="Full-Stack Developer">Full-Stack Clan Warrior</option>
-                    <option value="Internship / Trainee">Software Engineering Internship</option>
-                    <option value="Freelance / Contract">Clan Contract / Freelance Project</option>
-                    <option value="General Missive">General Discussion / Networking</option>
-                  </select>
-                </div>
-
-                {/* Battle Orders / Message */}
-                <div className="flex flex-col gap-1">
-                  <label className="font-label text-[10px] uppercase tracking-wider text-outline font-bold">
-                    Battle Orders (Project or Team Details)
-                  </label>
-                  <textarea
-                    required
-                    rows={3}
-                    value={formData.orders}
-                    onChange={(e) => setFormData({ ...formData, orders: e.target.value })}
-                    placeholder="Tell me about your product fortress, tech stack, and how you want me to contribute..."
-                    disabled={loading}
-                    className="w-full bg-surface-container p-2 rounded text-on-surface placeholder:text-outline font-body text-xs sm:text-sm border border-surface-container-highest focus:outline-none focus:ring-1.5 focus:ring-primary-container transition-all resize-none disabled:opacity-60"
-                  ></textarea>
-                </div>
-
-                {/* Error Banner */}
-                {errorMessage && (
-                  <div className="p-2.5 rounded bg-red-950/50 text-red-300 text-xs font-body border border-red-800/60 flex items-start gap-2 animate-in fade-in">
-                    <span className="material-symbols-outlined text-[16px] text-red-400 mt-0.5 shrink-0">error</span>
-                    <div className="flex-1">
-                      <p className="font-bold text-red-200">Dispatch Interrupted</p>
-                      <p className="mt-0.5 text-red-300/90">{errorMessage}</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setErrorMessage(null)}
-                      className="text-red-400 hover:text-red-200 text-xs font-bold cursor-pointer"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                )}
-
-                {/* Success Banner */}
-                {submitted && (
-                  <div className="p-3 rounded bg-primary-container/15 text-primary-container text-xs font-body border border-primary-container/30 animate-in fade-in zoom-in-95 flex items-start gap-2">
-                    <span className="material-symbols-outlined text-[18px] text-primary-container shrink-0 mt-0.5">verified</span>
-                    <div className="flex-1">
-                      <p className="font-bold text-sm">🎉 Battle Scroll Dispatched to MongoDB Fortress!</p>
-                      <p className="mt-0.5 text-on-surface-variant text-[11px]">
-                        Chief {CHIEF_INFO.name} has safely logged your recruitment scroll and will reply within 24 hours.
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setSubmitted(false)}
-                      className="text-primary-container/80 hover:text-primary-container text-xs font-bold cursor-pointer"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                )}
-
-                {/* Send Button */}
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="btn-tactile-gold w-full py-2.5 rounded-lg font-display font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-[0_3px_0_#050811] disabled:opacity-60 disabled:cursor-not-allowed transition-all"
-                >
-                  {loading ? (
-                    <>
-                      <span className="inline-block w-4 h-4 border-2 border-stone-900 border-t-transparent rounded-full animate-spin"></span>
-                      <span>Dispatching Battle Scroll...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span className="material-symbols-outlined text-[18px] material-symbols-fill">send</span>
-                      <span>Send Clan Invitation (Dispatch to Fortress)</span>
-                    </>
-                  )}
-                </button>
-              </form>
+          <div className="rc-rig__panel">
+            <div className="rc-rig__bar">
+              <span className="rc-rig__live"><i aria-hidden="true" />WEB-NET FREQ // 442.8 MHz &bull; READY FOR DISPATCH</span>
+              <span className="rc-rig__meta">REPLY WINDOW: 24H</span>
             </div>
 
-            {/* Right Column: Direct Channels & Resume Plaque */}
-            <div className="lg:col-span-5 flex flex-col justify-between gap-3 sm:gap-4">
-              <div className="bg-surface-container-lowest p-3.5 sm:p-4 rounded-xl shadow-[inset_0_4px_12px_rgba(0,0,0,0.8),0_4px_0_#050811] border border-surface-container-high/60 flex flex-col gap-2.5">
-                <span className="font-label text-[10px] uppercase tracking-wider text-primary font-bold">
-                  Fast-Troop Direct Outposts
-                </span>
-                <div className="flex flex-col gap-1.5">
-                  {DIRECT_OUTPOSTS.map((outpost, idx) => (
-                    <a
-                      key={idx}
-                      href={outpost.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex items-center justify-between p-1.5 px-2.5 rounded bg-surface-container hover:bg-surface-container-high transition-colors border border-surface-container-highest/40 group"
-                    >
-                      <span className="flex items-center gap-2 text-on-surface font-body text-xs group-hover:text-primary transition-colors">
-                        <span className="text-primary-container group-hover:scale-110 transition-transform flex items-center justify-center w-4 h-4 shrink-0">
-                          <SocialIcon platform={outpost.name} className="w-3.5 h-3.5" />
-                        </span>
-                        {outpost.name}
-                      </span>
-                      <span className="font-label text-[10px] text-outline font-bold group-hover:text-on-surface transition-colors">
-                        {outpost.handle}
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {/* Resume Download Callout Plaque */}
-              <div className="bg-surface-container-high p-3.5 sm:p-4 rounded-xl shadow-[0_4px_0_#050811] border border-surface-container-highest flex flex-col gap-2">
-                <div className="flex items-center justify-between">
-                  <span className="font-display font-bold text-sm text-primary uppercase">
-                    Chief Scroll (Resume)
-                  </span>
-                  <span className="font-label text-[9px] text-tertiary bg-surface-container-lowest px-1.5 py-0.5 rounded font-bold border border-tertiary/30">
-                    PDF V2025
-                  </span>
-                </div>
-                <p className="font-body text-xs text-on-surface-variant leading-relaxed">
-                  Full technical specification, coursework, project metrics, and academic references formatted for ATS scans.
+            <div className="rc-rig__body">
+              {/* ── Left: the form ── */}
+              <div className="rc-card rc-form">
+                <h2 className="rc-form__title">Shoot a Missive</h2>
+                <p className="rc-form__sub">
+                  Leave coordinates for software engineering roles, hackathon collabs, or ML pipelines.
                 </p>
-                <a
-                  href="/resume.pdf"
-                  download
-                  className="btn-tactile-stone mt-1 w-full py-2 rounded-lg font-display font-bold text-xs uppercase text-center flex items-center justify-center gap-1.5 cursor-pointer shadow-[0_3px_0_#050811]"
-                >
-                  <span className="material-symbols-outlined text-[16px]">download</span>
-                  <span>Download Resume Scroll</span>
-                </a>
+
+                <form onSubmit={handleSubmit} className="rc-form__f">
+                  <div className="rc-form__row">
+                    <label className="rc-field">
+                      <span>Callsign // Recruiter name</span>
+                      <input
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="e.g. Sarah Jenkins (Tech Lead)"
+                        disabled={loading}
+                      />
+                    </label>
+                    <label className="rc-field">
+                      <span>Return frequency // Email</span>
+                      <input
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="recruiter@engineering.io"
+                        disabled={loading}
+                      />
+                    </label>
+                  </div>
+
+                  <fieldset className="rc-field rc-missions">
+                    <legend>Mission type</legend>
+                    <div className="rc-chips" role="radiogroup" aria-label="Mission type">
+                      {MISSIONS.map((m) => (
+                        <button
+                          key={m.value}
+                          type="button"
+                          role="radio"
+                          aria-checked={formData.role === m.value}
+                          className={`rc-chip${formData.role === m.value ? ' is-on' : ''}`}
+                          onClick={() => setFormData({ ...formData, role: m.value })}
+                          disabled={loading}
+                        >
+                          {m.label}
+                        </button>
+                      ))}
+                    </div>
+                  </fieldset>
+
+                  <label className="rc-field">
+                    <span>Transmission content</span>
+                    <textarea
+                      required
+                      rows={4}
+                      value={formData.orders}
+                      onChange={(e) => setFormData({ ...formData, orders: e.target.value })}
+                      placeholder="Outline your stack, timeline, and problem statement. Tell me how you'd like me to contribute..."
+                      disabled={loading}
+                    />
+                  </label>
+
+                  {errorMessage && (
+                    <div className="rc-note rc-note--err" role="alert">
+                      <span className="material-symbols-outlined" aria-hidden="true">error</span>
+                      <div>
+                        <b>Transmission interrupted</b>
+                        <p>{errorMessage}</p>
+                      </div>
+                      <button type="button" onClick={() => setErrorMessage(null)} aria-label="Dismiss">✕</button>
+                    </div>
+                  )}
+
+                  {submitted && (
+                    <div className="rc-note rc-note--ok" role="status">
+                      <span className="material-symbols-outlined" aria-hidden="true">verified</span>
+                      <div>
+                        <b>Transmission sent!</b>
+                        <p>{CHIEF_INFO.name} has your message and will reply within 24 hours.</p>
+                      </div>
+                      <button type="button" onClick={() => setSubmitted(false)} aria-label="Dismiss">✕</button>
+                    </div>
+                  )}
+
+                  <button type="submit" disabled={loading} className="rc-launch">
+                    {loading ? (
+                      <>
+                        <span className="rc-spin" aria-hidden="true" />
+                        <span>Transmitting...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="material-symbols-outlined" aria-hidden="true">send</span>
+                        <span>Launch web transmission</span>
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+
+              {/* ── Right: direct channels + resume ── */}
+              <div className="rc-side">
+                <div className="rc-card rc-relays">
+                  <span className="rc-relays__tab">Direct frequencies</span>
+                  <p className="rc-relays__label">Fast-travel relays</p>
+                  <div className="rc-relays__grid">
+                    {DIRECT_OUTPOSTS.map((o) => (
+                      <a key={o.name} href={o.url} target="_blank" rel="noreferrer" className="rc-relay">
+                        <span className="rc-relay__ico"><SocialIcon platform={o.name} className="w-4 h-4" /></span>
+                        <span className="rc-relay__txt">
+                          <b>{o.name}</b>
+                          <small>{o.handle.replace(/\s*→\s*$/, '')}</small>
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rc-card rc-resume">
+                  <span className="rc-resume__ribbon" aria-hidden="true">PDF</span>
+                  <h3 className="rc-resume__title">Chief Scroll (Resume)</h3>
+                  <div className="rc-resume__row">
+                    <div className="rc-resume__doc" aria-hidden="true">
+                      <i /><i /><i /><i />
+                    </div>
+                    <p>
+                      Full technical specification, coursework, project metrics and academic references, formatted for ATS scans.
+                    </p>
+                  </div>
+                  <a href="/resume.pdf" download className="rc-resume__btn">
+                    <span className="material-symbols-outlined" aria-hidden="true">download</span>
+                    <span>Get verified dossier</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
     </section>
