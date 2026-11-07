@@ -118,7 +118,7 @@ html[data-theme='dark'] .pj-modal__badge,
 html[data-theme='dark'] .pj-modal__stats dt { color: var(--dk-muted); }
 
 /* hanging character + rope/web: same halo on both so the join stays seamless */
-html[data-theme='dark'] .pj__art--col,
+html[data-theme='dark'] .pj__art,
 html[data-theme='dark'] .pj__web {
   filter: drop-shadow(0 0 0.7px #fff) drop-shadow(0 0 0.7px #fff) drop-shadow(0 0 1.6px rgba(255, 255, 255, 0.6));
 }

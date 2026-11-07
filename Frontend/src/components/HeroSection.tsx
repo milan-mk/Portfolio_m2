@@ -38,25 +38,19 @@ interface Skill {
   h: number;
   rot: number;
   pill?: boolean;
+  /** target section anchor if present on the page */
+  section?: string;
   work: WorkItem[];
 }
 
-/**
- * EDIT YOUR SKILLS HERE.
- * - `label`: the text printed on the paper card (use short names, 1-3 words; it is drawn as live text)
- * - `description`: shown in the popup when the card is clicked
- * - `work`: your projects for that skill (title, tag, optional link)
- * You can rename the cards freely; to add or remove a card you also need to move/copy a hotspot box (l, t, w, h, rot).
- *
- * Add your real work here. Categories with no items show a "get in touch" state
- * instead of made-up numbers.
- */
+/** Interactive artwork hotspot cards mapped to positions on the illustration */
 const SKILLS: Skill[] = [
   {
-    id: 'video-editing',
+    id: 'projects',
     label: 'Projects',
-    description: 'High-retention short-form reels, commercial cuts, motion graphics and colour grading.',
+    description: 'Explore full-stack applications, interactive experiences, and creative engineering projects.',
     l: 13.7, t: 54.4, w: 9.3, h: 9.7, rot: -4,
+    section: '#war-log',
     work: [],
   },
   {
@@ -67,19 +61,21 @@ const SKILLS: Skill[] = [
     work: [],
   },
   {
-    id: 'graphic-design',
+    id: 'cv',
     label: 'summon cv',
-    description: 'Bold poster typography, key visuals and social media design systems.',
+    description: 'Engineering experience, credentials, resume, and direct collaboration channels.',
     l: 68.75, t: 57.3, w: 9.6, h: 9.4, rot: 2,
+    section: '#clan-recruitment',
     work: [],
   },
   {
-    id: 'design',
+    id: 'skills',
     label: 'SKILLS',
-    description: 'Interactive web experiences, landing pages and visual storytelling.',
+    description: 'Technical toolkit, frameworks, databases, and architectural proficiencies.',
     l: 82.1, t: 54.7, w: 8.4, h: 7.6, rot: 12,
     pill: true,
-    work: [{ title: 'This interactive portfolio', tag: 'React · TypeScript · Tailwind', href: '#citadel-base' }],
+    section: '#army-camps',
+    work: [],
   },
   {
     id: 'brand-creative',
@@ -202,6 +198,15 @@ export const HeroSection: React.FC = () => {
     };
   }, [overlay]);
 
+  const handleSkillClick = (s: Skill, e: React.MouseEvent) => {
+    if (s.section) {
+      e.preventDefault();
+      go(s.section);
+    } else {
+      setOpen(s);
+    }
+  };
+
   return (
     <section id="citadel-base" ref={heroRef} className="hero relative w-full p-0">
       <div key={animKey} className="hc" role="group" aria-label={`${CHIEF_INFO.name} interactive portfolio hero`}>
@@ -231,7 +236,6 @@ export const HeroSection: React.FC = () => {
           </svg>
         </div>
 
-
         {/* Paper note on the wall = dark / light mode switch */}
         <button
           type="button"
@@ -256,32 +260,37 @@ export const HeroSection: React.FC = () => {
 
         {/* Skill cards */}
         {SKILLS.map((s, i) => (
-          <button
+          <a
             key={s.id}
-            type="button"
+            href={s.section ?? '#'}
             className={`hc__spot${s.pill ? ' hc__spot--pill' : ''}`}
             style={{ ...place(s), '--i': i } as React.CSSProperties}
-            onClick={() => setOpen(s)}
-            aria-label={`View ${s.label} work`}
+            onClick={(e) => handleSkillClick(s, e)}
+            aria-label={s.section ? `Go to ${s.label} section` : `Explore ${s.label}`}
           >
             <span className={`hc__lab${s.pill ? ' hc__lab--pill' : ''}`} style={css({ '--n': Math.max(...s.label.split(' ').map((w) => w.length)) })}>
               {s.label}
             </span>
-            <span className="hc__tip">Click to explore {s.label.toLowerCase()}</span>
-          </button>
+            <span className="hc__tip">{s.section ? `Go to ${s.label.toLowerCase()}` : `Click to explore ${s.label.toLowerCase()}`}</span>
+          </a>
         ))}
       </div>
 
       {/* Tappable chips for phones (the cards on the art are small there) */}
       <div className="hc-chips" aria-label="Skill categories">
         {SKILLS.map((s) => (
-          <button key={s.id} type="button" className="hc-chip" onClick={() => setOpen(s)}>
+          <a
+            key={s.id}
+            href={s.section ?? '#'}
+            className="hc-chip"
+            onClick={(e) => handleSkillClick(s, e)}
+          >
             {s.label}
-          </button>
+          </a>
         ))}
       </div>
 
-      {/* Intro strip: name, bio, CTAs (existing anchors preserved) */}
+      {/* Intro strip: name, bio, and CTAs directing to Projects and Skills */}
       <div className="hc-strip">
         <div className="hc-strip__text">
           <p className="hc-strip__name">{CHIEF_INFO.name}</p>
@@ -291,8 +300,8 @@ export const HeroSection: React.FC = () => {
           <a href="#war-log" className="hc-btn hc-btn--red">
             <span className="material-symbols-outlined text-[18px]">explore</span> View Projects
           </a>
-          <a href="#clan-recruitment" className="hc-btn hc-btn--ghost">
-            <span className="material-symbols-outlined text-[18px]">description</span> Resume &amp; Contact
+          <a href="#army-camps" className="hc-btn hc-btn--ghost">
+            <span className="material-symbols-outlined text-[18px]">build</span> View Skills
           </a>
         </div>
       </div>
@@ -334,17 +343,17 @@ export const HeroSection: React.FC = () => {
               </div>
             ) : (
               <div className="hc-empty">
-                <p>Samples for this category are shared on request.</p>
+                <p>{open.section ? `Explore full ${open.label.toLowerCase()} in this portfolio.` : 'Samples for this category are shared on request.'}</p>
                 <a
-                  href="#clan-recruitment"
+                  href={open.section ?? '#clan-recruitment'}
                   className="hc-btn hc-btn--red"
                   onClick={(e) => {
                     e.preventDefault();
                     setOpen(null);
-                    go('#clan-recruitment');
+                    go(open.section ?? '#clan-recruitment');
                   }}
                 >
-                  Get in touch
+                  {open.section ? `Go to ${open.label}` : 'Get in touch'}
                 </a>
               </div>
             )}
@@ -362,7 +371,7 @@ export const HeroSection: React.FC = () => {
             <p className="hc-modal__desc">{CHIEF_INFO.bio}</p>
             <div className="hc-drawer__cta">
               <a href="#war-log" className="hc-btn hc-btn--red" onClick={() => setAboutOpen(false)}>View Projects</a>
-              <a href="#clan-recruitment" className="hc-btn hc-btn--dark" onClick={() => setAboutOpen(false)}>Contact</a>
+              <a href="#army-camps" className="hc-btn hc-btn--dark" onClick={() => setAboutOpen(false)}>View Skills</a>
             </div>
           </aside>
         </div>
