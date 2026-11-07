@@ -78,27 +78,7 @@ html[data-theme='dark'] .hc-drawer li { color: var(--dk-muted); }
 html[data-theme='dark'] .hc-drawer h2,
 html[data-theme='dark'] .hc-drawer h3 { color: var(--dk-title); }
 
-/* ── Skills ───────────────────────────────────────────── */
-html[data-theme='dark'] .sk {
-  --ink: #d9dbe8;
-  background: var(--dk-bg);
-  color: var(--dk-text);
-}
-html[data-theme='dark'] .sk__eyebrow { color: #ff7b80; }
-html[data-theme='dark'] .sk__title,
-html[data-theme='dark'] .sk-card__name { color: var(--dk-title); }
-html[data-theme='dark'] .sk__sub,
-html[data-theme='dark'] .sk-card__sub { color: var(--dk-muted); }
-html[data-theme='dark'] .sk__web path { opacity: 0.45; }
-html[data-theme='dark'] .sk-card {
-  background: var(--dk-panel);
-  border-color: var(--dk-line);
-  box-shadow: 4px 4px 0 #000;
-}
-html[data-theme='dark'] .sk.is-in .sk-card:hover { box-shadow: 6px 7px 0 var(--red-hi, #d64045); }
-html[data-theme='dark'] .sk-card__icon { background: #2b2f4d; color: #fff; }
-html[data-theme='dark'] .sk-card__chips li { background: var(--dk-panel-2); border-color: var(--dk-line); color: var(--dk-text); }
-html[data-theme='dark'] .sk-card:hover .sk-card__chips li { background: #35202a; }
+/* Skills has its own comic-city theme (BarracksSection.css) and looks the same in light and dark mode. */
 
 /* ── Projects ─────────────────────────────────────────── */
 html[data-theme='dark'] .pj {

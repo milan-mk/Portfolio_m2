@@ -170,3 +170,63 @@
   .sk__web-img { clip-path: none !important; animation: none !important; }
   .sk .sk-card { opacity: 1; transform: none; animation: none !important; }
 }
+
+/* ═══ Blood-moon city theme: red sky, orange moon, black towers ═══
+   Looks the same in light and dark mode.                                          */
+.sk {
+  --ink: #fff1e6;
+  --red: #ff5a3c;
+  --pop-red: #e2321f;
+  --pop-amber: #ff9a2e;
+  color: #fff1e6;
+  background-color: #1a0408;
+  background-image:
+    linear-gradient(180deg, rgba(10, 2, 4, 0.35) 0%, rgba(10, 2, 4, 0) 26%, rgba(10, 2, 4, 0) 74%, rgba(10, 2, 4, 0.5) 100%),
+    url('/images/skills-moon.webp');
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+}
+.sk__eyebrow {
+  color: #ffb347;
+  padding: 5px 14px;
+  background: rgba(10, 3, 5, 0.78);
+  border: 1.5px solid var(--pop-amber);
+  border-radius: 999px;
+  letter-spacing: 0.26em;
+}
+.sk__title {
+  color: #fff;
+  text-shadow: 4px 4px 0 var(--pop-red), 8px 8px 0 rgba(255, 154, 46, 0.6), 0 0 30px rgba(0, 0, 0, 0.6);
+}
+.sk__sub { color: #ffe3cf; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9), 0 0 3px rgba(0, 0, 0, 0.9); }
+
+/* webs turn light so they read on the dark red sky */
+.sk__web-img { filter: invert(1); opacity: 0.5; }
+
+.sk-card {
+  background: rgba(12, 4, 6, 0.82);
+  -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+  border: 1.5px solid rgba(255, 241, 230, 0.8);
+  box-shadow: 5px 5px 0 var(--pop-red);
+}
+.sk-card:nth-child(even) { box-shadow: 5px 5px 0 var(--pop-amber); }
+.sk.is-in .sk-card:hover { box-shadow: 7px 8px 0 var(--pop-amber); }
+.sk.is-in .sk-card:nth-child(even):hover { box-shadow: 7px 8px 0 var(--pop-red); }
+.sk-card__icon { background: var(--pop-red); color: #fff; }
+.sk-card:nth-child(even) .sk-card__icon { background: #f08a1c; color: #1a0a04; }
+.sk-card__name { color: #fff; }
+.sk-card__sub { color: #e2b9a6; }
+.sk-card__chips li { background: rgba(255, 255, 255, 0.07); border-color: rgba(255, 241, 230, 0.5); color: #fff1e6; }
+.sk-card:hover .sk-card__chips li { background: rgba(226, 50, 31, 0.32); border-color: rgba(255, 130, 100, 0.95); }
+.sk-card:nth-child(even):hover .sk-card__chips li { background: rgba(255, 154, 46, 0.28); border-color: rgba(255, 200, 120, 0.95); }
+
+@media (max-width: 600px) {
+  .sk {
+    background-image:
+      linear-gradient(180deg, rgba(10, 2, 4, 0.45) 0%, rgba(10, 2, 4, 0) 26%, rgba(10, 2, 4, 0) 72%, rgba(10, 2, 4, 0.55) 100%),
+      url('/images/skills-moon-m.webp');
+  }
+  .sk__title { text-shadow: 3px 3px 0 var(--pop-red), 6px 6px 0 rgba(255, 154, 46, 0.6), 0 0 24px rgba(0, 0, 0, 0.6); }
+}
