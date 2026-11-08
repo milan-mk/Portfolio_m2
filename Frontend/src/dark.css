@@ -79,26 +79,26 @@ html[data-theme='dark'] .hc-drawer h2,
 html[data-theme='dark'] .hc-drawer h3 { color: var(--dk-title); }
 
 /* ── Skills ───────────────────────────────────────────── */
-html[data-theme='dark'] .sk {
+html[data-theme='dark'] .sk[data-scene='white'] {
   --ink: #d9dbe8;
   background: var(--dk-bg);
   color: var(--dk-text);
 }
-html[data-theme='dark'] .sk__eyebrow { color: #ff7b80; }
-html[data-theme='dark'] .sk__title,
-html[data-theme='dark'] .sk-card__name { color: var(--dk-title); }
-html[data-theme='dark'] .sk__sub,
-html[data-theme='dark'] .sk-card__sub { color: var(--dk-muted); }
-html[data-theme='dark'] .sk__web path { opacity: 0.45; }
-html[data-theme='dark'] .sk-card {
+html[data-theme='dark'] .sk[data-scene='white'] .sk__eyebrow { color: #ff7b80; }
+html[data-theme='dark'] .sk[data-scene='white'] .sk__title,
+html[data-theme='dark'] .sk[data-scene='white'] .sk-card__name { color: var(--dk-title); }
+html[data-theme='dark'] .sk[data-scene='white'] .sk__sub,
+html[data-theme='dark'] .sk[data-scene='white'] .sk-card__sub { color: var(--dk-muted); }
+html[data-theme='dark'] .sk[data-scene='white'] .sk__web path { opacity: 0.45; }
+html[data-theme='dark'] .sk[data-scene='white'] .sk-card {
   background: var(--dk-panel);
   border-color: var(--dk-line);
   box-shadow: 4px 4px 0 #000;
 }
-html[data-theme='dark'] .sk.is-in .sk-card:hover { box-shadow: 6px 7px 0 var(--red-hi, #d64045); }
-html[data-theme='dark'] .sk-card__icon { background: #2b2f4d; color: #fff; }
-html[data-theme='dark'] .sk-card__chips li { background: var(--dk-panel-2); border-color: var(--dk-line); color: var(--dk-text); }
-html[data-theme='dark'] .sk-card:hover .sk-card__chips li { background: #35202a; }
+html[data-theme='dark'] .sk[data-scene='white'].is-in .sk-card:hover { box-shadow: 6px 7px 0 var(--red-hi, #d64045); }
+html[data-theme='dark'] .sk[data-scene='white'] .sk-card__icon { background: #2b2f4d; color: #fff; }
+html[data-theme='dark'] .sk[data-scene='white'] .sk-card__chips li { background: var(--dk-panel-2); border-color: var(--dk-line); color: var(--dk-text); }
+html[data-theme='dark'] .sk[data-scene='white'] .sk-card:hover .sk-card__chips li { background: #35202a; }
 
 /* ── Projects ─────────────────────────────────────────── */
 html[data-theme='dark'] .pj {
@@ -155,3 +155,8 @@ html[data-theme='dark'] .pj-btn.is-soon { color: #7d8095; border-color: #4a4e66;
 
 /* Recruitment form + footer are already dark; only the page behind them changes. */
 html[data-theme='dark'] footer { border-top-color: var(--dk-line); }
+
+/* the pull-off note, its tape and the wall patch behind it get the same flip as the base art */
+html[data-theme='dark'] .hc .hc__notepatch,
+html[data-theme='dark'] .hc .hc__tape { filter: invert(1) hue-rotate(180deg); }
+html[data-theme='dark'] .hc.note-live .hc__note { filter: invert(1) hue-rotate(180deg) drop-shadow(0 0.4cqw 0.6cqw rgba(0, 0, 0, 0.55)); }

@@ -210,9 +210,39 @@
   outline-offset: 3px;
   transition: transform 0.2s ease, outline-color 0.2s ease;
 }
-.hc__egg:hover { transform: scale(1.05) rotate(-2deg); }
+.hc__egg { touch-action: none; cursor: grab; }
+.hc__egg.is-drag { cursor: grabbing; }
 .hc__egg:focus-visible { outline-color: var(--thread-red); }
-.hc__egg:active { transform: scale(0.97); }
+
+/* the note itself: a cut-out copy lifts off the wall while it is pulled */
+.hc { --np: 0px; --ns: 1; }
+.hc__note,
+.hc__tape,
+.hc__notepatch {
+  position: absolute;
+  left: 14%;
+  top: 0;
+  width: 22%;
+  height: 30%;
+  max-width: none;
+  opacity: 0;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+.hc.note-live .hc__notepatch { opacity: 1; }
+.hc.note-live .hc__note {
+  opacity: 1;
+  transform: translateY(var(--np));
+  will-change: transform;
+  filter: drop-shadow(0 0.4cqw 0.6cqw rgba(30, 30, 50, 0.22));
+}
+/* the tape stays stuck to the wall at the top and stretches down with the note */
+.hc__tape { transform-origin: 37.7% 10.7%; }
+.hc.note-live .hc__tape {
+  opacity: 1;
+  transform: scale(calc(1 - (var(--ns) - 1) * 0.25), var(--ns));
+  will-change: transform;
+}
 
 /* tooltips (counter-rotated so text stays level) */
 .hc__tip {
