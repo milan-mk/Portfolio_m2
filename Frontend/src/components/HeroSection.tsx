@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CHIEF_INFO } from '../data/portfolioData';
 import { toggleTheme, useTheme } from '../utils/theme';
+import { useNotePull } from './useNotePull';
 import './HeroSection.css';
 
 /**
@@ -143,6 +144,7 @@ const go = (href: string) => document.querySelector(href)?.scrollIntoView({ beha
 
 export const HeroSection: React.FC = () => {
   const theme = useTheme();
+  const note = useNotePull(toggleTheme);
   const [open, setOpen] = useState<Skill | null>(null);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [animKey, setAnimKey] = useState(0);
@@ -217,8 +219,8 @@ export const HeroSection: React.FC = () => {
           aria-label="Illustration of Milan Kumar Modak in a dynamic pose in front of the giant word PORTFOLIO, surrounded by paper notes labelled Video Editing, AI Content Creation, Graphic Design, Design and Brand Creative"
         >
           {LAYERS.map((L) => (
+            <React.Fragment key={L.src}>
             <img
-              key={L.src}
               className={`hc__l ${L.cls.split(' ').map((c) => `hc__l--${c}`).join(' ')}`}
               src={`/images/hero/anim/${L.src}.webp`}
               alt=""
@@ -228,7 +230,13 @@ export const HeroSection: React.FC = () => {
               style={{ left: `${L.l}%`, top: `${L.t}%`, width: `${L.w}%`, height: `${L.h}%` }}
               {...(L.src === 'base' ? { fetchPriority: 'high' as const } : {})}
             />
+            {L.src === 'woven' && (
+              <img className="hc__notepatch" src="/images/hero/note-patch.webp" alt="" aria-hidden="true" draggable={false} decoding="sync" />
+            )}
+            </React.Fragment>
           ))}
+          <img className="hc__note" src="/images/hero/note.webp" alt="" aria-hidden="true" draggable={false} decoding="sync" />
+          <img className="hc__tape" src="/images/hero/tape.webp" alt="" aria-hidden="true" draggable={false} decoding="sync" />
           <svg className="hc__threads" viewBox="0 0 2752 1536" preserveAspectRatio="none" aria-hidden="true">
             {THREADS.map((d, i) => (
               <path key={i} d={d} pathLength={1} style={{ '--d': `${3.3 + i * 0.12}s` } as React.CSSProperties} />
@@ -239,11 +247,12 @@ export const HeroSection: React.FC = () => {
         {/* Paper note on the wall = dark / light mode switch */}
         <button
           type="button"
+          ref={note.ref}
           className="hc__egg"
           style={place({ l: 18.8, t: 3.5, w: 9.6, h: 18.5, rot: 0 })}
-          onClick={toggleTheme}
+          {...note.handlers}
           aria-pressed={theme === 'dark'}
-          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          aria-label={theme === 'dark' ? 'Pull the note to switch to light mode' : 'Pull the note to switch to dark mode'}
         >
           <span className="hc__tip">{theme === 'dark' ? 'Light mode' : 'Dark mode'}</span>
         </button>

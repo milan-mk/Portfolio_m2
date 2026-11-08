@@ -1,6 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { SKILL_CATEGORIES } from '../data/portfolioData';
+import { SkillSpider } from './SkillSpider';
 import './BarracksSection.css';
+
+/** Scenes the spider cycles through. */
+const SCENES = [
+  { id: 'moon', name: 'Blood Moon' },
+  { id: 'city', name: 'Comic City' },
+  { id: 'sunset', name: 'Sunset City' },
+  { id: 'red', name: 'Red Skyline' },
+] as const;
+const STORE = 'mk-skills-scene';
+const HINT_STORE = 'mk-skills-spider-used';
+
 
 /**
  * Skills: a simple, clean grid of categories with hand-drawn corner webs.
@@ -25,6 +37,31 @@ function Web({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
 export function BarracksSection() {
   const ref = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
+  const [scene, setScene] = useState(0);
+  const [prevScene, setPrevScene] = useState<number | null>(null);
+  const [tag, setTag] = useState('Pull me');
+  const [hint, setHint] = useState(true);
+  const tagTimer = useRef<number>(0);
+
+  useEffect(() => {
+    try {
+      const saved = SCENES.findIndex((x) => x.id === localStorage.getItem(STORE));
+      if (saved >= 0) setScene(saved);
+      if (localStorage.getItem(HINT_STORE)) setHint(false);
+    } catch { /* storage unavailable: defaults are fine */ }
+  }, []);
+
+  const nextScene = () => {
+    const next = (scene + 1) % SCENES.length;
+    setPrevScene(scene);
+    setScene(next);
+    setHint(false);
+    setTag(SCENES[next].name);
+    window.clearTimeout(tagTimer.current);
+    tagTimer.current = window.setTimeout(() => { setPrevScene(null); setTag('Pull me'); }, 1600);
+    try { localStorage.setItem(STORE, SCENES[next].id); localStorage.setItem(HINT_STORE, '1'); } catch { /* ignore */ }
+  };
+  useEffect(() => () => window.clearTimeout(tagTimer.current), []);
 
   useEffect(() => {
     const el = ref.current;
@@ -47,7 +84,12 @@ export function BarracksSection() {
   }, []);
 
   return (
-    <section id="army-camps" ref={ref} className={`sk${inView ? ' is-in' : ''}`}>
+    <section id="army-camps" ref={ref} className={`sk${inView ? ' is-in' : ''}`} data-scene={SCENES[scene].id}>
+      {/* only the current and the fading-out scene are mounted, so images load on demand */}
+      {prevScene !== null && <div className={`sk__bg sk__bg--${SCENES[prevScene].id} is-out`} aria-hidden="true" />}
+      <div key={SCENES[scene].id} className={`sk__bg sk__bg--${SCENES[scene].id} is-on`} aria-hidden="true" />
+
+      <SkillSpider onPull={nextScene} label={tag} hint={hint} />
       <Web pos="tl" />
       <Web pos="tr" />
       <Web pos="bl" />
