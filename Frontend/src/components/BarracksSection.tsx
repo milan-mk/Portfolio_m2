@@ -5,12 +5,10 @@ import './BarracksSection.css';
 
 /** Scenes the spider cycles through. */
 const SCENES = [
+  { id: 'white', name: 'Clean White' },
   { id: 'moon', name: 'Blood Moon' },
   { id: 'city', name: 'Comic City' },
-  { id: 'sunset', name: 'Sunset City' },
-  { id: 'red', name: 'Red Skyline' },
 ] as const;
-const STORE = 'mk-skills-scene';
 const HINT_STORE = 'mk-skills-spider-used';
 
 
@@ -45,8 +43,6 @@ export function BarracksSection() {
 
   useEffect(() => {
     try {
-      const saved = SCENES.findIndex((x) => x.id === localStorage.getItem(STORE));
-      if (saved >= 0) setScene(saved);
       if (localStorage.getItem(HINT_STORE)) setHint(false);
     } catch { /* storage unavailable: defaults are fine */ }
   }, []);
@@ -59,7 +55,7 @@ export function BarracksSection() {
     setTag(SCENES[next].name);
     window.clearTimeout(tagTimer.current);
     tagTimer.current = window.setTimeout(() => { setPrevScene(null); setTag('Pull me'); }, 1600);
-    try { localStorage.setItem(STORE, SCENES[next].id); localStorage.setItem(HINT_STORE, '1'); } catch { /* ignore */ }
+    try { localStorage.setItem(HINT_STORE, '1'); } catch { /* ignore */ }
   };
   useEffect(() => () => window.clearTimeout(tagTimer.current), []);
 
@@ -86,8 +82,10 @@ export function BarracksSection() {
   return (
     <section id="army-camps" ref={ref} className={`sk${inView ? ' is-in' : ''}`} data-scene={SCENES[scene].id}>
       {/* only the current and the fading-out scene are mounted, so images load on demand */}
-      {prevScene !== null && <div className={`sk__bg sk__bg--${SCENES[prevScene].id} is-out`} aria-hidden="true" />}
-      <div key={SCENES[scene].id} className={`sk__bg sk__bg--${SCENES[scene].id} is-on`} aria-hidden="true" />
+      {prevScene !== null && SCENES[prevScene].id !== 'white' && <div className={`sk__bg sk__bg--${SCENES[prevScene].id} is-out`} aria-hidden="true" />}
+      {SCENES[scene].id !== 'white' && (
+        <div key={SCENES[scene].id} className={`sk__bg sk__bg--${SCENES[scene].id} is-on`} aria-hidden="true" />
+      )}
 
       <SkillSpider onPull={nextScene} label={tag} hint={hint} />
       <Web pos="tl" />
