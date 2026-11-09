@@ -5,27 +5,27 @@ import type { ProjectCampaign } from '../types/portfolio';
 import './WarLogSection.css';
 
 /**
- * Projects section: the character hangs upside-down from a red thread. A twisted web rope
- * shoots from his palm and flares out into a cobweb (a drawn image), and holds one big board with the project boxes
- * inside. The board sways gently. Click a box to open its details in a pop-up.
+ * Projects section: the character hangs upside-down from a red thread. A twisted web rope shoots from his palm
+ * and its cobweb tip sticks to the top of a timeline bar. The project boxes sit on both sides of the bar.
+ * Click a box to open its details in a pop-up.
  *
  * - Artwork:  /public/images/projects-hang-top.webp (1024 x 765 source, shown 765 wide, the character only)
  * - Web:      /public/images/projects-web.webp (rope + cobweb; continues the strands drawn on his hand)
- * - Content:  CAMPAIGN_PROJECTS in data/portfolioData.ts (the first four are shown on the board)
- * - Everything is laid out in "art" pixels (765 wide) and scaled to the stage width.
+ * - Content:  CAMPAIGN_PROJECTS in data/portfolioData.ts
+ * - The character + web are laid out in "art" pixels (765 wide) and scaled to the stage width.
  */
 
 const ART_W = 765;
 /** Where the web image fades in over the strands on his hand (the swing pivots here, so the join barely moves). */
 const WRIST = { x: 431.4, y: 546 };
-/** The web artwork: wrist strands, twisted rope, cobweb and eyelets (drawn at the same scale as the strands on his hand, so the lines are just as thin). */
+/** The web artwork: wrist strands, twisted rope, cobweb (drawn at the same scale as the strands on his hand, so the lines are just as thin). */
 const WEB_IMG = { x: 262, y: 542, w: 292, h: 285.0 };
-/** Board (the big container). Its top border lines up with the board edge drawn in the web image. */
-const BOARD = { x: 57, y: 817, w: 700, h: 592 };
-const ART_H = BOARD.y + BOARD.h + 36;
+/** Where the cobweb tip lands: the timeline bar starts here. */
+const TIP = { x: 424, y: 800 };
 const ART_TOP_H = 571.5;
 const PIVOT = '368px 0px';
-const WIDE_MIN = 560;
+/** The character + web are shown at most this wide (px); the art scales to fit smaller screens. */
+const STAGE_MAX = 600;
 
 const ProjectDetails: React.FC<{ p: ProjectCampaign; onClose: () => void }> = ({ p, onClose }) => {
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -135,17 +135,18 @@ const CardBody: React.FC<{ p: ProjectCampaign }> = ({ p }) => {
 
 export const WarLogSection: React.FC = () => {
   const projects = CAMPAIGN_PROJECTS;
-  const shown = projects.slice(0, 4);
-  const [width, setWidth] = useState(0);
+  const [boxW, setBoxW] = useState(0);
   const [inView, setInView] = useState(false);
   const [active, setActive] = useState<ProjectCampaign | null>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLOListElement>(null);
 
-  // keep the art scaled to the stage width
+  // keep the art scaled to the available width
   useEffect(() => {
-    const el = stageRef.current;
+    const el = innerRef.current;
     if (!el) return;
-    const update = () => setWidth(stageRef.current?.clientWidth ?? el.clientWidth);
+    const update = () => setBoxW(el.clientWidth);
     update();
     if (typeof ResizeObserver === 'undefined') {
       window.addEventListener('resize', update);
@@ -176,76 +177,99 @@ export const WarLogSection: React.FC = () => {
     return () => io.disconnect();
   }, []);
 
-  const wide = width >= WIDE_MIN;
-  const scale = width > 0 ? width / ART_W : 1;
-  // on phones the stage ends where the web reaches the board, and the board follows in normal flow
-  const stageH = (wide ? ART_H : BOARD.y) * scale;
+  // boxes pop in as they reach the screen; the bar fills down as you scroll
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const items = Array.from(track.querySelectorAll<HTMLElement>('.pj-tl__item'));
+    const io = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('is-in'); }),
+      { threshold: 0.2 },
+    );
+    if (io) items.forEach((el) => io.observe(el)); else items.forEach((el) => el.classList.add('is-in'));
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const r = track.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (window.innerHeight * 0.65 - r.top) / r.height));
+      track.style.setProperty('--prog', `${(p * 100).toFixed(1)}%`);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      io?.disconnect();
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [projects.length]);
+
+  const artW = boxW > 0 ? Math.min(STAGE_MAX, boxW * 0.86) : STAGE_MAX;
+  const scale = artW / ART_W;
 
   const style = (v: Record<string, string | number>) => v as unknown as React.CSSProperties;
   const close = React.useCallback(() => setActive(null), []);
 
-  const board = (list: ProjectCampaign[]) => (
-    <div className="pj-board__grid">
-      {list.map((p, i) => (
-        <article
-          key={p.id}
-          className="pj-card"
-          style={style({ '--i': i })}
-          onClick={() => setActive(p)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              setActive(p);
-            }
-          }}
-          tabIndex={0}
-          role="button"
-          aria-label={`${p.title}, open details`}
-        >
-          <CardBody p={p} />
-        </article>
-      ))}
-    </div>
-  );
-
   return (
     <section id="war-log" className="pj">
-      <div className="pj__inner">
+      <div className="pj__inner" ref={innerRef}>
         <header className="pj__head">
           <span className="pj__eyebrow">Selected work</span>
           <h2 className="pj__title">Projects</h2>
           <p className="pj__sub">Hanging around with a few things I&rsquo;ve built. Tap a box to see the details.</p>
         </header>
 
+        {/* the stage is shifted so the cobweb tip sits on the page's centre line, where the bar starts */}
         <div
           ref={stageRef}
-          className={`pj__stage${inView ? ' is-in' : ''}${wide ? '' : ' is-narrow'}`}
-          style={{ height: stageH || undefined }}
+          className={`pj__stage${inView ? ' is-in' : ''}`}
+          style={{ width: artW, height: TIP.y * scale, marginLeft: `calc(50% - ${TIP.x * scale}px)` }}
           role="group"
           aria-label="Projects hanging from the character's hand"
         >
-          <div className="pj__scale" style={style({ width: ART_W, height: wide ? ART_H : BOARD.y, transform: `scale(${scale})` })}>
+          <div className="pj__scale" style={style({ width: ART_W, height: TIP.y + 30, transform: `scale(${scale})` })}>
             <div className="pj__swing" style={style({ transformOrigin: PIVOT })}>
               {/* drawn in like the hero character: white shape, then colour, with the outline on top */}
               <img className="pj__art pj__art--white" src="/images/projects-hang-top.webp" width={ART_W} height={ART_TOP_H} alt="" aria-hidden="true" draggable={false} />
               <img className="pj__art pj__art--col" src="/images/projects-hang-top.webp" width={ART_W} height={ART_TOP_H} alt="" aria-hidden="true" draggable={false} />
               <img className="pj__art pj__art--line" src="/images/projects-hang-line.webp" width={ART_W} height={ART_TOP_H} alt="" aria-hidden="true" draggable={false} />
 
-              {/* the web + board pivot from the wrist */}
+              {/* the web pivots from the wrist */}
               <div className="pj__hang" style={style({ transformOrigin: `${WRIST.x}px ${WRIST.y}px` })}>
                 <img className="pj__web" src="/images/projects-web.webp" width={WEB_IMG.w} height={WEB_IMG.h} alt="" aria-hidden="true" draggable={false} style={style({ left: WEB_IMG.x, top: WEB_IMG.y })} />
-                {wide && (
-                  <div className="pj-board" style={style({ left: BOARD.x, top: BOARD.y, width: BOARD.w, height: BOARD.h })}>
-                    {board(shown)}
-                  </div>
-                )}
               </div>
             </div>
           </div>
         </div>
 
-        {/* phones: the same board, in normal flow below the web */}
-        {!wide && <div className="pj-board pj-board--flow">{board(projects)}</div>}
+        {/* the bar the web holds, with the project boxes on both sides */}
+        <ol className="pj-tl" ref={trackRef}>
+          <span className="pj-tl__line" aria-hidden="true"><i /></span>
+          <span className="pj-tl__knot" aria-hidden="true" />
+          {projects.map((p, i) => (
+            <li key={p.id} className={`pj-tl__item pj-tl__item--${i % 2 === 0 ? 'l' : 'r'}`}>
+              <span className="pj-tl__dot" aria-hidden="true" />
+              <article
+                className="pj-card"
+                style={style({ '--i': i })}
+                onClick={() => setActive(p)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActive(p);
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-label={`${p.title}, open details`}
+              >
+                <CardBody p={p} />
+              </article>
+            </li>
+          ))}
+        </ol>
       </div>
 
       {active && createPortal(<ProjectDetails p={active} onClose={close} />, document.body)}
