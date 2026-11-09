@@ -123,10 +123,13 @@ html[data-theme='dark'] .pj__web {
   filter: drop-shadow(0 0 0.7px #fff) drop-shadow(0 0 0.7px #fff) drop-shadow(0 0 1.6px rgba(255, 255, 255, 0.6));
 }
 
-html[data-theme='dark'] .pj-board {
-  border-color: var(--dk-line);
-  box-shadow: 0 0 0 2px #07070a, 8px 8px 0 rgba(158, 42, 43, 0.75);
-}
+html[data-theme='dark'] .pj-tl__line,
+html[data-theme='dark'] .pj-tl__item::after { background: var(--dk-line); }
+html[data-theme='dark'] .pj-tl__item.is-in::after { background: var(--red-hi); }
+html[data-theme='dark'] .pj-tl__line i { background: linear-gradient(180deg, var(--red-hi), #f0a73a); }
+html[data-theme='dark'] .pj-tl__dot { background: var(--dk-bg); border-color: var(--dk-line); }
+html[data-theme='dark'] .pj-tl__item.is-in .pj-tl__dot { background: var(--red-hi); border-color: var(--dk-bg); }
+html[data-theme='dark'] .pj-tl__knot { border-color: var(--dk-bg); }
 html[data-theme='dark'] .pj-card {
   background: var(--dk-panel);
   border-color: var(--dk-line);

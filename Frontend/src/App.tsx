@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AboutSection } from './components/AboutSection';
 import { BarracksSection } from './components/BarracksSection';
+import { ExperienceSection } from './components/ExperienceSection';
 import { Footer } from './components/Footer';
 import { HeroSection } from './components/HeroSection';
 // import { IntroModal } from './components/IntroModal';
@@ -45,7 +46,7 @@ export const App: React.FC = () => {
     document.addEventListener('click', handleGlobalClick);
 
     // High-performance IntersectionObserver for Citadel HUD scroll spy (zero layout thrashing)
-    const sectionIds = ['citadel-base', 'about', 'army-camps', 'war-log', 'clan-recruitment'];
+    const sectionIds = ['citadel-base', 'about', 'army-camps', 'war-log', 'experience', 'clan-recruitment'];
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -94,6 +95,11 @@ export const App: React.FC = () => {
         {/* Clan War Log & Battle Replays (Featured Projects) */}
         <ScrollReveal yOffset={28} once={false}>
           <WarLogSection />
+        </ScrollReveal>
+
+        {/* Experience: timeline of roles */}
+        <ScrollReveal yOffset={28} once={false}>
+          <ExperienceSection />
         </ScrollReveal>
 
         {/* Guild Recruitment Outpost (Contact Missive & Resume) */}
