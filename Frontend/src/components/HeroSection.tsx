@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { CHIEF_INFO } from '../data/portfolioData';
-import { toggleTheme, useTheme } from '../utils/theme';
+import { useTheme } from '../utils/theme';
+import { toggleThemeInk } from '../utils/inkTheme';
 import { useNotePull } from './useNotePull';
 import './HeroSection.css';
 
@@ -144,7 +145,7 @@ const go = (href: string) => document.querySelector(href)?.scrollIntoView({ beha
 
 export const HeroSection: React.FC = () => {
   const theme = useTheme();
-  const note = useNotePull(toggleTheme);
+  const note = useNotePull(toggleThemeInk);
   const [open, setOpen] = useState<Skill | null>(null);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [animKey, setAnimKey] = useState(0);

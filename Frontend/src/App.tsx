@@ -78,40 +78,44 @@ export const App: React.FC = () => {
 
 
       {/* Main Village Grounds */}
-      <main className="relative z-10 w-full pt-0 pb-12 sm:pb-16 flex-grow flex flex-col gap-8 sm:gap-14 lg:gap-16">
+      <main className="relative z-10 w-full pt-0 flex-grow flex flex-col">
         {/* Village Base Town Hall & Chief Narrative (Above fold, instant load) */}
         <HeroSection />
 
         {/* About: character on one side, short intro on the other */}
-        <ScrollReveal yOffset={28} once={false}>
+        <ScrollReveal yOffset={28} once={false} className="mt-8 sm:mt-14 lg:mt-16">
           <AboutSection />
         </ScrollReveal>
 
-        {/* Barracks & Arcane Forge (Skill Matrix) */}
-        <ScrollReveal yOffset={28} once={false}>
-          <BarracksSection />
-        </ScrollReveal>
+        <div className="village-lower bg-[#0b0b0f] text-[#f1f1f6] pt-8 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 flex flex-col gap-8 sm:gap-14 lg:gap-16">
+          {/* Barracks & Arcane Forge (Skill Matrix) */}
+          <ScrollReveal yOffset={28} once={false}>
+            <BarracksSection />
+          </ScrollReveal>
 
-        {/* Clan War Log & Battle Replays (Featured Projects) */}
-        <ScrollReveal yOffset={28} once={false}>
-          <WarLogSection />
-        </ScrollReveal>
+          {/* Clan War Log & Battle Replays (Featured Projects) */}
+          <ScrollReveal yOffset={28} once={false}>
+            <WarLogSection />
+          </ScrollReveal>
 
-        {/* Experience: timeline of roles */}
-        <ScrollReveal yOffset={28} once={false}>
-          <ExperienceSection />
-        </ScrollReveal>
+          {/* Experience: timeline of roles */}
+          <ScrollReveal yOffset={28} once={false}>
+            <ExperienceSection />
+          </ScrollReveal>
 
-        {/* Guild Recruitment Outpost (Contact Missive & Resume) */}
-        <ScrollReveal yOffset={28}>
-          <RecruitmentSection />
-        </ScrollReveal>
+          {/* Guild Recruitment Outpost (Contact Missive & Resume) */}
+          <ScrollReveal yOffset={28}>
+            <RecruitmentSection />
+          </ScrollReveal>
+        </div>
       </main>
 
       {/* Camp Quarters & Scout Outposts Footer */}
-      <ScrollReveal yOffset={20}>
-        <Footer />
-      </ScrollReveal>
+      <div className="village-lower bg-[#0b0b0f]">
+        <ScrollReveal yOffset={20}>
+          <Footer />
+        </ScrollReveal>
+      </div>
     </div>
   );
 };

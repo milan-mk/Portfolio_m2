@@ -7,7 +7,7 @@ const MAX_VISUAL = 0.04; // the note never travels more than this share of the s
 const TAPE_H = 0.0417;   // tape height as a share of the stage width
 
 /** Pull behaviour for the hero note: drag down past THRESHOLD and let go to fire `onPull`. */
-export function useNotePull(onPull: () => void) {
+export function useNotePull(onPull: (origin: { x: number; y: number }) => void) {
   const ref = useRef<HTMLButtonElement>(null);
   const st = useRef({ y0: 0, down: false, active: false, pull: 0, raf: 0 });
 
@@ -19,6 +19,12 @@ export function useNotePull(onPull: () => void) {
       i.decode?.().catch(() => {});
     });
   }, []);
+
+  // where the ink starts: the middle of the note, in viewport pixels
+  const origin = () => {
+    const r = ref.current?.getBoundingClientRect();
+    return r ? { x: r.left + r.width / 2, y: r.top + r.height / 2 } : { x: innerWidth / 2, y: innerHeight / 3 };
+  };
 
   const set = (v: number) => {
     st.current.pull = v;
@@ -55,7 +61,7 @@ export function useNotePull(onPull: () => void) {
     st.current.down = false;
     ref.current?.classList.remove('is-drag');
     const p = st.current.pull;
-    if (fire && p >= THRESHOLD) { onPull(); spring(p, 120); } else spring(p);
+    if (fire && p >= THRESHOLD) { onPull(origin()); spring(p, 120); } else spring(p);
   }
 
   const handlers = {
@@ -76,7 +82,7 @@ export function useNotePull(onPull: () => void) {
     onPointerCancel: () => end(false),
     onClick: (e: React.MouseEvent) => {
       // keyboard activation (Enter / Space) has detail 0; a mouse click without a pull does nothing
-      if (e.detail === 0) { onPull(); spring(40, 100); }
+      if (e.detail === 0) { onPull(origin()); spring(40, 100); }
     },
   };
 
