@@ -83,9 +83,7 @@ export const App: React.FC = () => {
         <HeroSection />
 
         {/* About: character on one side, short intro on the other */}
-        <div className="mt-8 sm:mt-14 lg:mt-16">
-          <AboutSection />
-        </div>
+        <AboutSection />
 
         <div className="village-lower bg-[#0b0b0f] text-[#f1f1f6] pt-8 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 flex flex-col gap-8 sm:gap-14 lg:gap-16">
           {/* Barracks & Arcane Forge (Skill Matrix) */}
