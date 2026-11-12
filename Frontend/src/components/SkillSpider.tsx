@@ -80,27 +80,14 @@ export function SkillSpider({ onPull, label, hint }: { onPull: () => void; label
         onPointerCancel={up}
         onKeyDown={key}
       >
-        <svg viewBox="0 0 120 170" aria-hidden="true" focusable="false">
-          <g className="sk-spider__legs" fill="none" stroke="#0b0b10" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round">
-            {/* four legs a side, jointed: arched front pair, long rear pair */}
-            <path d="M52 66 Q35 58 33 38 Q32 22 44 8" />
-            <path d="M50 72 Q28 68 16 56 Q10 49 13 38" />
-            <path d="M50 79 Q28 84 21 102 Q16 116 21 134" />
-            <path d="M54 86 Q42 106 40 128 Q39 144 47 162" />
-            <path d="M68 66 Q85 58 87 38 Q88 22 76 8" />
-            <path d="M70 72 Q92 68 104 56 Q110 49 107 38" />
-            <path d="M70 79 Q92 84 99 102 Q104 116 99 134" />
-            <path d="M66 86 Q78 106 80 128 Q81 144 73 162" />
-          </g>
-          <g fill="#0b0b10">
-            <circle cx="33" cy="38" r="2.9" /><circle cx="16" cy="56" r="2.9" /><circle cx="21" cy="102" r="2.9" /><circle cx="40" cy="128" r="2.9" />
-            <circle cx="87" cy="38" r="2.9" /><circle cx="104" cy="56" r="2.9" /><circle cx="99" cy="102" r="2.9" /><circle cx="80" cy="128" r="2.9" />
-            <ellipse cx="60" cy="68" rx="12" ry="12.5" />
-            <ellipse cx="60" cy="108" rx="17.5" ry="25" />
-          </g>
-          <path d="M60 98 l5 8 -5 8 -5 -8z" fill="#d9302a" opacity=".92" />
-          <ellipse cx="55" cy="96" rx="4.5" ry="9" fill="#fff" opacity=".1" />
-        </svg>
+        <img
+          src="/images/skill-spider.webp"
+          width={364}
+          height={632}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+        />
       </div>
       <span className={`sk-spider__tag${hint ? ' is-hint' : ''}`} aria-live="polite">{label}</span>
     </div>

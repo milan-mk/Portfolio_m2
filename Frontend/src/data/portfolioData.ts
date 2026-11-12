@@ -1,4 +1,4 @@
-import type { DirectOutpost, LabHonor, ProjectCampaign, ResourceMeter, SkillCategory, SkillUnit } from '../types/portfolio';
+import type { DirectOutpost, ProjectCampaign, SkillCategory, SkillUnit } from '../types/portfolio';
 
 export const CHIEF_INFO = {
   name: 'Milan Kumar Modak',
@@ -15,45 +15,7 @@ export const CHIEF_INFO = {
   guildCastle: 'Open',
   builderStatus: '1 / 1 BUSY',
   builderTask: 'Forging Full-Stack Lava Systems',
-  emblemImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB2Xi0XkT6DH7fcgiKWuCYkUstWjBt585nDeqQn4JANV1DjFdVLOPDjxFkbR-4LX_tHzl6XuonoUbHgl4WV_cPHcoBc3N4k1O2xr8DlBz0k0-TUeQ0KcBPCX7Oi6_wnToiqSccq6k174l_fD9kH5-tJp8hZJdwJSKmhDX7oDvA2LgNyXJoWbDkQcp-vZ-ZLhYhQtRGG8lfR8CYd9mwrd2OT65o-4nH6Yp_7dn3eL3O0aswaEHL60ztf_w',
-  crestShieldImg: '/images/builder_hall.webp',
-  builderHallImg: '/images/builder_hall.webp',
-  th10BaseImg: '/images/th10_base.webp',
-  avatarImg: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDP7gkrSVZKwTNIXCGxWCLWeXJ9bA4U3c6fJw5HsED5jZebS29Y6yJI9v0s-lAntFKRZ01BFx58xugYMc__u4-t14BFpnJCeqSAwFKT_AO_1CMdnbLZRvKvBzmpSD-T1avbOjQmOhTwD9IjczjHKDhT_mfARS0IYb-0pQKoBLeIExXLqZt-YOa78H2OpQlmRT1jzJkmXKcFTs0DUl9rOZ7GM5YIdG8nb74K9ODjYuiNNvx0yem4gLXCUA',
 };
-
-export const RESOURCE_METERS: ResourceMeter[] = [
-  {
-    id: 'gold',
-    name: 'Gold (Code)',
-    category: 'database',
-    current: '8.5M',
-    max: '10M',
-    percentage: 85,
-    icon: 'database',
-    color: 'primary',
-  },
-  {
-    id: 'elixir',
-    name: 'Elixir (Commits)',
-    category: 'local_fire_department',
-    current: '9.2M',
-    max: '10M',
-    percentage: 92,
-    icon: 'local_fire_department',
-    color: 'secondary',
-  },
-  {
-    id: 'dark-elixir',
-    name: 'Dark Elixir (Bugs Crushed)',
-    category: 'bug_report',
-    current: '190k',
-    max: '200k',
-    percentage: 95,
-    icon: 'bug_report',
-    color: 'tertiary',
-  },
-];
 
 export const LANGUAGE_SKILLS: SkillUnit[] = [
   {
@@ -598,28 +560,6 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   },
 ];
 
-// Backwards-compatibility exports
-export const AI_SKILLS = VISION_AI_SKILLS;
-export const INFANTRY_SKILLS = LANGUAGE_SKILLS;
-export const HEAVY_STACK_SKILLS = WEB_SKILLS;
-export const DEVOPS_SKILLS = TOOLS_PLATFORMS_SKILLS.map((tool) => ({
-  name: tool.name,
-  level: `Lv. ${tool.level}`,
-  color:
-    tool.colorType === 'primary'
-      ? 'text-primary'
-      : tool.colorType === 'secondary'
-        ? 'text-secondary'
-        : 'text-tertiary',
-  badgeColor:
-    tool.colorType === 'primary'
-      ? 'text-primary-container'
-      : tool.colorType === 'secondary'
-        ? 'text-secondary'
-        : 'text-tertiary',
-  description: tool.description,
-}));
-
 export const CAMPAIGN_PROJECTS: ProjectCampaign[] = [
   {
     id: 'realmcrafter',
@@ -728,25 +668,6 @@ export const CAMPAIGN_PROJECTS: ProjectCampaign[] = [
     ],
     demoUrl: '#',
     sourceUrl: 'https://github.com/milan-mk',
-  },
-];
-
-export const LAB_HONORS: LabHonor[] = [
-  {
-    id: 'hack-1',
-    title: '🥇 1st Place Champion Trophy',
-    year: '2024',
-    description: 'State Collegiate Hackathon (over 120 teams). Built real-time flood warning dashboard using WebSocket mesh routing.',
-    badge: 'Champion',
-    color: 'primary',
-  },
-  {
-    id: 'hack-2',
-    title: '🎖️ Realm Quest Hackathon Finalist',
-    year: '2023',
-    description: 'Designed interactive game asset auction portal with sub-second responsive layout guarantees.',
-    badge: 'Finalist',
-    color: 'secondary',
   },
 ];
 
