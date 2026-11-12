@@ -4,7 +4,7 @@ import { SocialIcon } from './SocialIcon';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full bg-surface-container-lowest mt-10 sm:mt-12 border-t border-surface-container-highest/60">
+    <footer className="site-footer w-full bg-[#0b0b0f] border-t border-white/10">
       <div className="max-w-[1040px] mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-5 sm:gap-6 mb-6">
           {/* Chief Info */}

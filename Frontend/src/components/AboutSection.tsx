@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
+import { inkChange } from '../utils/inkTheme';
 import { CHIEF_INFO } from '../data/portfolioData';
 import './AboutSection.css';
 
@@ -8,20 +10,34 @@ import './AboutSection.css';
  */
 export const AboutSection: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
+  const artRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
+  // black/white flip of this section: ink spreads from the character when the section scrolls in
+  const [flip, setFlip] = useState(false);
+  const flipped = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.25 });
+    const io = new IntersectionObserver(
+      ([e]) => {
+        setInView(e.intersectionRatio >= 0.25);
+        if (e.intersectionRatio >= 0.5 && !flipped.current) {
+          flipped.current = true;
+          const r = artRef.current?.getBoundingClientRect();
+          inkChange(() => flushSync(() => setFlip(true)), r && { x: r.left + r.width / 2, y: r.top + r.height * 0.4 });
+        }
+      },
+      { threshold: [0, 0.25, 0.5] },
+    );
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
   return (
-    <section id="about" ref={ref} className={`ab${inView ? ' is-in' : ''}`} aria-labelledby="ab-title">
+    <section id="about" ref={ref} className={`ab${inView ? ' is-in' : ''}${flip ? ' ab--flip' : ''}`} aria-labelledby="ab-title">
       <div className="ab__wrap">
-        <div className="ab__art">
+        <div className="ab__art" ref={artRef}>
           <span className="ab__glow" aria-hidden="true" />
           <img
             className="ab__img"

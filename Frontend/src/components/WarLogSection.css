@@ -1,13 +1,13 @@
 /* ── Projects: the character hangs from a thread; one web holds a big board with the project boxes ── */
 .pj {
-  --ink: #1e1e24;
-  --red: #9e2a2b;
-  --red-hi: #d64045;
+  --ink: #f1f1f6;
+  --red: #d64045;
+  --red-hi: #ff6b70;
 
   position: relative;
   width: 100%;
   padding: clamp(40px, 7vw, 90px) 16px clamp(32px, 5vw, 64px);
-  background: #fff;
+  background: #0b0b0f;
   color: var(--ink);
   box-sizing: border-box;
   overflow: hidden;
@@ -34,7 +34,7 @@
   font: 700 0.72rem 'Space Grotesk', system-ui, sans-serif;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--red);
+  color: var(--red-hi);
 }
 
 .pj__title {
@@ -45,7 +45,7 @@
   line-height: 0.95;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-  color: #232742;
+  color: #ffffff;
 }
 
 .pj__sub {
@@ -53,7 +53,7 @@
   max-width: 520px;
   font-size: 0.95rem;
   line-height: 1.55;
-  color: #5b5b66;
+  color: #b4b6c6;
 }
 
 /* ── Stage (character + web) ───────────────────────────── */
@@ -87,6 +87,7 @@
   -webkit-user-drag: none;
   z-index: 3;
   max-width: none;
+  filter: drop-shadow(0 0 0.7px #fff) drop-shadow(0 0 0.7px #fff) drop-shadow(0 0 1.6px rgba(255, 255, 255, 0.6));
 }
 
 /* ── Intro: the same diagonal pencil sweep as the hero character ──
@@ -149,6 +150,7 @@
   pointer-events: none;
   user-select: none;
   z-index: 2;
+  filter: drop-shadow(0 0 0.7px #fff) drop-shadow(0 0 0.7px #fff) drop-shadow(0 0 1.6px rgba(255, 255, 255, 0.6));
 }
 
 @keyframes pj-draw {
@@ -185,7 +187,7 @@
   bottom: 0;
   width: 4px;
   border-radius: 4px;
-  background: #e4e1dc;
+  background: #2e3040;
 }
 .pj-tl__line i {
   position: absolute;
@@ -203,8 +205,8 @@
   width: 26px; height: 26px;
   border-radius: 50%;
   background: var(--red-hi);
-  border: 3px solid #fff;
-  box-shadow: 0 0 0 3px var(--red-hi), 0 0 14px rgba(214, 64, 69, 0.55);
+  border: 3px solid #0b0b0f;
+  box-shadow: 0 0 0 3px var(--red-hi), 0 0 14px rgba(255, 107, 112, 0.55);
   z-index: 1;
 }
 
@@ -218,8 +220,8 @@
   top: 30px;
   width: 20px; height: 20px;
   border-radius: 50%;
-  background: #fff;
-  border: 3px solid #cfcac3;
+  background: #0b0b0f;
+  border: 3px solid #2e3040;
   z-index: 1;
   transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, scale 0.4s ease;
 }
@@ -233,7 +235,7 @@
   width: calc(var(--half) - 10px);
   height: 4px;
   border-radius: 2px;
-  background: #e4e1dc;
+  background: #2e3040;
   transition: background 0.4s ease;
 }
 .pj-tl__item--l::after { left: 100%; }
@@ -241,8 +243,8 @@
 .pj-tl__item.is-in::after { background: var(--red-hi); }
 .pj-tl__item.is-in .pj-tl__dot {
   background: var(--red-hi);
-  border-color: #fff;
-  box-shadow: 0 0 0 3px var(--red-hi), 0 0 12px rgba(214, 64, 69, 0.5);
+  border-color: #0b0b0f;
+  box-shadow: 0 0 0 3px var(--red-hi), 0 0 12px rgba(255, 107, 112, 0.5);
   scale: 1.08;
 }
 
@@ -265,31 +267,31 @@
   text-align: left;
   font: inherit;
   color: var(--ink);
-  background: #faf8f4;
-  border: 1.5px solid var(--ink);
+  background: #14141c;
+  border: 1.5px solid #2e3040;
   border-radius: 12px;
   cursor: pointer;
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.65);
   transition: box-shadow 0.2s ease, translate 0.2s ease, background 0.2s ease;
 }
 
 .pj-card:hover,
 .pj-card:focus-visible {
   translate: -2px -3px;
-  box-shadow: 5px 6px 0 var(--red);
-  background: #fff;
+  box-shadow: 5px 6px 0 var(--red-hi);
+  background: #1c1d28;
   outline: none;
 }
 
 .pj-card:focus-visible {
-  box-shadow: 5px 6px 0 var(--red), 0 0 0 3px #fff, 0 0 0 5px var(--red);
+  box-shadow: 5px 6px 0 var(--red-hi), 0 0 0 3px #0b0b0f, 0 0 0 5px var(--red-hi);
 }
 
 .pj-card__cat {
   font: 700 14px 'Space Grotesk', system-ui, sans-serif;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--red);
+  color: var(--red-hi);
 }
 
 .pj-card__title {
@@ -300,13 +302,13 @@
   line-height: 1.08;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-  color: #232742;
+  color: #ffffff;
 }
 
 .pj-card__desc {
   margin: 0;
   font: 400 15px/1.4 'Plus Jakarta Sans', system-ui, sans-serif;
-  color: #44444e;
+  color: #b4b6c6;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -351,19 +353,20 @@
 .pj-card__btn--code {
   background: transparent;
   color: var(--ink);
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid #35374a;
 }
 
 .pj-card__btn--code:hover {
-  background: var(--ink);
-  color: #fff;
+  background: #ffffff;
+  color: #14141c;
+  border-color: #ffffff;
   transform: translateY(-1px);
 }
 
 .pj-card__btn.is-soon {
   background: transparent;
-  color: #8a8a94;
-  border: 1.5px dashed #b9b9c2;
+  color: #7d8095;
+  border: 1.5px dashed #4a4e66;
   cursor: default;
   pointer-events: none;
 }
@@ -381,7 +384,7 @@
   display: grid;
   place-items: center;
   padding: 20px;
-  background: rgba(20, 20, 30, 0.6);
+  background: rgba(0, 0, 0, 0.72);
   backdrop-filter: blur(3px);
   animation: pj-fade 0.2s ease-out both;
 }
@@ -391,9 +394,9 @@
   width: min(760px, 100%);
   max-height: calc(100vh - 40px);
   overflow: auto;
-  background: #fff;
+  background: #14141c;
   color: var(--ink);
-  border: 2px solid var(--ink);
+  border: 2px solid #2e3040;
   border-radius: 16px;
   box-shadow: 8px 8px 0 var(--red);
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
@@ -408,8 +411,8 @@
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 2px solid var(--ink);
-  background: #fff;
+  border: 2px solid #35374a;
+  background: #1c1d28;
   font-size: 24px;
   line-height: 1;
   cursor: pointer;
@@ -417,14 +420,14 @@
 }
 
 .pj-modal__close:hover {
-  background: var(--ink);
-  color: #fff;
+  background: #ffffff;
+  color: #14141c;
 }
 
 .pj-modal__shot {
   height: clamp(150px, 28vw, 260px);
-  border-bottom: 2px solid var(--ink);
-  background: #e8e4da;
+  border-bottom: 2px solid #2e3040;
+  background: #1c1f2c;
   overflow: hidden;
   border-radius: 14px 14px 0 0;
 }
@@ -447,7 +450,7 @@
   font: 700 0.8rem 'Space Grotesk', system-ui, sans-serif;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--red);
+  color: var(--red-hi);
 }
 
 .pj-modal__title {
@@ -458,21 +461,21 @@
   font-size: clamp(1.6rem, 4vw, 2.4rem);
   line-height: 1.05;
   text-transform: uppercase;
-  color: #232742;
+  color: #ffffff;
 }
 
 .pj-modal__badge {
   margin: 0;
   font-weight: 700;
   font-size: 0.95rem;
-  color: #3b3b45;
+  color: #b4b6c6;
 }
 
 .pj-modal__desc {
   margin: 0;
   font-size: 1.02rem;
   line-height: 1.65;
-  color: #3b3b45;
+  color: #d0d2df;
 }
 
 .pj-modal__stats {
@@ -484,7 +487,7 @@
 
 .pj-modal__stats div {
   padding: 10px 12px;
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid #2e3040;
   border-radius: 10px;
   text-align: center;
 }
@@ -493,13 +496,13 @@
   font: 700 0.68rem 'Space Grotesk', system-ui, sans-serif;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #6a6a74;
+  color: #b4b6c6;
 }
 
 .pj-modal__stats dd {
   margin: 4px 0 0;
   font: 900 1.3rem var(--font-display, 'Anybody', sans-serif);
-  color: #232742;
+  color: #ffffff;
 }
 
 .pj-modal__tags {
@@ -513,7 +516,7 @@
 
 .pj-modal__tags li {
   padding: 5px 13px;
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid #35374a;
   border-radius: 999px;
   font: 700 0.78rem 'Space Grotesk', system-ui, sans-serif;
   letter-spacing: 0.05em;
@@ -554,18 +557,19 @@
 .pj-btn--ink {
   background: transparent;
   color: var(--ink);
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid #35374a;
 }
 
 .pj-btn--ink:hover {
-  background: var(--ink);
-  color: #fff;
+  background: #ffffff;
+  color: #14141c;
+  border-color: #ffffff;
 }
 
 .pj-btn.is-soon {
   background: transparent;
-  color: #8a8a94;
-  border: 1.5px dashed #b9b9c2;
+  color: #7d8095;
+  border: 1.5px dashed #4a4e66;
   cursor: default;
   pointer-events: none;
 }

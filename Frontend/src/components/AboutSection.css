@@ -167,3 +167,38 @@ html[data-theme='dark'] .ab__glow { border-color: rgba(255, 123, 128, 0.3); }
 html[data-theme='dark'] .ab__img { filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5)); }
 html[data-theme='dark'] .ab__btn--solid { background: #b3282d; border-color: #ecedf4; box-shadow: 4px 4px 0 #ecedf4; }
 html[data-theme='dark'] .ab__btn--ghost:hover { color: #14162a; }
+
+/* black / white flip (ink spreads from the character when the section scrolls in) */
+.ab { background: transparent; }
+.ab.ab--flip {
+  background: #0b0b0f;
+  --ab-ink: #f1f1f6;
+  --ab-title: #ffffff;
+  --ab-muted: #b4b6c6;
+  --ab-red: #ff6b70;
+  --ab-hi: #ff6b70;
+}
+.ab.ab--flip .ab__facts div { border-bottom-color: rgba(255, 255, 255, 0.22); }
+html[data-theme='dark'] .ab.ab--flip {
+  background: #f6f4ef;
+  --ab-ink: #1e1e24;
+  --ab-title: #232742;
+  --ab-muted: #565a70;
+  --ab-red: #9e2a2b;
+  --ab-hi: #d64045;
+}
+html[data-theme='dark'] .ab.ab--flip .ab__facts div { border-bottom-color: rgba(30, 30, 36, 0.2); }
+.ab.ab--flip .ab__btn--ghost:hover { color: #14162a; }
+.ab.ab--flip .ab__img { filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5)); }
+html[data-theme='dark'] .ab.ab--flip .ab__btn--ghost:hover { color: #fff; }
+html[data-theme='dark'] .ab.ab--flip .ab__img { filter: none; }
+html[data-theme='dark'] .ab.ab--flip .ab__btn--solid { background: var(--ab-red); border-color: var(--ab-ink); box-shadow: 4px 4px 0 var(--ab-ink); }
+@media (max-width: 800px) {
+  .ab.ab--flip { --ab-muted: #c4c7d8; }
+  .ab.ab--flip .ab__lead, .ab.ab--flip .ab__body, .ab.ab--flip .ab__title, .ab.ab--flip .ab__facts dd { text-shadow: 0 0 10px #0b0b0f, 0 0 4px #0b0b0f; }
+  .ab.ab--flip .ab__btn--ghost { background: rgba(11, 11, 15, 0.7); }
+  html[data-theme='dark'] .ab.ab--flip { --ab-muted: #3a3e54; }
+  html[data-theme='dark'] .ab.ab--flip .ab__lead, html[data-theme='dark'] .ab.ab--flip .ab__body,
+  html[data-theme='dark'] .ab.ab--flip .ab__title, html[data-theme='dark'] .ab.ab--flip .ab__facts dd { text-shadow: 0 0 10px #fff, 0 0 4px #fff; }
+  html[data-theme='dark'] .ab.ab--flip .ab__btn--ghost { background: rgba(255, 255, 255, 0.75); }
+}

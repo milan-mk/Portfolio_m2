@@ -235,3 +235,13 @@
 .animate-magma-glow {
   animation: magma-glow 3.5s ease-in-out infinite;
 }
+
+/* ink-bleed theme change: the new theme is revealed through a clip-path driven from utils/inkTheme.ts */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html.ink-run::view-transition-new(root) {
+  clip-path: path(evenodd, var(--ink, "M0 0Z"));
+}
