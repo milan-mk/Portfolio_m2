@@ -180,7 +180,7 @@ html[data-theme='dark'] .ab__btn--ghost:hover { color: #14162a; }
 }
 .ab.ab--flip .ab__facts div { border-bottom-color: rgba(255, 255, 255, 0.22); }
 html[data-theme='dark'] .ab.ab--flip {
-  background: #f6f4ef;
+  background: #ffffff;
   --ab-ink: #1e1e24;
   --ab-title: #232742;
   --ab-muted: #565a70;

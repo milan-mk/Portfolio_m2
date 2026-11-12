@@ -1,14 +1,3 @@
-export interface ResourceMeter {
-  id: string;
-  name: string;
-  category: string;
-  current: string;
-  max: string;
-  percentage: number;
-  icon: string;
-  color: 'primary' | 'secondary' | 'tertiary';
-}
-
 export interface SkillUnit {
   id: string;
   name: string;
@@ -57,15 +46,6 @@ export interface ProjectCampaign {
   tags: { name: string; color: string }[];
   demoUrl: string;
   sourceUrl: string;
-}
-
-export interface LabHonor {
-  id: string;
-  title: string;
-  year: string;
-  description: string;
-  badge: string;
-  color: 'primary' | 'secondary' | 'tertiary';
 }
 
 export interface DirectOutpost {

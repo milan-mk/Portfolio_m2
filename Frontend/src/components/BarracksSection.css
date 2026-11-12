@@ -160,10 +160,11 @@
   user-select: none;
   -webkit-user-select: none;
   outline: none;
-  filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.85)) drop-shadow(0 6px 8px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 0 0.8px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 2px rgba(255, 255, 255, 0.7)) drop-shadow(0 6px 8px rgba(0, 0, 0, 0.5));
   transition: filter 0.2s ease, scale 0.2s ease;
 }
-.sk-spider__body svg { display: block; width: 100%; height: auto; pointer-events: none; }
+.sk-spider__body svg,
+.sk-spider__body img { display: block; width: 100%; height: auto; pointer-events: none; -webkit-user-drag: none; }
 .sk-spider.is-drag .sk-spider__body { cursor: grabbing; }
 .sk-spider__body:hover { scale: 1.06; }
 .sk-spider__body:focus-visible { outline: 2px solid #fff; outline-offset: 6px; border-radius: 10px; }

@@ -84,23 +84,6 @@
     overflow-x: hidden;
   }
 
-  .bg-game-atmosphere {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background-color: #0c0709;
-    background-image:
-      radial-gradient(ellipse 85% 55% at 50% 0%, rgba(234, 88, 12, 0.20), transparent 70%),
-      radial-gradient(ellipse 65% 45% at 90% 35%, rgba(239, 68, 68, 0.14), transparent 65%),
-      radial-gradient(ellipse 65% 50% at 10% 70%, rgba(255, 69, 0, 0.12), transparent 65%),
-      radial-gradient(rgba(249, 115, 22, 0.08) 1px, transparent 1px);
-    background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px;
-    transform: translateZ(0);
-    will-change: transform;
-    contain: strict;
-  }
-
   /* Custom scrollbar matching TH10 lava fortress theme */
   ::-webkit-scrollbar {
     width: 8px;
@@ -119,121 +102,10 @@
   }
 }
 
-/* Tactile pushable button utilities */
-.btn-tactile-gold {
-  background: linear-gradient(180deg, #fef08a 0%, #f59e0b 55%, #b45309 100%);
-  color: #451a03;
-  box-shadow: 0 5px 0 #78350f, 0 10px 16px rgba(0, 0, 0, 0.6);
-  transition: all 0.1s ease;
-}
-.btn-tactile-gold:hover {
-  filter: brightness(1.1);
-  box-shadow: 0 5px 0 #78350f, 0 0 18px rgba(245, 158, 11, 0.45);
-}
-.btn-tactile-gold:active {
-  transform: translateY(4px);
-  box-shadow: 0 1px 0 #78350f, 0 4px 8px rgba(0, 0, 0, 0.4);
-}
-
-.btn-tactile-secondary {
-  background: linear-gradient(180deg, #ff8a65 0%, #ea580c 55%, #991b1b 100%);
-  color: #ffffff;
-  box-shadow: 0 4px 0 #450a0a, 0 8px 14px rgba(0, 0, 0, 0.6);
-  transition: all 0.1s ease;
-}
-.btn-tactile-secondary:hover {
-  filter: brightness(1.12);
-  box-shadow: 0 4px 0 #450a0a, 0 0 20px rgba(234, 88, 12, 0.55);
-}
-.btn-tactile-secondary:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 #450a0a;
-}
-
-.btn-tactile-tertiary {
-  background: linear-gradient(180deg, #fca5a5 0%, #dc2626 60%, #7f1d1d 100%);
-  color: #fff1f2;
-  box-shadow: 0 4px 0 #450a0a, 0 8px 14px rgba(0, 0, 0, 0.5);
-  transition: all 0.1s ease;
-}
-.btn-tactile-tertiary:hover {
-  filter: brightness(1.1);
-  box-shadow: 0 4px 0 #450a0a, 0 0 18px rgba(220, 38, 38, 0.5);
-}
-.btn-tactile-tertiary:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 #450a0a;
-}
-
-.btn-tactile-stone {
-  background-color: #27161b;
-  color: #fed7aa;
-  border: 1px solid #3a1f26;
-  box-shadow: 0 4px 0 #070304, 0 8px 14px rgba(0, 0, 0, 0.5);
-  transition: all 0.1s ease;
-}
-.btn-tactile-stone:hover {
-  background-color: #3a1f26;
-  color: #ffffff;
-  border-color: #ea580c;
-  box-shadow: 0 4px 0 #070304, 0 0 14px rgba(234, 88, 12, 0.35);
-}
-.btn-tactile-stone:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 #070304;
-}
-
 /* Material symbol baseline alignment */
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   vertical-align: middle;
-}
-.material-symbols-fill {
-  font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
-  vertical-align: middle;
-}
-
-/* Floating Troop Background Animations */
-@keyframes troop-float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-18px) rotate(2.5deg);
-  }
-}
-
-@keyframes troop-float-reverse {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-22px) rotate(-2.5deg);
-  }
-}
-
-.animate-troop-float {
-  animation: troop-float 6.5s ease-in-out infinite;
-  will-change: transform;
-}
-
-.animate-troop-float-reverse {
-  animation: troop-float-reverse 7.5s ease-in-out infinite;
-  will-change: transform;
-}
-
-/* Molten Lava Shimmer / Pulse */
-@keyframes magma-glow {
-  0%, 100% {
-    box-shadow: 0 0 14px rgba(234, 88, 12, 0.3), inset 0 0 8px rgba(239, 68, 68, 0.15);
-  }
-  50% {
-    box-shadow: 0 0 24px rgba(255, 69, 0, 0.6), inset 0 0 14px rgba(249, 115, 22, 0.3);
-  }
-}
-
-.animate-magma-glow {
-  animation: magma-glow 3.5s ease-in-out infinite;
 }
 
 /* ink-bleed theme change: the new theme is revealed through a clip-path driven from utils/inkTheme.ts */

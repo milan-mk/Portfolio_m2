@@ -53,6 +53,7 @@ html[data-theme='dark'] .sk[data-scene='white'] .sk-card__icon { background: #1e
 html[data-theme='dark'] .sk[data-scene='white'] .sk-card__chips li { background: #ffffff; border-color: #1e1e24; color: #1e1e24; }
 html[data-theme='dark'] .sk[data-scene='white'] .sk-card:hover .sk-card__chips li { background: #f6eeee; border-color: #1e1e24; }
 html[data-theme='dark'] .sk[data-scene='white'] .sk-spider { --th-a: rgba(24, 24, 34, 0.3); --th-b: rgba(24, 24, 34, 0.85); --th-glow: transparent; }
+html[data-theme='dark'] .sk[data-scene='white'] .sk-spider__body { filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.2)); }
 
 /* ── Projects ─────────────────────────────────────────── */
 html[data-theme='dark'] .pj {
@@ -74,16 +75,14 @@ html[data-theme='dark'] .pj-modal__badge { color: #3b3b45; }
 html[data-theme='dark'] .pj-modal__stats dt { color: #6a6a74; }
 
 html[data-theme='dark'] .pj__art--line,
-html[data-theme='dark'] .pj__art--col,
-html[data-theme='dark'] .pj__web { filter: none; }
+html[data-theme='dark'] .pj__art--col { filter: none; }
 
 html[data-theme='dark'] .pj-tl__line,
 html[data-theme='dark'] .pj-tl__item::after { background: #e4e1dc; }
 html[data-theme='dark'] .pj-tl__item.is-in::after { background: #d64045; }
 html[data-theme='dark'] .pj-tl__line i { background: linear-gradient(180deg, #d64045, #f0a73a); }
 html[data-theme='dark'] .pj-tl__dot { background: #ffffff; border-color: #cfcac3; }
-html[data-theme='dark'] .pj-tl__item.is-in .pj-tl__dot { background: #d64045; border-color: #ffffff; }
-html[data-theme='dark'] .pj-tl__knot { border-color: #ffffff; }
+html[data-theme='dark'] .pj-tl__item.is-in .pj-tl__dot { background: #d64045; border-color: #ffffff; box-shadow: 0 0 0 2px #d64045; }
 html[data-theme='dark'] .pj-card {
   background: #faf8f4;
   border-color: #1e1e24;
@@ -140,7 +139,7 @@ html[data-theme='dark'] .ex-card__tags li { border-color: #232742; background: #
 
 /* ── Footer ───────────────────────────────────────────── */
 html[data-theme='dark'] .site-footer {
-  background: #f6f4ef;
+  background: #ffffff;
   color: #1e1e24;
   border-top-color: rgba(30, 30, 36, 0.14);
 }

@@ -20,13 +20,15 @@
 }
 
 .pj__inner {
+  position: relative;
+  z-index: 2;
   max-width: 1160px;
   margin: 0 auto;
 }
 
 .pj__head {
   text-align: center;
-  margin-bottom: clamp(8px, 2vw, 24px);
+  margin-bottom: clamp(28px, 5vw, 52px);
 }
 
 .pj__eyebrow {
@@ -56,33 +58,32 @@
   color: #b4b6c6;
 }
 
-/* ── Stage (character + web) ───────────────────────────── */
+/* ── Stage (character hanging on the side) ─────────────── */
 .pj__stage {
-  position: relative;
-  overflow: visible;
-  z-index: 2;
-}
-
-.pj__scale {
   position: absolute;
-  left: 0;
   top: 0;
-  transform-origin: 0 0;
+  right: clamp(0px, 2vw, 32px);
+  width: clamp(140px, 24vw, 340px);
+  aspect-ratio: 765 / 571.5;
+  transform: translateX(18%);
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
 }
 
 .pj__swing {
   position: absolute;
   inset: 0;
+  transform-origin: 48.1% 0%;
   opacity: 0;
   will-change: transform;
 }
 
 .pj__art {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 765px;
-  height: 571.5px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   user-select: none;
   -webkit-user-drag: none;
   z-index: 3;
@@ -137,77 +138,35 @@
   }
 }
 
-/* ── The web attached to the wrist (static, no animation) ──── */
-.pj__hang {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-}
-
-.pj__web {
-  position: absolute;
-  max-width: none;
-  pointer-events: none;
-  user-select: none;
-  z-index: 2;
-  filter: drop-shadow(0 0 0.7px #fff) drop-shadow(0 0 0.7px #fff) drop-shadow(0 0 1.6px rgba(255, 255, 255, 0.6));
-}
-
-@keyframes pj-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes pj-fade-in {
-  to {
-    opacity: 1;
-  }
-}
-
-/* ── The bar the web holds, boxes on both sides ─────────── */
+/* ── Clean centre bar, boxes on both sides ─────────────── */
 .pj-tl {
   --prog: 0%;
   --half: 38px;               /* bar centre to box edge */
   max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   position: relative;
   list-style: none;
-  padding: 26px 0 8px;
-  margin-top: -6px;
+  padding: 8px 0;
   display: flex;
   flex-direction: column;
   gap: 26px;
 }
 .pj-tl__line {
   position: absolute;
-  left: calc(50% - 2px);
+  left: calc(50% - 1.5px);
   top: 0;
   bottom: 0;
-  width: 4px;
-  border-radius: 4px;
-  background: #2e3040;
+  width: 3px;
+  border-radius: 999px;
+  background: #262836;
 }
 .pj-tl__line i {
   position: absolute;
   left: 0; top: 0;
   width: 100%;
   height: var(--prog);
-  border-radius: 4px;
+  border-radius: 999px;
   background: linear-gradient(180deg, var(--red-hi), #f0a73a);
-}
-/* where the cobweb sticks to the bar */
-.pj-tl__knot {
-  position: absolute;
-  left: calc(50% - 13px);
-  top: -8px;
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  background: var(--red-hi);
-  border: 3px solid #0b0b0f;
-  box-shadow: 0 0 0 3px var(--red-hi), 0 0 14px rgba(255, 107, 112, 0.55);
-  z-index: 1;
 }
 
 .pj-tl__item { position: relative; width: calc(50% - var(--half)); }
@@ -217,25 +176,25 @@
 
 .pj-tl__dot {
   position: absolute;
-  top: 30px;
-  width: 20px; height: 20px;
+  top: 32px;
+  width: 14px; height: 14px;
   border-radius: 50%;
   background: #0b0b0f;
-  border: 3px solid #2e3040;
+  border: 2.5px solid #2e3040;
   z-index: 1;
   transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, scale 0.4s ease;
 }
-.pj-tl__item--l .pj-tl__dot { right: calc(var(--half) * -1 - 10px); }
-.pj-tl__item--r .pj-tl__dot { left: calc(var(--half) * -1 - 10px); }
-/* short branch from the dot to the box */
+.pj-tl__item--l .pj-tl__dot { right: calc(var(--half) * -1 - 7px); }
+.pj-tl__item--r .pj-tl__dot { left: calc(var(--half) * -1 - 7px); }
+/* clean hairline branch from the dot to the box */
 .pj-tl__item::after {
   content: '';
   position: absolute;
   top: 38px;
-  width: calc(var(--half) - 10px);
-  height: 4px;
-  border-radius: 2px;
-  background: #2e3040;
+  width: calc(var(--half) - 7px);
+  height: 2px;
+  border-radius: 999px;
+  background: #262836;
   transition: background 0.4s ease;
 }
 .pj-tl__item--l::after { left: 100%; }
@@ -244,8 +203,8 @@
 .pj-tl__item.is-in .pj-tl__dot {
   background: var(--red-hi);
   border-color: #0b0b0f;
-  box-shadow: 0 0 0 3px var(--red-hi), 0 0 12px rgba(255, 107, 112, 0.5);
-  scale: 1.08;
+  box-shadow: 0 0 0 2px var(--red-hi);
+  scale: 1.05;
 }
 
 .pj-tl__item .pj-card { opacity: 0; transition: opacity 0.6s ease, translate 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.2s ease, background 0.2s ease; }
@@ -599,18 +558,9 @@
     animation: none !important;
   }
 
-  .pj__stage .pj__hang {
-    animation: none !important;
-  }
-
   .pj__art {
     animation: none !important;
     clip-path: none !important;
-  }
-
-  .pj__web {
-    animation: none !important;
-    clip-path: none;
   }
 
   .pj-modal,
@@ -622,10 +572,10 @@
 @media (max-width: 640px) {
   .pj-tl { --half: 20px; gap: 18px; margin-left: -8px; margin-right: -8px; }
   .pj-tl__item--r, .pj-tl__item:first-of-type + .pj-tl__item { margin-top: -34px; }
-  .pj-tl__dot { width: 16px; height: 16px; top: 22px; }
-  .pj-tl__item--l .pj-tl__dot { right: calc(var(--half) * -1 - 8px); }
-  .pj-tl__item--r .pj-tl__dot { left: calc(var(--half) * -1 - 8px); }
-  .pj-tl__item::after { top: 28px; width: calc(var(--half) - 8px); height: 3px; }
+  .pj-tl__dot { width: 12px; height: 12px; top: 24px; }
+  .pj-tl__item--l .pj-tl__dot { right: calc(var(--half) * -1 - 6px); }
+  .pj-tl__item--r .pj-tl__dot { left: calc(var(--half) * -1 - 6px); }
+  .pj-tl__item::after { top: 29px; width: calc(var(--half) - 6px); height: 2px; }
   .pj-card { padding: 12px 11px 11px; gap: 6px; border-radius: 10px; }
   .pj-card__cat { font-size: 10px; }
   .pj-card { min-width: 0; }
