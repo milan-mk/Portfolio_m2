@@ -140,7 +140,7 @@ html[data-theme='dark'] .ex-card__tags li { border-color: #232742; background: #
 
 /* ── Footer ───────────────────────────────────────────── */
 html[data-theme='dark'] .site-footer {
-  background: #f6f4ef;
+  background: #ffffff;
   color: #1e1e24;
   border-top-color: rgba(30, 30, 36, 0.14);
 }
