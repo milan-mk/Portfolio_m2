@@ -56,23 +56,24 @@ const SKILLS: Skill[] = [
     work: [],
   },
   {
-    id: 'ai-content',
-    label: 'AI CONTENT CREATION',
-    description: 'Generative visual workflows, character consistency and AI-driven creatives.',
+    id: 'about',
+    label: 'About',
+    description: 'Who I am, what I build and what I care about.',
     l: 12.0, t: 83.3, w: 11.5, h: 10.9, rot: -6,
+    section: '#about',
     work: [],
   },
   {
     id: 'cv',
-    label: 'summon cv',
-    description: 'Engineering experience, credentials, resume, and direct collaboration channels.',
+    label: 'Contact',
+    description: 'Send me a message, download my resume, or reach me on GitHub, LinkedIn and Discord.',
     l: 68.75, t: 57.3, w: 9.6, h: 9.4, rot: 2,
     section: '#clan-recruitment',
     work: [],
   },
   {
     id: 'skills',
-    label: 'SKILLS',
+    label: 'Skills',
     description: 'Technical toolkit, frameworks, databases, and architectural proficiencies.',
     l: 82.1, t: 54.7, w: 8.4, h: 7.6, rot: 12,
     pill: true,
@@ -80,10 +81,11 @@ const SKILLS: Skill[] = [
     work: [],
   },
   {
-    id: 'brand-creative',
-    label: 'BRAND CREATIVE',
-    description: 'Visual identity, brand guidelines and creative direction from idea to launch.',
+    id: 'experience',
+    label: 'Experience',
+    description: 'My career trail: roles, internships and what I shipped along the way.',
     l: 82.1, t: 83.0, w: 9.6, h: 8.9, rot: -2,
+    section: '#experience',
     work: [],
   },
 ];
@@ -217,7 +219,7 @@ export const HeroSection: React.FC = () => {
         <div
           className="hc__layers"
           role="img"
-          aria-label="Illustration of Milan Kumar Modak in a dynamic pose in front of the giant word PORTFOLIO, surrounded by paper notes labelled Video Editing, AI Content Creation, Graphic Design, Design and Brand Creative"
+          aria-label="Illustration of Milan Kumar Modak in a dynamic pose in front of the giant word PORTFOLIO, surrounded by paper notes labelled Projects, About, Contact, Skills and Experience"
         >
           {LAYERS.map((L) => (
             <React.Fragment key={L.src}>
@@ -287,7 +289,7 @@ export const HeroSection: React.FC = () => {
       </div>
 
       {/* Tappable chips for phones (the cards on the art are small there) */}
-      <div className="hc-chips" aria-label="Skill categories">
+      <div className="hc-chips" aria-label="Portfolio sections">
         {SKILLS.map((s) => (
           <a
             key={s.id}
