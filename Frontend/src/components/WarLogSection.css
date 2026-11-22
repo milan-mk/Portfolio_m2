@@ -246,6 +246,31 @@
   box-shadow: 5px 6px 0 var(--red-hi), 0 0 0 3px #0b0b0f, 0 0 0 5px var(--red-hi);
 }
 
+.pj-card__shot {
+  position: relative;
+  margin: -20px -22px 4px;
+  aspect-ratio: 2 / 1;
+  overflow: hidden;
+  border-radius: 10.5px 10.5px 0 0;
+  border-bottom: 1.5px solid #2e3040;
+  background: #1c1f2c;
+}
+.pj-card__shot img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale 0.4s ease; }
+.pj-card:hover .pj-card__shot img { scale: 1.04; }
+/* placeholder until a screenshot is added */
+.pj-card__shot.is-empty {
+  display: grid; place-items: center;
+  background:
+    linear-gradient(135deg, rgba(214, 64, 69, 0.18), rgba(76, 86, 158, 0.22)),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.04) 0 2px, transparent 2px 12px),
+    #1c1f2c;
+}
+.pj-card__shot.is-empty span {
+  font-family: var(--font-display, 'Anybody', sans-serif);
+  font-weight: 900; font-size: clamp(2rem, 5vw, 3rem); letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.28);
+}
+
 .pj-card__cat {
   font: 700 14px 'Space Grotesk', system-ui, sans-serif;
   letter-spacing: 0.12em;
@@ -577,6 +602,8 @@
   .pj-tl__item--r .pj-tl__dot { left: calc(var(--half) * -1 - 6px); }
   .pj-tl__item::after { top: 29px; width: calc(var(--half) - 6px); height: 2px; }
   .pj-card { padding: 12px 11px 11px; gap: 6px; border-radius: 10px; }
+  .pj-card__shot { margin: -12px -11px 2px; border-radius: 8.5px 8.5px 0 0; }
+  .pj-card__shot.is-empty span { font-size: 1.5rem; }
   .pj-card__cat { font-size: 10px; }
   .pj-card { min-width: 0; }
   .pj-card__title { font-size: 11.5px; letter-spacing: 0; overflow-wrap: anywhere; hyphens: auto; }
@@ -584,3 +611,13 @@
   .pj-card__cta { flex-direction: column; gap: 6px; }
   .pj-card__btn { font-size: 10px; padding: 7px 6px; }
 }
+
+/* dark theme flips the lower page to white: keep the screenshot slot readable there */
+html[data-theme='dark'] .pj-card__shot { background: #e9eaf3; border-bottom-color: #d2d4e0; }
+html[data-theme='dark'] .pj-card__shot.is-empty {
+  background:
+    linear-gradient(135deg, rgba(214, 64, 69, 0.12), rgba(76, 86, 158, 0.16)),
+    repeating-linear-gradient(45deg, rgba(30, 30, 36, 0.05) 0 2px, transparent 2px 12px),
+    #eceef6;
+}
+html[data-theme='dark'] .pj-card__shot.is-empty span { color: rgba(35, 39, 66, 0.32); }
