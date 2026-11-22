@@ -15,27 +15,15 @@ type Job = {
 /* Edit this list to add or change a role. Newest first. */
 const JOBS: Job[] = [
   {
-    role: 'Sr. Technical Trainer',
-    org: 'Acropolis Institutions',
-    period: 'May 2022 — Present',
-    type: 'Full-time',
+    role: 'Full stack developer with AI',
+    org: 'Web Corporate Solutions',
+    period: 'june 2026 — August 2026',
+    type: 'remote',
     icon: 'board',
-    text:
-      'Leading technical training initiatives in Computer Science. Teaching advanced subjects including Machine Learning, Data Science, Blockchain, and Cyber Security. Mentoring students and conducting research.',
-    tags: ['Machine Learning', 'Data Science', 'Blockchain', 'Cyber Security', 'Mentoring'],
-  },
-  {
-    role: 'Assistant Professor',
-    org: 'IPS Academy',
-    place: 'Indore',
-    period: 'Aug 2018 — May 2022',
-    type: 'Full-time',
-    icon: 'cap',
-    text:
-      'Served as Assistant Professor in CS department. Published 1 Patent and multiple research papers (National & International). Authored chapters in edited books. Led curriculum development for emerging technologies.',
-    tags: ['1 Patent', 'Research Papers', 'Book Chapters', 'Curriculum'],
-  },
-];
+    text: "Working on developing an innovative AI-driven platform that solves critical challenges faced by small and medium-sized manufacturing enterprises (SMEs). My role involves end-to-end development of the full stack application, implementing core AI features, and ensuring seamless integration between the frontend and backend system.",
+    tags: [],
+  }]
+
 
 function Icon({ kind }: { kind: Job['icon'] }) {
   return (
