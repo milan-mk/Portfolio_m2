@@ -88,10 +88,22 @@ const ProjectDetails: React.FC<{ p: ProjectCampaign; onClose: () => void }> = ({
   );
 };
 
+/** Project screenshot slot. Shows /public/images/projects/<id>.webp; a neutral placeholder until that file exists. */
+const Shot: React.FC<{ p: ProjectCampaign }> = ({ p }) => {
+  const [ok, setOk] = useState(!!p.image);
+  const initials = p.id.split('-').slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+  return (
+    <div className={`pj-card__shot${ok ? '' : ' is-empty'}`} aria-hidden="true">
+      {ok ? <img src={p.image} alt="" loading="lazy" draggable={false} onError={() => setOk(false)} /> : <span>{initials}</span>}
+    </div>
+  );
+};
+
 const CardBody: React.FC<{ p: ProjectCampaign }> = ({ p }) => {
   const hasDemo = !!p.demoUrl && p.demoUrl !== '#';
   return (
     <>
+      <Shot p={p} />
       <span className="pj-card__cat">{p.category}</span>
       <h3 className="pj-card__title">{p.title}</h3>
       <p className="pj-card__desc">{p.description}</p>
