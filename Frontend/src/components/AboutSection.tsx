@@ -55,17 +55,19 @@ export const AboutSection: React.FC = () => {
             Hi, I&rsquo;m <span>Milan.</span>
           </h2>
           <p className="ab__lead">
-            A fresh Computer Science graduate who likes turning ideas into fast, tidy and good-looking web products.
+            An AI/ML developer focused on building production-ready intelligent systems &mdash; from voice-driven RAG
+            pipelines and LLMs to deep learning computer vision.
           </p>
           <p className="ab__body">
-            I build full-stack apps with modern frameworks, care a lot about UI details, and enjoy solving the awkward
-            problems that only show up once real people start using something. I&rsquo;m looking for a team where I can
-            ship, learn quickly and own what I build.
+            I specialize in engineering practical AI: architecting low-latency voice assistants with FAISS vector
+            retrieval and Groq, training diagnostic computer vision classifiers with TensorFlow and FastAPI, and
+            shipping end-to-end models with safety guardrails. I care about taking machine learning out of notebooks into
+            fast, reliable software that solves real problems.
           </p>
 
           <dl className="ab__facts">
-            <div><dt>Role</dt><dd>Junior Full-Stack Engineer</dd></div>
-            <div><dt>Focus</dt><dd>UI/UX &amp; Creative Front-End</dd></div>
+            <div><dt>Role</dt><dd>AI/ML Developer</dd></div>
+            <div><dt>Focus</dt><dd>RAG, Vision Models &amp; LLMs</dd></div>
             <div><dt>Based in</dt><dd>India &middot; open to remote</dd></div>
           </dl>
 

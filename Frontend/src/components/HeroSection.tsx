@@ -378,9 +378,14 @@ export const HeroSection: React.FC = () => {
         <div className="hc-modal hc-modal--drawer" role="presentation" onClick={() => setAboutOpen(false)}>
           <aside className="hc-drawer" role="dialog" aria-modal="true" aria-label="About me" onClick={(e) => e.stopPropagation()}>
             <button type="button" className="hc-modal__x hc-drawer__x" onClick={() => setAboutOpen(false)} aria-label="Close" autoFocus>✕</button>
-            <span className="hc-modal__badge">About me</span>
+            <span className="hc-modal__badge">AI/ML Developer</span>
             <h2 className="hc-modal__title">{CHIEF_INFO.name}</h2>
-            <p className="hc-modal__desc">{CHIEF_INFO.bio}</p>
+            <p className="hc-modal__desc">
+              AI/ML Developer and Computer Science graduate specializing in voice-enabled RAG pipelines, LLM systems, and deep learning computer vision.
+            </p>
+            <p className="hc-modal__desc">
+              I engineer practical, production-ready AI applications: building low-latency voice assistants with FAISS vector retrieval and Groq (Llama 3.3 70B), training diagnostic vision models with TensorFlow and FastAPI, and shipping reliable pipelines with safety guardrails.
+            </p>
             <div className="hc-drawer__cta">
               <a href="#war-log" className="hc-btn hc-btn--red" onClick={() => setAboutOpen(false)}>View Projects</a>
               <a href="#army-camps" className="hc-btn hc-btn--dark" onClick={() => setAboutOpen(false)}>View Skills</a>

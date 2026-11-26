@@ -2,11 +2,11 @@ import type { DirectOutpost, ProjectCampaign, SkillCategory, SkillUnit } from '.
 
 export const CHIEF_INFO = {
   name: 'Milan Kumar Modak',
-  title: 'Chief Builder of Resilient Web Systems',
-  roleBadge: 'Fresher Dev',
+  title: 'AI/ML Developer & Intelligent Systems Builder',
+  roleBadge: 'AI/ML Dev',
   townHallLevel: 10,
   craftsmanTitle: 'Town Hall 10 Master Builder // Fresh Graduate 2025',
-  bio: 'Recent Computer Science graduate armed with modern stacks, ready to deploy battle-tested code, defend production against bugs, and raid technical bottlenecks with your engineering clan.',
+  bio: 'AI/ML Developer and Computer Science graduate building production-ready intelligent systems \u2014 from voice-enabled RAG pipelines with FAISS & Groq to deep learning computer vision with TensorFlow & FastAPI.',
   status: 'Ready for Clan War',
   statusDetail: 'Open to Hire',
   deployPeriod: '0 Days',
@@ -14,7 +14,7 @@ export const CHIEF_INFO = {
   citadelRank: 'TH10',
   guildCastle: 'Open',
   builderStatus: '1 / 1 BUSY',
-  builderTask: 'Forging Full-Stack Lava Systems',
+  builderTask: 'Developing AI/ML Systems',
 };
 
 export const LANGUAGE_SKILLS: SkillUnit[] = [
