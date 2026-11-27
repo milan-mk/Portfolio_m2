@@ -35,9 +35,19 @@ export const sendRecruitmentMessage = async (
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
+      let errorMsg = data?.error || data?.message;
+      if (!errorMsg) {
+        if (response.status === 503) {
+          errorMsg = 'Database is currently unavailable. Please try again shortly.';
+        } else if (response.status === 502 || response.status === 504) {
+          errorMsg = 'Citadel Backend is unreachable. Please verify the backend server is running on port 5000.';
+        } else {
+          errorMsg = `Server responded with status ${response.status}.`;
+        }
+      }
       return {
         success: false,
-        error: data?.error || `Request failed with status ${response.status}`,
+        error: errorMsg,
       };
     }
 

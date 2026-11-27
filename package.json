@@ -1,0 +1,13 @@
+{
+  "name": "portfolio-milan-kumar",
+  "version": "1.0.0",
+  "description": "Milan Kumar Modak Portfolio - Fullstack Application",
+  "private": true,
+  "scripts": {
+    "dev": "node start-dev.js",
+    "dev:frontend": "npm --prefix Frontend run dev",
+    "dev:backend": "node Backend/server.js",
+    "build": "npm --prefix Frontend run build",
+    "start": "node Backend/server.js"
+  }
+}
